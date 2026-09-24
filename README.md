@@ -14,11 +14,19 @@ Static website for Captain A1 Security Services, a private security and facility
 Install dependencies and start the static server:
 
 ```bash
-npm install
+npm ci
 npm start
 ```
 
 The site is also static, so it can be hosted by GitHub Pages or any static hosting provider.
+
+## Publishing
+
+The repository is `CaptA1SecurityServices/Capt-A1-Security-Services`. GitHub Pages publishes the root of branch `new` to https://captaina1.com. No build step is required.
+
+Before editing, read `WEBSITE_HANDOFF.md`, check Git status, and fetch the latest remote state. Preview changes on desktop and mobile, run `npm run check` and `git diff --check`, then review the diff. When publication is requested, commit the intended files and push `new`. Check the Pages deployment and the live website afterward. A push to `new` is a live deployment.
+
+Use Node.js LTS with npm. On Windows, `npm.cmd` works if PowerShell blocks `npm.ps1`. A newly installed Node.js may require reopening the terminal. Codex's restricted environment may require approved network access for npm installation and Git HTTPS operations.
 
 ## Security Notes
 

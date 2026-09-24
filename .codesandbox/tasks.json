@@ -1,9 +1,9 @@
 {
-  "setupTasks": [{ "name": "Install Dependencies", "command": "yarn install" }],
+  "setupTasks": [{ "name": "Install Dependencies", "command": "npm ci" }],
   "tasks": {
     "start": {
       "name": "start",
-      "command": "yarn start",
+      "command": "npm start -- --listen 5000",
       "runAtStart": true,
       "preview": { "port": 5000 }
     }

@@ -1,4 +1,7 @@
 node_modules/
+.env
+.env.*
+!.env.example
 .serve-*.log
 screenshots/
 

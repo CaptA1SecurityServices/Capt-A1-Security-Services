@@ -2,13 +2,13 @@
 
 This document is the continuity file for Captain A1 Security Services. Give this to any future developer or agentic AI before it changes the website. It explains the business intent, current site structure, design rules, tracking setup, security decisions, past changes, and the way we work.
 
-Last updated: 2026-07-17
+Last updated: 2026-09-24
 
 ## 1. Project identity
 
 - Business name: Captain A1 Security Services
 - Domain: `captaina1.com`
-- Repository: `kshitiz464/A1-Security-Services`
+- Repository: `CaptA1SecurityServices/Capt-A1-Security-Services`
 - Current working branch used in this workspace: `new`
 - Website type: static HTML/CSS/JavaScript
 - Hosting target: GitHub Pages with `CNAME` set to `captaina1.com`
@@ -59,6 +59,8 @@ npm start
 - The domain purchased by the client is `captaina1.com`.
 - GitHub Pages is the intended hosting path because the site is static.
 - After pushing, GitHub Pages may take a short time to update.
+- Verified publishing source: branch `new`, repository root `/` (GitHub Pages branch deployment). Pushing to `new` updates the public website; other branches do not publish automatically.
+- On this Windows Codex setup, Git HTTPS commands require execution outside the restricted sandbox. The bundled Git works there; a sandbox `remote-https` error does not mean Git needs reinstalling.
 - Google search favicon/logo results can lag behind deployed changes because Google recrawls on its own schedule.
 
 ## 5. Brand and visual direction

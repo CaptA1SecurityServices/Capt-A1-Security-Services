@@ -6,7 +6,8 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "preview": "serve ."
+    "preview": "serve .",
+    "check": "node --check script.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js"
   },
   "keywords": [
     "security-services",
