@@ -1,9 +1,55 @@
 (() => {
+  const photoDialog = document.querySelector('.photo-dialog');
+  const galleryLinks = [...document.querySelectorAll('[data-gallery]')];
+  if (photoDialog && galleryLinks.length) {
+    let photoIndex = 0;
+    let photoOpener;
+    const showPhoto = index => {
+      photoIndex = (index + galleryLinks.length) % galleryLinks.length;
+      const link = galleryLinks[photoIndex];
+      const image = photoDialog.querySelector('[data-photo-image]');
+      image.src = link.href;
+      image.alt = link.querySelector('img').alt;
+      photoDialog.querySelector('[data-photo-caption]').textContent = link.dataset.caption;
+      photoDialog.querySelector('[data-photo-position]').textContent = `${photoIndex + 1} / ${galleryLinks.length}`;
+    };
+    galleryLinks.forEach((link,index) => link.addEventListener('click', event => {
+      event.preventDefault();
+      photoOpener = link;
+      showPhoto(index);
+      photoDialog.showModal();
+    }));
+    photoDialog.querySelector('[data-photo-close]').addEventListener('click', () => photoDialog.close());
+    photoDialog.querySelector('[data-photo-prev]').addEventListener('click', () => showPhoto(photoIndex - 1));
+    photoDialog.querySelector('[data-photo-next]').addEventListener('click', () => showPhoto(photoIndex + 1));
+    photoDialog.addEventListener('keydown', event => {
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        event.preventDefault(); showPhoto(photoIndex + (event.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
+    photoDialog.addEventListener('close', () => photoOpener?.focus());
+  }
   const form = document.getElementById('service-plan');
-  if (!form) return;
+  if (!form) {
+    document.querySelectorAll('a[data-service], a[href^="tel:"], a[href^="https://wa.me/"]').forEach(link => link.addEventListener('click', () => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: link.dataset.service ? 'service_card_open' : link.href.startsWith('tel:') ? 'call_click' : 'whatsapp_click', source_page: window.location.pathname, service_category: link.dataset.category || '', page_section: link.closest('section')?.id || 'page' });
+    }));
+    return;
+  }
   const status = document.getElementById('plan-status');
   const preview = document.getElementById('plan-preview');
   const checkboxes = [...form.querySelectorAll('input[name="services"]')];
+  const builderDetails = document.getElementById('builder-details');
+  const openBuilder = () => { if (builderDetails) builderDetails.open = true; };
+  document.querySelectorAll('a[href="#solution-builder"]').forEach(link => link.addEventListener('click', openBuilder));
+  window.addEventListener('hashchange', () => { if (window.location.hash === '#solution-builder') openBuilder(); });
+  const requested = new URLSearchParams(window.location.search);
+  const requestedService = requested.get('service');
+  const requestedCategory = requested.get('category');
+  const preset = checkboxes.find(input => input.value === requestedService) || checkboxes.find(input => input.dataset.category === requestedCategory);
+  if (preset) { preset.checked = true; preset.closest('details').open = true; openBuilder(); }
+  if (window.location.hash === '#solution-builder') openBuilder();
   let started = false;
   const track = (event, extra = {}) => {
     window.dataLayer = window.dataLayer || [];
@@ -16,7 +62,6 @@
       `${data.get('site_type') || 'Site type to confirm'} in ${data.get('city') || 'city to confirm'}`,
       `Services: ${selected().join(', ') || 'To discuss'}`,
       `Personnel: ${data.get('personnel') || 'To confirm'} · Shift: ${data.get('shift') || 'To confirm'}`,
-      `Equipment: ${data.get('equipment') || 'To discuss'}`,
       `Start date: ${data.get('start_date') || 'To confirm'}`
     ];
     for (const [key, label] of [['site_location','Site location'],['name','Name'],['phone','Mobile'],['organisation','Organisation'],['requirement','Requirement']]) {

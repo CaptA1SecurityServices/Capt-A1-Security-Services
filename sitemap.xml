@@ -2,32 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://captaina1.com/</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://captaina1.com/about.html</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://captaina1.com/contact.html</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://captaina1.com/guard-hiring-ajmer.html</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://captaina1.com/services/</loc>
-    <lastmod>2026-09-24</lastmod>
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url><loc>https://captaina1.com/services/security-services/</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://captaina1.com/services/facility-manpower-services/</loc><lastmod>2026-09-25</lastmod></url>
 </urlset>

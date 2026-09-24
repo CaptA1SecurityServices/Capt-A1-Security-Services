@@ -1,0 +1,101 @@
+/* Photo-led treatments for the overview and facility page. */
+.services-hub { background: #fcfaf6; }
+.hub-service-card.is-coming-soon .hub-card-label { background: #efe4ce; color: #634a24; padding: 5px 9px; border-radius: 20px; }
+.hub-service-card.is-coming-soon .hub-card-link { color: #647078; }
+.hub-hero { overflow: hidden; background: #f4f1e9; padding: 50px 0 60px; }
+.hub-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 42px; align-items: center; }
+.hub-hero-copy { padding-block: 24px; }
+.hub-hero-copy .svc-kicker { display: flex; align-items: center; gap: 12px; color: #716046; font-size: .65rem; }
+.hub-small-rule { width: 28px; height: 1px; background: #9a7546; flex-shrink: 0; }
+.hub-hero h1 { font-size: clamp(3.3rem,5.7vw,5.9rem); line-height: 1.02; max-width: 640px; }
+.hub-hero-description { max-width: 460px; font-size: .95rem; color: #5a6970; line-height: 1.85; margin-block: 28px; }
+.hub-hero .svc-button { border-radius: 0; background: var(--navy); color: white; padding-inline: 25px; }
+.hub-hero .svc-button:hover { background: #24475b; }
+.hub-location { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; font-size: .74rem; margin-top: 36px; }
+.hub-location > span:last-child { color: #69757a; border-left: 1px solid #c6c9c5; padding-left: 10px; }
+.hub-photo-story { height: 515px; position: relative; }
+.hub-security-photo { position: absolute; top: 0; right: 0; width: 74%; height: 88%; }
+.hub-security-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 49%; border-radius: 100px 3px 3px 3px; }
+.hub-security-photo figcaption { position: absolute; bottom: 22px; right: 18px; background: #fff; padding: 8px 13px; font-size: .67rem; color: var(--navy); box-shadow: 0 6px 20px #07182418; }
+.hub-photo-dot { display: inline-block; width: 6px; height: 6px; background: #3b775d; border-radius: 50%; margin-right: 7px; }
+.hub-housekeeping-photo { position: absolute; left: 0; bottom: 0; width: 68%; background: white; padding: 8px 8px 0; box-shadow: 0 12px 25px #0718241a; transform: rotate(-3deg); }
+.hub-housekeeping-photo img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: contain; background: #eee; }
+.hub-housekeeping-photo figcaption { padding: 10px 6px 11px; font-family: Georgia,serif; font-size: .86rem; }
+.hub-photo-note { position: absolute; top: 32px; left: 0; color: var(--navy); }
+.hub-photo-note > span { font-size: .65rem; letter-spacing: .12em; color: #81633e; }
+.hub-photo-note strong { display: block; font-size: .83rem; font-weight: 500; margin-top: 12px; line-height: 1.6; }
+.services-hub .svc-proof { background: #e9e6dd; color: #485863; }
+.services-hub .svc-proof > div { padding-block: 17px; font-size: .7rem; }
+.hub-service-directory { display: block; padding-block: 66px; }
+.hub-service-directory .svc-intro { display: flex; justify-content: space-between; gap: 50px; align-items: end; margin-bottom: 34px; }
+.hub-service-directory .svc-intro h2 { font-size: clamp(2.5rem,4vw,3.7rem); }
+.hub-service-directory .svc-intro > p { max-width: 330px; margin-bottom: 4px; font-size: .9rem; }
+.hub-service-directory .svc-dimensions { gap: 22px; }
+.hub-service-card { padding: 0; background: white; border: 1px solid #dddcd6; border-top: none; border-radius: 5px; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.hub-service-card:hover,.hub-service-card:focus-visible { transform: translateY(-4px); box-shadow: 0 16px 35px #0b223512; border-color: var(--accent); }
+.hub-card-visual { height: 210px; overflow: hidden; position: relative; background: #e7eee9; }
+.hub-card-visual > img { height: 100%; width: 100%; object-fit: cover; transition: transform .6s ease; }
+.hub-service-card:hover .hub-card-visual > img { transform: scale(1.025); }
+.hub-service-card.svc-security .hub-card-visual > img { object-position: center 52%; }
+.hub-service-card.svc-facility .hub-card-visual > img { object-position: center 40%; }
+.hub-card-index { position: absolute; top: 15px; left: 16px; background: #ffffffec; padding: 5px 9px; font-size: .68rem; letter-spacing: .08em; color: var(--navy); }
+.hub-card-copy { padding: 24px 28px 22px; }
+.hub-card-label { text-transform: uppercase; letter-spacing: .08em; font-weight: 600; font-size: .61rem; color: var(--accent); }
+.hub-service-card h3 { font-size: 2.05rem; margin: 9px 0; }
+.hub-service-card p { font-size: .88rem; max-width: none; margin-bottom: 13px; }
+.hub-card-details { display: block; font-size: .7rem; color: #617079; }
+.hub-card-link { border-top: 1px solid #e0e4e3; margin-top: 22px; padding-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 15px; font-size: .75rem; font-weight: 600; }
+.hub-card-link > span { display: flex; width: 29px; height: 29px; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid #b8c6cb; transition: background .2s,color .2s; }
+.hub-service-card:hover .hub-card-link > span { color: white; background: var(--navy); }
+.has-graphic .hub-card-visual { height: 125px; }
+.hub-card-diagram { height: 100%; display: flex; align-items: center; justify-content: center; gap: 25px; padding: 20px; background: #e7edf1; color: #486576; }
+.svc-equipment .hub-card-diagram { background: #ede7de; color: #806346; }
+.hub-card-diagram svg { width: 52px; height: 52px; }
+.hub-card-diagram > span { font-size: .7rem; letter-spacing: .015em; }
+.hub-swipe-controls { display: none; }
+.services-hub .svc-builder { background: #103245; }
+.services-hub .hub-builder-toggle { border: 1px solid #6e8793; padding: 0 25px; border-radius: 5px; background: #173c4f; align-self: start; }
+.services-hub .hub-builder-toggle > summary { font-size: 1.06rem; align-items: center; gap: 20px; min-height: 110px; }
+.builder-toggle-icon { display: grid; place-items: center; width: 38px; height: 38px; flex-shrink: 0; border: 1px solid #81949c; border-radius: 50%; transition: transform .2s; }
+.hub-builder-toggle[open] .builder-toggle-icon { transform: rotate(45deg); }
+.services-hub #service-plan { padding-bottom: 16px; }
+.services-hub .svc-faq { background: #fcfaf6; }
+.services-hub .svc-faq summary { font-size: .94rem; }
+.facility-editorial .vertical-hero { background: #eff2ed; }
+.facility-editorial .vertical-hero-grid { grid-template-columns: 1fr .95fr; gap: 70px; }
+.facility-editorial .vertical-hero h1 { font-size: clamp(3.2rem,5.6vw,5.4rem); }
+.facility-editorial .vertical-delivery { color: #326b58; }
+.facility-hero-photo { max-width: 430px; justify-self: end; width: 100%; border: 8px solid #fff; box-shadow: 0 12px 34px #17372c12; transform: rotate(2deg); }
+.facility-hero-photo img { height: 470px; object-fit: cover; object-position: center 55%; border-radius: 0; }
+.facility-hero-photo figcaption { display: flex; flex-direction: column; gap: 6px; padding: 60px 20px 18px; }
+.facility-hero-photo figcaption > span { text-transform: uppercase; letter-spacing: .07em; font-size: .58rem; }
+.facility-hero-photo figcaption strong { font-size: .83rem; font-weight: 500; }
+.facility-story { background: #fcfaf6; }
+.facility-story-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 35px; }
+.facility-story-heading h2 { font-size: clamp(2.6rem,4vw,3.7rem); }
+.facility-story-heading > p { max-width: 330px; color: #66746e; font-size: .87rem; }
+.facility-photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; }
+.facility-gallery-team { grid-column: span 2; }
+.facility-gallery-hospitality { grid-column: span 2; }
+.facility-gallery-link { display: block; position: relative; overflow: hidden; background: #e7e9e2; border-radius: 3px; }
+.facility-gallery-link img { width: 100%; height: 340px; object-fit: cover; transition: transform .5s ease; }
+.facility-gallery-team img { object-fit: contain; background: #e3e6df; }
+.facility-gallery-grounds img { object-position: 50% 73%; }
+.facility-gallery-planting img { object-position: 50% 20%; }
+.facility-gallery-hospitality img { object-position: 50% 65%; }
+.facility-gallery-link:hover img { transform: scale(1.025); }
+.gallery-enlarge { position: absolute; bottom: 15px; right: 15px; background: white; color: var(--navy); width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; }
+.facility-photo-grid figcaption { padding-block: 14px; font-size: .79rem; display: flex; gap: 14px; }
+.facility-photo-grid figcaption > span { color: #8a765d; font-size: .66rem; padding-top: 3px; }
+.photo-dialog { width: min(1100px,calc(100% - 24px)); max-height: 94dvh; padding: 14px 20px; background: #0d2431; color: white; border: 1px solid #54636c; border-radius: 5px; }
+.photo-dialog::backdrop { background: #05111cea; }
+.photo-dialog-toolbar,.photo-dialog-footer { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.photo-dialog-toolbar { margin-bottom: 10px; font-size: .75rem; }
+.photo-dialog img { display: block; width: 100%; height: min(70dvh,730px); object-fit: contain; }
+.photo-dialog button { border: 1px solid #6c7d86; background: transparent; color: white; min-height: 44px; min-width: 44px; border-radius: 3px; padding: 8px 12px; cursor: pointer; }
+.photo-dialog-footer { margin-top: 12px; }
+.photo-dialog-footer p { font-size: .84rem; margin: 0; text-align: center; }
+@media(max-width:1000px) { .hub-hero-grid { gap: 25px; } .hub-photo-story { height: 430px; } .hub-photo-note { display: none; } .hub-security-photo { width: 90%; } .hub-housekeeping-photo { width: 90%; } .facility-editorial .vertical-hero-grid { gap: 40px; } }
+@media(max-width:760px) { .hub-hero-grid { grid-template-columns: 1fr; } .hub-hero { padding: 14px 0 38px; } .hub-hero-copy { padding-block: 22px 0; } .hub-hero h1 { font-size: clamp(3.35rem,10vw,4.8rem); } .hub-hero-description { margin-block: 20px; font-size: .9rem; } .hub-location { margin-top: 22px; font-size: .68rem; } .hub-photo-story { height: 340px; margin-top: 8px; width: min(100%,520px); margin-inline: auto; } .hub-security-photo { width: 69%; height: 90%; } .hub-security-photo img { border-top-left-radius: 65px; } .hub-housekeeping-photo { width: 69%; } .hub-security-photo figcaption { font-size: .57rem; right: 10px; bottom: 60px; } .hub-photo-note { display: block; top: 12px; } .hub-photo-note strong { font-size: .7rem; } .hub-housekeeping-photo figcaption { font-size: .72rem; padding-block: 8px; } .hub-service-directory .svc-intro { display: block; margin-bottom: 25px; } .hub-service-directory .svc-intro > p { margin-top: 20px; max-width: none; } .hub-service-directory { padding-block: 45px; } .hub-card-copy { padding: 22px; } .hub-card-visual { height: 180px; } .hub-service-card h3 { font-size: 1.8rem; } .hub-card-details { font-size: .66rem; } .hub-card-diagram { gap: 15px; } .hub-card-diagram > span { font-size: .62rem; } .facility-editorial .vertical-hero-grid { grid-template-columns: 1fr; } .facility-hero-photo { max-width: 400px; justify-self: center; } .facility-hero-photo img { height: 410px; } .facility-story-heading { display: block; } .facility-story-heading > p { margin-top: 22px; max-width: none; } .facility-photo-grid { grid-template-columns: 1fr 1fr; gap: 20px 14px; } .facility-gallery-team,.facility-gallery-hospitality { grid-column: span 2; } .facility-gallery-link img { height: 250px; } .facility-gallery-team img { height: auto; aspect-ratio: 16/9; } .facility-gallery-hospitality img { height: auto; aspect-ratio: 4/3; } .facility-photo-grid figcaption { font-size: .7rem; gap: 8px; } .photo-dialog { padding-inline: 10px; } .photo-dialog-footer p { font-size: .72rem; } }
+@media(max-width:640px) { .hub-service-directory .svc-dimensions { gap: 14px; align-items: stretch; } .hub-service-card { flex-basis: 88%; } .hub-service-card:hover { transform: none; } .has-graphic .hub-card-visual { height: 180px; } .hub-swipe-controls { display: block; } .hub-swipe-controls .svc-swipe { margin: 5px 0 12px; } .hub-swipe-controls .svc-progress button { border-radius: 50%; font-size: .7rem; } .services-hub .hub-builder-toggle { padding-inline: 17px; } .services-hub .hub-builder-toggle > summary { font-size: .95rem; } }
+@media(prefers-reduced-motion:reduce) { .hub-service-card,.hub-card-visual > img,.facility-gallery-link img,.hub-card-link > span,.builder-toggle-icon { transition: none; } .hub-service-card:hover,.hub-service-card:hover .hub-card-visual > img,.facility-gallery-link:hover img { transform: none; } }

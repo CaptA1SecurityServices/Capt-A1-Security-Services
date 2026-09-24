@@ -1,5 +1,24 @@
 # Services hub — first implementation
 
+## Phase two — 25 September 2026
+
+Launch decision: Workforce Management (03) and Equipment & Site Readiness (04) are Coming soon. Their public pages are status-only with noindex; they are not in the sitemap, enquiry choices or Service schema. Earlier full-page drafts are preserved locally under ignored `outputs/`. Only Security and Facility & Manpower are presented as currently available. The user authorised publishing this phase on 25 September 2026.
+
+The overview now links to four dedicated static pages:
+
+- `/services/security-services/`
+- `/services/facility-manpower-services/`
+- `/services/workforce-management/`
+- `/services/security-equipment-site-readiness/`
+
+Detailed service lists, delivery steps and category-specific FAQs live on these pages. The overview keeps the category navigator, shared enquiry builder and general FAQs. Its enquiry form is collapsed until requested. Existing category fragments remain valid on the overview cards.
+
+Active child pages have unique titles, descriptions, canonicals, social metadata, Service/WebPage/BreadcrumbList markup and sitemap entries. Service links return to the shared form with a validated service/category query parameter. Security uses deployment photography; Facility & Manpower uses the user's real housekeeping, grounds and hospitality photographs. Upcoming pages have no Service schema or sitemap entries.
+
+Local preview no longer forces trailing-slash removal, which was discarding enquiry query parameters. Desktop and mobile browser checks cover all four pages and verify the enquiry selection survives navigation. Publication is authorised for this phase; verify the Pages build and live pages after pushing.
+
+The original implementation notes below describe the first version; this phase-two layout supersedes its single-page section sequence.
+
 Sources:
 - [UI & Content Specification](https://app.notion.com/p/3e318990d908815d855ac087da082805)
 - [SEO Optimisation Plan](https://app.notion.com/p/3e318990d90881318c4ade339fde20cc)

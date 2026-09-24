@@ -1,6 +1,5 @@
 {
   "cleanUrls": false,
-  "trailingSlash": false,
   "headers": [
     {
       "source": "**/*",
@@ -32,6 +31,38 @@
     {
       "source": "services/",
       "destination": "/services/index.html"
+    },
+    {
+      "source": "services/security-services",
+      "destination": "/services/security-services/index.html"
+    },
+    {
+      "source": "services/security-services/",
+      "destination": "/services/security-services/index.html"
+    },
+    {
+      "source": "services/facility-manpower-services",
+      "destination": "/services/facility-manpower-services/index.html"
+    },
+    {
+      "source": "services/facility-manpower-services/",
+      "destination": "/services/facility-manpower-services/index.html"
+    },
+    {
+      "source": "services/workforce-management",
+      "destination": "/services/workforce-management/index.html"
+    },
+    {
+      "source": "services/workforce-management/",
+      "destination": "/services/workforce-management/index.html"
+    },
+    {
+      "source": "services/security-equipment-site-readiness",
+      "destination": "/services/security-equipment-site-readiness/index.html"
+    },
+    {
+      "source": "services/security-equipment-site-readiness/",
+      "destination": "/services/security-equipment-site-readiness/index.html"
     }
   ]
 }
