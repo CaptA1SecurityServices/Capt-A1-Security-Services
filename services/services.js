@@ -122,11 +122,10 @@
   document.querySelectorAll('a[href^="tel:"]').forEach(link => link.addEventListener('click', () => track('call_click', { page_section: link.closest('section')?.id || 'page' })));
   document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => link.addEventListener('click', () => track('whatsapp_click', { page_section: link.closest('section')?.id || 'page' })));
   document.getElementById('plan-whatsapp').addEventListener('click', () => {
-    if (!validate()) return;
     const message = `Hello Captain A1, I would like a site assessment.\n\n${updateSummary()}`;
     track('service_plan_complete', { page_section: 'solution-builder', channel: 'whatsapp' });
     track('whatsapp_click', { page_section: 'solution-builder' });
-    window.open(`https://wa.me/918003091425?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+    window.location.href = `https://wa.me/918003091425?text=${encodeURIComponent(message)}`;
   });
   form.addEventListener('submit', async event => {
     event.preventDefault();
