@@ -1,0 +1,25 @@
+.privacy-heading { background: var(--soft); padding: 32px 0 48px; }
+.privacy-breadcrumb { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: .85rem; margin-bottom: 38px; }
+.privacy-heading h1 { font-size: clamp(3rem, 6vw, 4.6rem); line-height: 1.08; margin: 12px 0 20px; }
+.privacy-intro { max-width: 690px; font-size: 1.1rem; line-height: 1.75; }
+.privacy-date { color: var(--muted); font-size: .88rem; margin-top: 20px; }
+.privacy-layout { display: grid; grid-template-columns: 230px minmax(0, 760px); gap: 64px; padding-block: 48px 72px; align-items: start; }
+.privacy-contents { background: var(--soft); padding: 24px; border-radius: 8px; }
+.privacy-contents a { display: block; padding-block: 10px; font-size: .88rem; line-height: 1.5; text-decoration: underline; text-underline-offset: 4px; }
+.privacy-copy { min-width: 0; overflow-wrap: anywhere; }
+.privacy-copy section { margin-bottom: 36px; scroll-margin-top: 135px; }
+.privacy-copy h2 { font-size: clamp(1.85rem, 3vw, 2.35rem); line-height: 1.2; margin-bottom: 18px; }
+.privacy-copy p, .privacy-copy li { font-size: 1rem; line-height: 1.85; }
+.privacy-copy p + p { margin-top: 16px; }
+.privacy-copy ul { padding-left: 24px; margin-block: 16px; }
+.privacy-copy li + li { margin-top: 12px; }
+.privacy-copy a { color: var(--blue-dark); text-decoration: underline; text-underline-offset: 3px; }
+.privacy-contact { padding: 20px; background: var(--soft); border-radius: 8px; margin-block: 18px; }
+.privacy-page .site-footer { padding-bottom: 90px; }
+@media (max-width: 760px) {
+  .privacy-heading { padding-block: 24px 32px; }
+  .privacy-breadcrumb { margin-bottom: 25px; }
+  .privacy-layout { grid-template-columns: 1fr; gap: 32px; padding-block: 30px 40px; }
+  .privacy-contents { padding: 20px; }
+  .privacy-intro { font-size: 1rem; }
+}
