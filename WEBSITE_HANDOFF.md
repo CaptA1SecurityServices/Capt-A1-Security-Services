@@ -2,7 +2,18 @@
 
 This document is the continuity file for Captain A1 Security Services. Give this to any future developer or agentic AI before it changes the website. It explains the business intent, current site structure, design rules, tracking setup, security decisions, past changes, and the way we work.
 
-Last updated: 2026-09-24
+Last updated: 2026-09-25
+
+## SEO and performance update — 25 September 2026
+
+- Shared Inter and Cormorant Garamond fonts are served locally from `fonts/`, with their open font licences. All nine pages use the same font stylesheet.
+- Responsive WebP derivatives live in `images/optimized/`; original photographs remain untouched. Home has two hero slides and About has three. Inactive carousel photographs load when selected, with the current photograph retained until the next one decodes.
+- Active pages use clearer search titles, descriptions and service/location headings. Security and facility pages explain duties, quotation factors and availability in visible FAQs. Avoid adding unsupported services or invented prices to target keywords.
+- Homepage internal links use `/`. The homepage has WebSite markup; About and Contact have page-type markup linked to the existing business entity.
+- Shared JavaScript records phone, WhatsApp and email link intent without form values or contact details. These are intent events, not proof of a completed enquiry or delivery into GA4. Account-side tag validation remains separate.
+- Sitemap submission was accepted in the verified Search Console URL-prefix property. Submission does not guarantee indexing or ranking.
+- The Cloudflare Google-sign-in account examined contained no managed domains. HTTP redirect enforcement and the GitHub origin certificate still require the domain-owning account; do not make speculative DNS changes.
+- Services 03 and 04 remain coming soon and excluded from the sitemap.
 
 ## 1. Project identity
 

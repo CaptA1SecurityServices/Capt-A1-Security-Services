@@ -31,9 +31,9 @@
   }
   const form = document.getElementById('service-plan');
   if (!form) {
-    document.querySelectorAll('a[data-service], a[href^="tel:"], a[href^="https://wa.me/"]').forEach(link => link.addEventListener('click', () => {
+    document.querySelectorAll('a[data-service]').forEach(link => link.addEventListener('click', () => {
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: link.dataset.service ? 'service_card_open' : link.href.startsWith('tel:') ? 'call_click' : 'whatsapp_click', source_page: window.location.pathname, service_category: link.dataset.category || '', page_section: link.closest('section')?.id || 'page' });
+      window.dataLayer.push({ event: 'service_card_open', source_page: window.location.pathname, service_category: link.dataset.category || '', page_section: link.closest('section')?.id || 'page' });
     }));
     return;
   }
@@ -119,8 +119,6 @@
     const index = dimensions.reduce((best, card, i) => Math.abs(card.offsetLeft - dimensions[0].offsetLeft - navigator.scrollLeft) < Math.abs(dimensions[best].offsetLeft - dimensions[0].offsetLeft - navigator.scrollLeft) ? i : best, 0);
     dots.forEach((button,i) => button.setAttribute('aria-pressed', String(index === i)));
   }, { passive: true });
-  document.querySelectorAll('a[href^="tel:"]').forEach(link => link.addEventListener('click', () => track('call_click', { page_section: link.closest('section')?.id || 'page' })));
-  document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => link.addEventListener('click', () => track('whatsapp_click', { page_section: link.closest('section')?.id || 'page' })));
   document.getElementById('plan-whatsapp').addEventListener('click', () => {
     const message = `Hello Captain A1, I would like a site assessment.\n\n${updateSummary()}`;
     track('service_plan_complete', { page_section: 'solution-builder', channel: 'whatsapp' });

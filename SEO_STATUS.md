@@ -1,5 +1,14 @@
 # SEO implementation — 24 September 2026
 
+## Content and performance update — 25 September 2026
+
+- Added responsive WebP assets, deferred inactive carousel photographs and locally hosted shared fonts. Original photographs are preserved.
+- Updated active-page titles, descriptions, headings, internal homepage URLs, business-linked page markup and practical security/housekeeping FAQs.
+- Search Console accepted the sitemap submission. Its indexed-page report is delayed; canonical duplicates are expected exclusions and are not evidence that the canonical service pages failed.
+- Shared contact-intent events cover phone, WhatsApp and email links; destination analytics reporting and successful enquiry delivery remain unverified.
+- HTTP-to-HTTPS enforcement remains blocked on access to the account managing the domain. The accessible Cloudflare account had no managed zones. No DNS or proxy changes were made.
+- Upcoming services remain noindex and outside the sitemap. Search ranking improvements are not guaranteed by these changes.
+
 ## Launch update — 25 September 2026 (supersedes earlier phase notes)
 
 - Security and Facility & Manpower are the active verticals. Workforce Management (03) and Equipment & Site Readiness (04) are Coming soon, with short status pages, no booking controls, no Service schema, and `noindex, follow`. They are excluded from the sitemap; crawling is allowed so search engines can see the noindex directive.

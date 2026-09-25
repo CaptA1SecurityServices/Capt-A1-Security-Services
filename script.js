@@ -143,8 +143,22 @@
       return;
     }
 
-    const showSlide = (index) => {
-      activeIndex = (index + slides.length) % slides.length;
+    let requestedIndex = 0;
+    const showSlide = async (index) => {
+      const targetIndex = (index + slides.length) % slides.length;
+      requestedIndex = targetIndex;
+      const image = slides[targetIndex].querySelector('img');
+      if (image?.dataset.src) {
+        if (image.dataset.srcset) image.srcset = image.dataset.srcset;
+        image.src = image.dataset.src;
+        delete image.dataset.src;
+        delete image.dataset.srcset;
+      }
+      if (image) {
+        try { await image.decode(); } catch { return; }
+      }
+      if (requestedIndex !== targetIndex) return;
+      activeIndex = targetIndex;
       slides.forEach((slide, slideIndex) => {
         const isActive = slideIndex === activeIndex;
         slide.classList.toggle("is-active", isActive);
@@ -830,4 +844,22 @@
   if (year) {
     year.textContent = String(new Date().getFullYear());
   }
+
+  // Capture contact intent without sending phone numbers, messages or other form data.
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest?.('a[href]');
+    if (!link || event.defaultPrevented) return;
+    const href = link.getAttribute('href');
+    const eventName = href.startsWith('tel:') ? 'call_click'
+      : href.startsWith('https://wa.me/') ? 'whatsapp_click'
+      : href.startsWith('mailto:') ? 'email_click' : null;
+    if (!eventName) return;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: eventName,
+      source_page: window.location.pathname,
+      page_section: link.closest('section')?.id || 'page',
+      enquiry_type: window.location.pathname.includes('guard-hiring') ? 'recruitment' : 'service'
+    });
+  });
 })();
