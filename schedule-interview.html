@@ -26,7 +26,9 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="stylesheet" href="/fonts/fonts.css?v=20260925" />
   <link rel="stylesheet" href="styles.css?v=20260927-interview" />
-  <script src="script.js?v=20260927-interview" defer></script>
+  <script src="script.js?v=20260927-interview-crm" defer></script>
+  <script src="interview-request.js?v=20260927-crm" defer></script>
+  <meta http-equiv="Content-Security-Policy" content="form-action https://forms.zohopublic.in" />
 </head>
 <body class="interview-page" data-language-page data-active-language="hi">
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W59N8ZMC" height="0" width="0" title="Google Tag Manager"></iframe></noscript>
@@ -69,8 +71,8 @@
             <p>यह विज़िट अनुरोध है. तारीख, समय और इंटरव्यू स्थान भर्ती टीम के फोन या WhatsApp पर पुष्टि करने के बाद ही तय माने जाएंगे.</p>
           </div>
           <aside class="interview-confirmation-card" aria-label="महत्वपूर्ण जानकारी">
-            <strong>पहले आवेदन करें</strong>
-            <p>यह पेज उन उम्मीदवारों के लिए है जिन्होंने नौकरी के लिए आवेदन किया है या भर्ती टीम से बात की है.</p>
+            <strong>सीधे भी आवेदन कर सकते हैं</strong>
+            <p>Facebook पर आवेदन किया है तो वही मोबाइल नंबर भरें. पहले आवेदन नहीं किया है, तब भी यह फॉर्म भर सकते हैं.</p>
             <a href="guard-hiring-ajmer.html">गार्ड भर्ती पेज देखें</a>
           </aside>
         </div>
@@ -81,21 +83,27 @@
           <div class="interview-booking__copy">
             <p class="eyebrow">इंटरव्यू अनुरोध</p>
             <h2 id="booking-title-hi">सही जानकारी भरें.</h2>
-            <p>जानकारी भरने के बाद WhatsApp खुलेगा. संदेश पढ़कर स्वयं भेजें. हमारी टीम उपलब्धता देखकर विज़िट की पुष्टि करेगी.</p>
+            <p>आपका अनुरोध हमारे भर्ती रिकॉर्ड में भेजा जाएगा. अगले पेज पर अनुरोध जमा होने की पुष्टि देखें. हमारी टीम उपलब्धता देखकर आपसे संपर्क करेगी.</p>
             <ol class="interview-steps">
               <li><span>1</span>अपनी जानकारी और पसंदीदा समय चुनें.</li>
-              <li><span>2</span>WhatsApp संदेश जाँचकर भेजें.</li>
+              <li><span>2</span>अनुरोध भेजें और जमा होने की पुष्टि देखें.</li>
               <li><span>3</span>भर्ती टीम की पुष्टि का इंतजार करें.</li>
             </ol>
           </div>
 
-          <form class="contact-form interview-request-form" data-interview-request data-form-language="hi">
+          <form class="contact-form interview-request-form" data-interview-request data-form-language="hi" action="https://forms.zohopublic.in/securityservicescapt1/form/AjmerInterviewRequest/formperma/mYxfi-XCNif8Hkv19YVRNzoRuU-3aNSzN32QMG7_si8/htmlRecords/submit" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+            <input type="hidden" name="MultiLine" value="" />
+            <input type="hidden" name="zf_referrer_name" value="Website interview page" />
+            <input type="hidden" name="zf_redirect_url" value="" />
+            <input type="hidden" name="zc_gad" value="" />
             <h3>इंटरव्यू विज़िट का अनुरोध</h3>
             <div class="form-grid">
-              <label>पूरा नाम<input type="text" name="name" autocomplete="name" minlength="2" maxlength="80" required /></label>
-              <label>मोबाइल नंबर<input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="18" pattern="[0-9+() -]{10,18}" required /></label>
+              <label>पूरा नाम<input type="text" name="SingleLine" autocomplete="name" minlength="2" maxlength="80" required /></label>
+              <label>मोबाइल नंबर<input type="tel" name="SingleLine1" autocomplete="tel" inputmode="tel" maxlength="20" required /></label>
             </div>
-            <label>आवेदन किया गया काम
+            <p class="form-note">Facebook पर आवेदन किया है तो वही मोबाइल नंबर भरें.</p>
+            <label>आप अभी किस इलाके में रहते हैं?<input type="text" name="SingleLine2" autocomplete="address-line1" minlength="2" maxlength="200" required /></label>
+            <label>किस काम के लिए आवेदन करना चाहते हैं?
               <select name="role" required>
                 <option value="">काम चुनें</option><option value="Security Guard">सिक्योरिटी गार्ड</option><option value="Housekeeping Staff">हाउसकीपिंग स्टाफ</option><option value="Either role">दोनों में से कोई भी</option>
               </select>
@@ -122,7 +130,9 @@
             <label class="interview-consent"><input type="checkbox" name="consent" required /><span>मैं सहमत हूँ कि Captain A1 Security Services इस इंटरव्यू और नौकरी के आवेदन के संबंध में मुझे फोन या WhatsApp पर संपर्क कर सकती है.</span></label>
             <p class="form-note">यह अनुरोध अपने आप इंटरव्यू की पुष्टि नहीं करता. भर्ती टीम तारीख, समय और स्थान की पुष्टि करेगी.</p>
             <p class="form-status" data-interview-status aria-live="polite"></p>
-            <button class="button button--primary" type="submit">WhatsApp पर विज़िट अनुरोध भेजें</button>
+            <p class="form-note">भर्ती जानकारी Zoho Forms और Zoho CRM में रखी जाएगी. <a href="/privacy-policy/">गोपनीयता नीति</a></p>
+            <button class="button button--primary" type="submit" disabled>इंटरव्यू अनुरोध भेजें</button>
+            <noscript><p>फॉर्म के लिए JavaScript चालू करें या भर्ती टीम को <a href="tel:+918003091425">8003091425</a> पर कॉल करें.</p></noscript>
           </form>
         </div>
       </section>
@@ -146,22 +156,30 @@
       <section class="interview-hero" aria-labelledby="interview-title-en" data-section-label="Interview visit">
         <div class="section-shell interview-hero__grid">
           <div><p class="eyebrow">Next recruitment step</p><h1 id="interview-title-en">Request a preferred date for your interview.</h1><p>This is a visit request. The date, time and interview location are confirmed only after the recruitment team contacts you.</p></div>
-          <aside class="interview-confirmation-card"><strong>Apply first</strong><p>This page is for candidates who have applied or spoken with recruitment.</p><a href="guard-hiring-ajmer.html">View guard recruitment</a></aside>
+          <aside class="interview-confirmation-card"><strong>Direct applicants welcome</strong><p>Already applied on Facebook? Use the same mobile number. You can also apply here without completing a Facebook form.</p><a href="guard-hiring-ajmer.html">View guard recruitment</a></aside>
         </div>
       </section>
       <section class="section interview-booking" aria-labelledby="booking-title-en" data-section-label="Visit request">
         <div class="section-shell interview-booking__grid">
-          <div class="interview-booking__copy"><p class="eyebrow">Interview request</p><h2 id="booking-title-en">Enter accurate information.</h2><p>WhatsApp will open after you complete the form. Review and send the message yourself. Our team will confirm availability.</p></div>
-          <form class="contact-form interview-request-form" data-interview-request data-form-language="en">
+          <div class="interview-booking__copy"><p class="eyebrow">Interview request</p><h2 id="booking-title-en">Enter accurate information.</h2><p>Your request will be sent to our recruitment records. Check the next page for submission confirmation. Our team will contact you to confirm availability.</p></div>
+          <form class="contact-form interview-request-form" data-interview-request data-form-language="en" action="https://forms.zohopublic.in/securityservicescapt1/form/AjmerInterviewRequest/formperma/mYxfi-XCNif8Hkv19YVRNzoRuU-3aNSzN32QMG7_si8/htmlRecords/submit" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+            <input type="hidden" name="MultiLine" value="" />
+            <input type="hidden" name="zf_referrer_name" value="Website interview page" />
+            <input type="hidden" name="zf_redirect_url" value="" />
+            <input type="hidden" name="zc_gad" value="" />
             <h3>Request an interview visit</h3>
-            <div class="form-grid"><label>Full name<input type="text" name="name" autocomplete="name" minlength="2" maxlength="80" required /></label><label>Mobile number<input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="18" pattern="[0-9+() -]{10,18}" required /></label></div>
-            <label>Role applied for<select name="role" required><option value="">Select role</option><option>Security Guard</option><option>Housekeeping Staff</option><option>Either role</option></select></label>
+            <div class="form-grid"><label>Full name<input type="text" name="SingleLine" autocomplete="name" minlength="2" maxlength="80" required /></label><label>Mobile number<input type="tel" name="SingleLine1" autocomplete="tel" inputmode="tel" maxlength="20" required /></label></div>
+            <p class="form-note">Use the same mobile number if you already applied on Facebook.</p>
+            <label>Current locality<input type="text" name="SingleLine2" autocomplete="address-line1" minlength="2" maxlength="200" required /></label>
+            <label>Role you want to apply for<select name="role" required><option value="">Select role</option><option>Security Guard</option><option>Housekeeping Staff</option><option>Either role</option></select></label>
             <label>Preferred duty area<select name="duty_area" required><option value="">Select area</option><option>Palra / Ajaymeru / Parbatpura / Makhupura</option><option>Ghooghra / Kayad / Gagwana</option><option>Kotra / Gyan Vihar / Foy Sagar Road</option><option>Vaishali Nagar / Panchsheel / Makarwali Road</option><option>Chandravardai Nagar / Subhash Nagar / Daurai / Tabiji</option><option>Central Ajmer - Kutchery Road / Lohakhan / Pal Bichala / Naka Madar</option></select></label>
             <div class="form-grid"><label>Preferred date<input type="date" name="preferred_date" required data-interview-date /></label><label>Preferred time<select name="preferred_time" required><option value="">Select time</option><option>10:00 AM - 12:00 PM</option><option>12:00 PM - 2:00 PM</option><option>2:00 PM - 4:00 PM</option><option>4:00 PM - 6:00 PM</option></select></label></div>
             <label class="interview-consent"><input type="checkbox" name="consent" required /><span>I agree that Captain A1 Security Services may call or WhatsApp me regarding this interview and job application.</span></label>
             <p class="form-note">This request does not automatically confirm an interview. Recruitment will confirm the date, time and location.</p>
             <p class="form-status" data-interview-status aria-live="polite"></p>
-            <button class="button button--primary" type="submit">Send visit request on WhatsApp</button>
+            <p class="form-note">Recruitment information is stored through Zoho Forms and Zoho CRM. <a href="/privacy-policy/">Privacy Policy</a></p>
+            <button class="button button--primary" type="submit" disabled>Send interview request</button>
+            <noscript><p>Enable JavaScript to submit, or call recruitment on <a href="tel:+918003091425">8003091425</a>.</p></noscript>
           </form>
         </div>
       </section>

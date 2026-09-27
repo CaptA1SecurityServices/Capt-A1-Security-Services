@@ -7,7 +7,8 @@
   "scripts": {
     "start": "serve .",
     "preview": "serve .",
-    "check": "node --check script.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js"
+    "test:interview": "node tests/interview-request.test.cjs",
+    "check": "node --check script.js && node --check interview-request.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js"
   },
   "keywords": [
     "security-services",

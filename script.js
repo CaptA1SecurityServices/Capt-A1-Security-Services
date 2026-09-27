@@ -74,47 +74,6 @@
 
   const requestedService = new URLSearchParams(window.location.search).get("service");
 
-  document.querySelectorAll("[data-interview-request]").forEach((form) => {
-    const dateField = form.querySelector("[data-interview-date]");
-    const status = form.querySelector("[data-interview-status]");
-    const today = new Date();
-    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-
-    if (dateField instanceof HTMLInputElement) {
-      dateField.min = localToday;
-    }
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) {
-        return;
-      }
-
-      const data = new FormData(form);
-      const isHindi = form.getAttribute("data-form-language") === "hi";
-      const message = [
-        "Hello Captain A1 Security Services,",
-        "I want to request an interview visit.",
-        "",
-        `Name: ${data.get("name")}`,
-        `Mobile: ${data.get("phone")}`,
-        `Role: ${data.get("role")}`,
-        `Preferred duty area: ${data.get("duty_area")}`,
-        `Preferred date: ${data.get("preferred_date")}`,
-        `Preferred time: ${data.get("preferred_time")}`,
-        "",
-        "I understand that the interview date, time and location are confirmed only after the recruitment team responds."
-      ].join("\n");
-
-      if (status) {
-        status.textContent = isHindi
-          ? "WhatsApp खुल रहा है. संदेश जाँचकर भेजें."
-          : "Opening WhatsApp. Review the message before sending.";
-      }
-      window.open(`https://wa.me/918003091425?text=${encodeURIComponent(message)}`, "_blank", "noopener");
-    });
-  });
-
   const recaptchaSiteKey = document.querySelector('meta[name="google-recaptcha-site-key"]')?.getAttribute("content")?.trim() || "";
   let recaptchaLoader;
 
