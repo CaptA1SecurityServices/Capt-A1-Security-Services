@@ -2917,6 +2917,168 @@ a {
   margin-top: 18px;
 }
 
+.interview-hero {
+  position: relative;
+  padding: 82px 0;
+  overflow: hidden;
+  background: linear-gradient(125deg, var(--navy-deep), var(--navy-mid));
+  color: var(--white);
+}
+
+.interview-hero::after {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 380px;
+  height: 380px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 50%;
+  content: "";
+}
+
+.interview-hero__grid,
+.interview-booking__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.interview-hero h1 {
+  max-width: 760px;
+  color: var(--white);
+  font-size: clamp(2.7rem, 5vw, 4.7rem);
+  line-height: 1.08;
+}
+
+.interview-hero p {
+  max-width: 720px;
+  color: #d8e3e9;
+}
+
+.interview-confirmation-card {
+  position: relative;
+  z-index: 1;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(7px);
+}
+
+.interview-confirmation-card strong {
+  display: block;
+  color: var(--white);
+  font-size: 1.45rem;
+}
+
+.interview-confirmation-card a {
+  display: inline-flex;
+  margin-top: 12px;
+  color: var(--white);
+  font-weight: 800;
+}
+
+.interview-booking__grid {
+  align-items: start;
+}
+
+.interview-booking__copy {
+  position: sticky;
+  top: 120px;
+}
+
+.interview-steps {
+  display: grid;
+  gap: 14px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.interview-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--ink);
+}
+
+.interview-steps span {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 800;
+}
+
+.interview-request-form {
+  gap: 16px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  box-shadow: 0 22px 55px rgba(7, 24, 36, 0.1);
+}
+
+.interview-request-form h3 {
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-size: 1.55rem;
+}
+
+.interview-consent {
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  color: var(--muted) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  line-height: 1.55;
+}
+
+.interview-consent input {
+  width: 18px !important;
+  min-height: 18px !important;
+  margin-top: 3px;
+}
+
+.form-note {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--copper);
+  background: #fff8ef;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.recruitment-zone-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.recruitment-zone-grid article {
+  min-height: 160px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.recruitment-zone-grid h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.08rem;
+}
+
+.recruitment-zone-grid p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
 .hiring-final-cta {
   background: var(--navy);
   color: var(--white);
@@ -2994,6 +3156,23 @@ a {
 }
 
 @media (max-width: 860px) {
+  .interview-hero {
+    padding: 56px 0;
+  }
+
+  .interview-hero__grid,
+  .interview-booking__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .interview-booking__copy {
+    position: static;
+  }
+
+  .recruitment-zone-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   body {
     --mobile-sticky-offset: 88px;
   }
@@ -3480,6 +3659,22 @@ a {
 }
 
 @media (max-width: 640px) {
+  .interview-hero h1 {
+    font-size: clamp(2.35rem, 12vw, 3.35rem);
+  }
+
+  .interview-confirmation-card,
+  .interview-request-form {
+    padding: 22px;
+  }
+
+  .recruitment-zone-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recruitment-zone-grid article {
+    min-height: 0;
+  }
   body {
     --mobile-sticky-offset: 76px;
     font-size: 15px;
