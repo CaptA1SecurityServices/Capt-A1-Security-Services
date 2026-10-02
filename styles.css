@@ -625,6 +625,17 @@ a {
   aspect-ratio: 3 / 4;
 }
 
+.introduction {
+  padding-block: 72px;
+}
+
+.introduction .split-media img {
+  height: 600px;
+  min-height: 0;
+  aspect-ratio: auto;
+  object-position: center 55%;
+}
+
 .image-caption {
   position: absolute;
   right: -22px;
