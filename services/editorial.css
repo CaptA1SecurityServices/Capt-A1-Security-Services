@@ -12,7 +12,7 @@
 .hub-hero .svc-button { border-radius: 0; background: var(--navy); color: white; padding-inline: 25px; }
 .hub-hero .svc-button:hover { background: #24475b; }
 .hub-location { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; font-size: .74rem; margin-top: 36px; }
-.hub-location > span:last-child { color: #69757a; border-left: 1px solid #c6c9c5; padding-left: 10px; }
+.hub-location > span:last-child { color: #4d606c; border-left: 1px solid #c6c9c5; padding-left: 10px; }
 .hub-photo-story { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 14px 18px; align-items: start; }
 .hub-security-photo,.hub-housekeeping-photo { position: relative; width: 100%; min-width: 0; background: white; padding: 8px 8px 0; box-shadow: 0 12px 25px #0718241a; }
 .hub-security-photo img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: contain; background: #e8ece9; }

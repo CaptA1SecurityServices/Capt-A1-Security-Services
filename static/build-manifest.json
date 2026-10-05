@@ -31,37 +31,37 @@
       "stylesheet": "/static/css/privacy-policy.7e914ecc395c.css"
     },
     "services/index.html": {
-      "sourceBytes": 123784,
+      "sourceBytes": 123779,
       "cssBytes": 37448,
-      "stylesheet": "/static/css/services.b1d0e78e78e6.css"
+      "stylesheet": "/static/css/services.67bd42a7a72e.css"
     },
     "services/security-services/index.html": {
-      "sourceBytes": 111506,
-      "cssBytes": 28924,
-      "stylesheet": "/static/css/services-security-services.257b7404be0e.css"
+      "sourceBytes": 111501,
+      "cssBytes": 28919,
+      "stylesheet": "/static/css/services-security-services.644eb3de1fe4.css"
     },
     "services/security-services-jaipur/index.html": {
-      "sourceBytes": 111506,
+      "sourceBytes": 111501,
       "cssBytes": 28770,
       "stylesheet": "/static/css/services-security-services-jaipur.61102529b584.css"
     },
     "services/commercial-housekeeping/index.html": {
-      "sourceBytes": 111506,
+      "sourceBytes": 111501,
       "cssBytes": 28894,
       "stylesheet": "/static/css/services-commercial-housekeeping.8b8335708e41.css"
     },
     "services/facility-manpower-services/index.html": {
-      "sourceBytes": 123784,
-      "cssBytes": 32786,
-      "stylesheet": "/static/css/services-facility-manpower-services.d2481f293904.css"
+      "sourceBytes": 123779,
+      "cssBytes": 32781,
+      "stylesheet": "/static/css/services-facility-manpower-services.3aeb30aa61f4.css"
     },
     "services/workforce-management/index.html": {
-      "sourceBytes": 111506,
+      "sourceBytes": 111501,
       "cssBytes": 24492,
       "stylesheet": "/static/css/services-workforce-management.182538215d44.css"
     },
     "services/security-equipment-site-readiness/index.html": {
-      "sourceBytes": 111506,
+      "sourceBytes": 111501,
       "cssBytes": 24492,
       "stylesheet": "/static/css/services-security-equipment-site-readiness.182538215d44.css"
     }

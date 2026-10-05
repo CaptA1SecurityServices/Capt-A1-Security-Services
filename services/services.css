@@ -76,7 +76,7 @@
 .svc-section { padding-block: 88px; }
 .svc-section-head { display: grid; grid-template-columns: 1.2fr .8fr; align-items: end; gap: 80px; margin-bottom: 38px; }
 .svc-section-head h2 { font-size: clamp(2.4rem,3.7vw,3.5rem); }
-.svc-section-head p:not(.svc-kicker) { color: var(--muted); margin: 18px 0 0; font-size: .95rem; }
+.svc-section-head p:not(.svc-kicker) { color: #4d606c; margin: 18px 0 0; font-size: .95rem; }
 .svc-badge { color: var(--accent-text, var(--accent)); border: 1px solid currentColor; border-radius: 30px; padding: 6px 12px; font-size: .67rem; font-weight: 700; }
 .svc-section-head p.svc-section-subtitle { color: #273e4c; }
 .service-guide-cards { margin-top: 30px; }
