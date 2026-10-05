@@ -7,8 +7,11 @@
   "scripts": {
     "start": "serve .",
     "preview": "serve .",
+    "build": "node scripts/build-static.cjs",
+    "build:images": "node scripts/optimize-images.cjs",
     "test:interview": "node tests/interview-request.test.cjs",
-    "check": "node --check script.js && node --check interview-request.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js"
+    "test:site": "node tests/site-integrity.test.cjs",
+    "check": "node --check script.js && node --check interview-request.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js && node scripts/build-static.cjs --check"
   },
   "keywords": [
     "security-services",
@@ -17,6 +20,10 @@
   "author": "Captain A1 Security Services",
   "license": "UNLICENSED",
   "devDependencies": {
-    "serve": "14.2.6"
+    "cssnano": "9.3.0",
+    "postcss": "8.5.28",
+    "purgecss": "7.0.2",
+    "serve": "14.2.6",
+    "sharp": "0.35.5"
   }
 }

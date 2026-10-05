@@ -523,3 +523,17 @@ When working on design:
 - Avoid large decorative sections that do not help conversion.
 - Prioritize call, WhatsApp, and enquiry workflows.
 - Make mobile the first-class experience because much of the traffic comes from ads and local search.
+
+## 20. SEO and performance work prepared on 5 October 2026
+
+Status: implemented and previewed locally; **not published**. The user requested improvements from `C:\Users\PC\Downloads\REPORT.md`. A push to `new`, enabling Always Use HTTPS or activating the Cloudflare cache rule still requires a request to make these changes live. See `SEO_IMPROVEMENTS.md` for implementation, verification and remaining work.
+
+- Run `npm run build` after source HTML/CSS/JS edits. Commit the generated `static/` files and updated HTML references. `npm run check` now detects a stale build.
+- Source CSS remains in `styles.css`, `services/services.css`, `services/editorial.css` and `privacy-policy/privacy.css`; do not hand-edit bundled CSS.
+- Responsive image derivatives and fingerprints are recorded in `images/responsive/manifest.json`. Original photos remain for gallery viewing. Do not remove previously published fingerprinted assets while cached HTML might still reference them.
+- Contact maps are deliberately absent until a View map button is selected. No enquiry forms were submitted during this work.
+- The Cloudflare account owning the zone was identified by the user in chat. Always Use HTTPS was **off** when inspected; Automatic HTTPS Rewrites and Universal SSL were active.
+- A **disabled** cache-rule draft named `Fingerprint assets - long browser cache` exists for `/static/css/*.css`, `/static/js/*.js` and `/images/responsive/*.webp`, restricted to the apex and www hosts. Browser TTL is 1 year, edge TTL respects the origin, HTML is outside the rule. Enable only when publication is requested.
+- Published GTM container version 3 contains the Google Ads configuration for `AW-18297382444` and Meta Pixel PageView for `1404004975151192`. It has **no conversion-event tags**. Website intent events are not proof of destination conversions. Preserve that distinction until live Tag Assistant and destination-account checks succeed.
+- Search Console access worked with the verified owner account. The 28-day baseline, URL inspections and responsive QA are saved under ignored `outputs/`. They are evidence, not public website assets.
+- Unrelated changes to `GUARD_RECRUITMENT_META_CAMPAIGN.md`, `assets/` and `tmp/` predated this work and were preserved.

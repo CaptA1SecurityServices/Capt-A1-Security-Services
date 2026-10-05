@@ -7,10 +7,12 @@
 .vertical-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 65px; align-items: center; }
 .vertical-hero h1 { font-size: clamp(2.8rem,4.6vw,4.7rem); line-height: 1.05; }
 .vertical-lead { color: #4d606c; margin-block: 24px; }
-.vertical-delivery { font-size: .75rem; font-weight: 700; color: var(--accent); }
+.vertical-delivery { font-size: .75rem; font-weight: 700; color: #765027; }
 .vertical-photo { position: relative; }
 .vertical-photo img { width: 100%; height: 460px; object-fit: cover; object-position: center 48%; border-radius: 4px; }
 .vertical-photo figcaption { position: absolute; bottom: 0; left: 0; right: 0; padding: 35px 20px 18px; color: white; font-size: .75rem; background: linear-gradient(transparent,#071824); }
+.commercial-housekeeping-page .vertical-photo img { height: auto; object-fit: contain; }
+.commercial-housekeeping-page .vertical-photo figcaption { position: static; padding: 12px 16px; background: #0d2431; }
 .vertical-placeholder { min-height: 360px; padding: 38px; display: flex; flex-direction: column; justify-content: center; border: 1px dashed #91a3ae; background: linear-gradient(140deg,#e4e9e7,#f7f5ef); }
 .vertical-placeholder-mark { color: var(--accent); font-family: Georgia,serif; font-size: 5rem; line-height: 1; opacity: .55; }
 .vertical-placeholder p { max-width: 350px; font-size: 1.4rem; line-height: 1.5; margin-top: 30px; }
@@ -61,7 +63,7 @@
 .svc-dimensions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .svc-dimension { position: relative; text-decoration: none; padding: 24px; background: white; border: 1px solid var(--line); border-top: 3px solid var(--accent); transition: transform .18s; }
 .svc-dimension:hover { transform: translateY(-3px); }
-.svc-security { --accent: #b7834d; }
+.svc-security { --accent: #b7834d; --accent-text: #765027; }
 .svc-facility { --accent: #397968; }
 .svc-workforce { --accent: #476b9b; }
 .svc-equipment { --accent: #876048; }
@@ -75,7 +77,29 @@
 .svc-section-head { display: grid; grid-template-columns: 1.2fr .8fr; align-items: end; gap: 80px; margin-bottom: 38px; }
 .svc-section-head h2 { font-size: clamp(2.4rem,3.7vw,3.5rem); }
 .svc-section-head p:not(.svc-kicker) { color: var(--muted); margin: 18px 0 0; font-size: .95rem; }
-.svc-badge { color: var(--accent); border: 1px solid currentColor; border-radius: 30px; padding: 6px 12px; font-size: .67rem; font-weight: 700; }
+.svc-badge { color: var(--accent-text, var(--accent)); border: 1px solid currentColor; border-radius: 30px; padding: 6px 12px; font-size: .67rem; font-weight: 700; }
+.svc-section-head p.svc-section-subtitle { color: #273e4c; }
+.service-guide-cards { margin-top: 30px; }
+.vertical-page .svc-items.service-guide-cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.service-guide-quote { display: grid; grid-template-columns: 1.3fr 1fr; gap: 65px; align-items: start; }
+.service-guide-quote p, .service-guide-location p { max-width: 760px; margin: 24px 0; color: #4d606c; }
+.service-guide-checklist { padding: 30px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+.service-guide-checklist h3 { font-size: 1.9rem; margin-bottom: 20px; }
+.service-guide-checklist ul { padding-left: 20px; }
+.service-guide-checklist li { margin-block: 12px; color: #4d606c; font-size: .9rem; }
+.service-guide-location { display: flex; gap: 50px; align-items: center; justify-content: space-between; }
+.service-guide-location .svc-button { flex-shrink: 0; }
+.service-guide-directory { background: #f3f1eb; }
+.service-guide-links { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+.service-guide-links > a { display: block; padding: 30px; text-decoration: none; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+.service-guide-links h3 { font-size: 2rem; }
+.service-guide-links p { margin: 15px 0 24px; color: #4d606c; }
+.service-guide-links span { font-size: .85rem; font-weight: 600; }
+.service-guide-callout { padding-block: 28px; }
+@media(max-width: 760px) {
+ .service-guide-quote,.service-guide-links,.vertical-page .svc-items.service-guide-cards { grid-template-columns: 1fr; gap: 24px; }
+ .service-guide-location { display: block; }
+}
 .svc-section.svc-security { background: #edf1f3; }
 .svc-section.svc-workforce { background: #eaf0f4; }
 .svc-deployment { position: relative; margin-bottom: 30px; background: var(--navy); }

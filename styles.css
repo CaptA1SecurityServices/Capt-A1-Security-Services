@@ -1540,13 +1540,16 @@ a {
   z-index: 0;
 }
 
+.hero-home.hero-carousel,
+.page-hero--about.hero-carousel { background-image: none; }
+
 .hero-carousel::before {
   z-index: 1;
 }
 
 .hero-carousel__slide {
   opacity: 0;
-  transition: opacity 1200ms ease-in-out;
+  transition: opacity 400ms ease-in-out;
 }
 
 .hero-carousel__slide.is-active {
@@ -1556,12 +1559,11 @@ a {
 .hero-carousel__slide img {
   object-fit: cover;
   object-position: center;
-  transform: scale(1.018);
-  transition: transform 6500ms ease-out;
+  transform: none;
 }
 
 .hero-carousel__slide.is-active img {
-  transform: scale(1);
+  transform: none;
 }
 
 .hero-carousel__slide--center img {
@@ -2730,6 +2732,30 @@ a {
   border: 0;
 }
 
+.map-panel {
+  min-height: 440px;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.map-panel__prompt {
+  max-width: 360px;
+  padding: 32px;
+  text-align: center;
+}
+
+.map-panel__prompt strong { display: block; color: var(--navy); margin-bottom: 12px; }
+.map-panel__prompt p { margin-bottom: 22px; font-size: .9rem; }
+.map-panel iframe { display: block; }
+
+@media (max-width: 640px) {
+  .map-panel, .map-panel iframe { min-height: 300px; }
+}
+
 /* Hiring page */
 .hiring-page {
   background: var(--paper);
@@ -3668,6 +3694,8 @@ a {
     gap: 46px;
   }
 }
+
+.review-selection-note { max-width: 300px; color: #dce5ea; font-size: .85rem; }
 
 @media (max-width: 640px) {
   .interview-hero h1 {

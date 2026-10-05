@@ -40,7 +40,7 @@
 .hub-service-card.svc-facility .hub-card-visual > img { object-position: center 40%; }
 .hub-card-index { position: absolute; top: 15px; left: 16px; background: #ffffffec; padding: 5px 9px; font-size: .68rem; letter-spacing: .08em; color: var(--navy); }
 .hub-card-copy { padding: 24px 28px 22px; }
-.hub-card-label { text-transform: uppercase; letter-spacing: .08em; font-weight: 600; font-size: .61rem; color: var(--accent); }
+.hub-card-label { text-transform: uppercase; letter-spacing: .08em; font-weight: 600; font-size: .61rem; color: var(--accent-text, var(--accent)); }
 .hub-service-card h3 { font-size: 2.05rem; margin: 9px 0; }
 .hub-service-card p { font-size: .88rem; max-width: none; margin-bottom: 13px; }
 .hub-card-details { display: block; font-size: .7rem; color: #617079; }

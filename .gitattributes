@@ -1,0 +1,3 @@
+# Fingerprinted files must retain their exact bytes through Git checkout/publication.
+/static/css/*.css -text
+/static/js/*.js -text

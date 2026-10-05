@@ -1,0 +1,668 @@
+{
+  "residential-guards": {
+    "source": "images/FieldWork/samriddhi-dynasty-guards.webp",
+    "originalBytes": 415178,
+    "variants": [
+      {
+        "file": "/images/responsive/residential-guards-360.e50acaf5428d.webp",
+        "width": 360,
+        "height": 480,
+        "bytes": 21184
+      },
+      {
+        "file": "/images/responsive/residential-guards-540.985e6df84372.webp",
+        "width": 540,
+        "height": 720,
+        "bytes": 48566
+      },
+      {
+        "file": "/images/responsive/residential-guards-768.c343aa074d26.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 94046
+      },
+      {
+        "file": "/images/responsive/residential-guards-960.7a8a7bfd58b3.webp",
+        "width": 960,
+        "height": 1280,
+        "bytes": 140866
+      },
+      {
+        "file": "/images/responsive/residential-guards-1280.aac593a42295.webp",
+        "width": 1280,
+        "height": 1707,
+        "bytes": 221234
+      }
+    ]
+  },
+  "residential-entrance": {
+    "source": "images/FieldWork/saarth-pratham-main-gate.webp",
+    "originalBytes": 401368,
+    "variants": [
+      {
+        "file": "/images/responsive/residential-entrance-360.6fff011a817e.webp",
+        "width": 360,
+        "height": 270,
+        "bytes": 15914
+      },
+      {
+        "file": "/images/responsive/residential-entrance-540.573211b03767.webp",
+        "width": 540,
+        "height": 405,
+        "bytes": 31532
+      },
+      {
+        "file": "/images/responsive/residential-entrance-768.078fdf089cf8.webp",
+        "width": 768,
+        "height": 576,
+        "bytes": 58750
+      },
+      {
+        "file": "/images/responsive/residential-entrance-960.af45ae66aac8.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 86774
+      },
+      {
+        "file": "/images/responsive/residential-entrance-1280.c2efb805dcb4.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 138004
+      }
+    ]
+  },
+  "residential-site": {
+    "source": "images/FieldWork/saarth-pratham-wide.webp",
+    "originalBytes": 426292,
+    "variants": [
+      {
+        "file": "/images/responsive/residential-site-360.c54690ad2783.webp",
+        "width": 360,
+        "height": 270,
+        "bytes": 19720
+      },
+      {
+        "file": "/images/responsive/residential-site-540.da6b664bf04e.webp",
+        "width": 540,
+        "height": 405,
+        "bytes": 38728
+      },
+      {
+        "file": "/images/responsive/residential-site-768.1aa0935837e5.webp",
+        "width": 768,
+        "height": 576,
+        "bytes": 69452
+      },
+      {
+        "file": "/images/responsive/residential-site-960.b02a79bca05b.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 100118
+      },
+      {
+        "file": "/images/responsive/residential-site-1280.d5dfbe803b92.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 158164
+      }
+    ]
+  },
+  "executive-protection": {
+    "source": "images/Our Services/ExecutiveProtection2.png",
+    "originalBytes": 2554982,
+    "variants": [
+      {
+        "file": "/images/responsive/executive-protection-360.bd72a8e498e8.webp",
+        "width": 360,
+        "height": 270,
+        "bytes": 21632
+      },
+      {
+        "file": "/images/responsive/executive-protection-540.c09018c4cfd8.webp",
+        "width": 540,
+        "height": 405,
+        "bytes": 41484
+      },
+      {
+        "file": "/images/responsive/executive-protection-768.ab49a4383ab9.webp",
+        "width": 768,
+        "height": 576,
+        "bytes": 72010
+      },
+      {
+        "file": "/images/responsive/executive-protection-960.5afa4b3e3cff.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 104172
+      },
+      {
+        "file": "/images/responsive/executive-protection-1280.7cdfe368305f.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 155138
+      }
+    ]
+  },
+  "security-briefing": {
+    "source": "images/Our Services/Security Guards.png",
+    "originalBytes": 3006386,
+    "variants": [
+      {
+        "file": "/images/responsive/security-briefing-360.26ec14b2d121.webp",
+        "width": 360,
+        "height": 203,
+        "bytes": 16142
+      },
+      {
+        "file": "/images/responsive/security-briefing-540.e28f656aecff.webp",
+        "width": 540,
+        "height": 304,
+        "bytes": 34588
+      },
+      {
+        "file": "/images/responsive/security-briefing-768.acbd98b9ff1c.webp",
+        "width": 768,
+        "height": 432,
+        "bytes": 68594
+      },
+      {
+        "file": "/images/responsive/security-briefing-960.4ddbb16c6c7c.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 104718
+      },
+      {
+        "file": "/images/responsive/security-briefing-1280.613a3968e628.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 172178
+      }
+    ]
+  },
+  "security-leadership": {
+    "source": "images/Our Services/Gunman.png",
+    "originalBytes": 2508210,
+    "variants": [
+      {
+        "file": "/images/responsive/security-leadership-360.2e05ffbdadb8.webp",
+        "width": 360,
+        "height": 480,
+        "bytes": 19984
+      },
+      {
+        "file": "/images/responsive/security-leadership-540.a3d163f54d17.webp",
+        "width": 540,
+        "height": 720,
+        "bytes": 42092
+      },
+      {
+        "file": "/images/responsive/security-leadership-768.f1fee2d32972.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 82132
+      },
+      {
+        "file": "/images/responsive/security-leadership-960.d7f3392dc1cd.webp",
+        "width": 960,
+        "height": 1280,
+        "bytes": 119814
+      },
+      {
+        "file": "/images/responsive/security-leadership-1086.817f9916e4ea.webp",
+        "width": 1086,
+        "height": 1448,
+        "bytes": 146564
+      }
+    ]
+  },
+  "event-security-team": {
+    "source": "images/Our Services/BOUNCERS.png",
+    "originalBytes": 2503086,
+    "variants": [
+      {
+        "file": "/images/responsive/event-security-team-360.16b8a79667fb.webp",
+        "width": 360,
+        "height": 240,
+        "bytes": 13156
+      },
+      {
+        "file": "/images/responsive/event-security-team-540.fc8b249350fa.webp",
+        "width": 540,
+        "height": 360,
+        "bytes": 23774
+      },
+      {
+        "file": "/images/responsive/event-security-team-768.2b2a1fb333cb.webp",
+        "width": 768,
+        "height": 512,
+        "bytes": 39750
+      },
+      {
+        "file": "/images/responsive/event-security-team-960.ae6455b5af8d.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 55756
+      },
+      {
+        "file": "/images/responsive/event-security-team-1280.182f9f9ac9c7.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 87188
+      }
+    ]
+  },
+  "security-personnel": {
+    "source": "images/FieldWork/ReliablePeople.png",
+    "originalBytes": 3006386,
+    "variants": [
+      {
+        "file": "/images/responsive/security-personnel-360.26ec14b2d121.webp",
+        "width": 360,
+        "height": 203,
+        "bytes": 16142
+      },
+      {
+        "file": "/images/responsive/security-personnel-540.e28f656aecff.webp",
+        "width": 540,
+        "height": 304,
+        "bytes": 34588
+      },
+      {
+        "file": "/images/responsive/security-personnel-768.acbd98b9ff1c.webp",
+        "width": 768,
+        "height": 432,
+        "bytes": 68594
+      },
+      {
+        "file": "/images/responsive/security-personnel-960.4ddbb16c6c7c.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 104718
+      },
+      {
+        "file": "/images/responsive/security-personnel-1280.613a3968e628.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 172178
+      }
+    ]
+  },
+  "founder": {
+    "source": "images/MyIMG/passport-Photo.webp",
+    "originalBytes": 1945728,
+    "variants": [
+      {
+        "file": "/images/responsive/founder-360.5c2c13cade95.webp",
+        "width": 360,
+        "height": 429,
+        "bytes": 12222
+      },
+      {
+        "file": "/images/responsive/founder-540.913413fc5ecf.webp",
+        "width": 540,
+        "height": 643,
+        "bytes": 21348
+      },
+      {
+        "file": "/images/responsive/founder-768.9b6ad0936f33.webp",
+        "width": 768,
+        "height": 915,
+        "bytes": 35550
+      },
+      {
+        "file": "/images/responsive/founder-960.adecec3e138f.webp",
+        "width": 960,
+        "height": 1144,
+        "bytes": 48888
+      },
+      {
+        "file": "/images/responsive/founder-1149.ab7e50792dd0.webp",
+        "width": 1149,
+        "height": 1369,
+        "bytes": 63716
+      }
+    ]
+  },
+  "grounds-care": {
+    "source": "images/housekeeping/grounds-original.webp",
+    "originalBytes": 380608,
+    "variants": [
+      {
+        "file": "/images/responsive/grounds-care-360.5334bd7dfd1c.webp",
+        "width": 360,
+        "height": 640,
+        "bytes": 36080
+      },
+      {
+        "file": "/images/responsive/grounds-care-540.a59437318f5b.webp",
+        "width": 540,
+        "height": 960,
+        "bytes": 79802
+      },
+      {
+        "file": "/images/responsive/grounds-care-768.2f4413ec0655.webp",
+        "width": 768,
+        "height": 1366,
+        "bytes": 145560
+      },
+      {
+        "file": "/images/responsive/grounds-care-899.3d7fa61d9e55.webp",
+        "width": 899,
+        "height": 1599,
+        "bytes": 223004
+      }
+    ]
+  },
+  "hospitality-support": {
+    "source": "images/housekeeping/hospitality-original.webp",
+    "originalBytes": 213768,
+    "variants": [
+      {
+        "file": "/images/responsive/hospitality-support-360.51a32cecfb5d.webp",
+        "width": 360,
+        "height": 270,
+        "bytes": 13684
+      },
+      {
+        "file": "/images/responsive/hospitality-support-540.a4b7fc8f7767.webp",
+        "width": 540,
+        "height": 405,
+        "bytes": 24362
+      },
+      {
+        "file": "/images/responsive/hospitality-support-768.09bd52195b35.webp",
+        "width": 768,
+        "height": 576,
+        "bytes": 39988
+      },
+      {
+        "file": "/images/responsive/hospitality-support-960.362e458a6f2b.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 53432
+      },
+      {
+        "file": "/images/responsive/hospitality-support-1280.2ea6c8153178.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 76500
+      }
+    ]
+  },
+  "housekeeping-team": {
+    "source": "images/housekeeping/team-original.webp",
+    "originalBytes": 41036,
+    "variants": [
+      {
+        "file": "/images/responsive/housekeeping-team-360.49fd8bef14bc.webp",
+        "width": 360,
+        "height": 202,
+        "bytes": 9112
+      },
+      {
+        "file": "/images/responsive/housekeeping-team-540.b595473449ff.webp",
+        "width": 540,
+        "height": 304,
+        "bytes": 15016
+      },
+      {
+        "file": "/images/responsive/housekeeping-team-720.f50da9f6225a.webp",
+        "width": 720,
+        "height": 405,
+        "bytes": 23352
+      }
+    ]
+  },
+  "housekeeping-wide": {
+    "source": "images/FieldWork/housekeeping-team-wide-ai.webp",
+    "originalBytes": 157606,
+    "variants": [
+      {
+        "file": "/images/responsive/housekeeping-wide-360.a872d31f20f6.webp",
+        "width": 360,
+        "height": 270,
+        "bytes": 8396
+      },
+      {
+        "file": "/images/responsive/housekeeping-wide-540.b0728767fc2f.webp",
+        "width": 540,
+        "height": 405,
+        "bytes": 15400
+      },
+      {
+        "file": "/images/responsive/housekeeping-wide-768.06bdb356b9e6.webp",
+        "width": 768,
+        "height": 576,
+        "bytes": 27536
+      },
+      {
+        "file": "/images/responsive/housekeeping-wide-960.856c6efeba87.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 40534
+      },
+      {
+        "file": "/images/responsive/housekeeping-wide-1280.558b32190f63.webp",
+        "width": 1280,
+        "height": 960,
+        "bytes": 62420
+      }
+    ]
+  },
+  "sweeping": {
+    "source": "images/housekeeping/sweeping-original.webp",
+    "originalBytes": 94474,
+    "variants": [
+      {
+        "file": "/images/responsive/sweeping-360.642badcef3a8.webp",
+        "width": 360,
+        "height": 640,
+        "bytes": 22382
+      },
+      {
+        "file": "/images/responsive/sweeping-540.3f284964903d.webp",
+        "width": 540,
+        "height": 960,
+        "bytes": 51736
+      }
+    ]
+  },
+  "planting": {
+    "source": "images/housekeeping/planting-original.webp",
+    "originalBytes": 138936,
+    "variants": [
+      {
+        "file": "/images/responsive/planting-360.40bf5e44d19c.webp",
+        "width": 360,
+        "height": 640,
+        "bytes": 37262
+      },
+      {
+        "file": "/images/responsive/planting-540.9bf7cdaae7af.webp",
+        "width": 540,
+        "height": 960,
+        "bytes": 80690
+      }
+    ]
+  },
+  "guard-duty": {
+    "source": "images/security-1.jpg",
+    "originalBytes": 35327,
+    "variants": [
+      {
+        "file": "/images/responsive/guard-duty-350.0e2d49b4ea93.webp",
+        "width": 350,
+        "height": 520,
+        "bytes": 14442
+      }
+    ]
+  },
+  "recruitment-hero": {
+    "source": "images/FieldWork/security-guards-hero-v2.webp",
+    "originalBytes": 396332,
+    "variants": [
+      {
+        "file": "/images/responsive/recruitment-hero-360.bbb6aa9278fb.webp",
+        "width": 360,
+        "height": 202,
+        "bytes": 9756
+      },
+      {
+        "file": "/images/responsive/recruitment-hero-540.c289ae6e4341.webp",
+        "width": 540,
+        "height": 304,
+        "bytes": 20546
+      },
+      {
+        "file": "/images/responsive/recruitment-hero-768.3c070726167f.webp",
+        "width": 768,
+        "height": 432,
+        "bytes": 42412
+      },
+      {
+        "file": "/images/responsive/recruitment-hero-960.11de5f5e4bcd.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 72890
+      },
+      {
+        "file": "/images/responsive/recruitment-hero-1280.22d48c3c9dba.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 110592
+      }
+    ]
+  },
+  "logo": {
+    "source": "images/LOGO/captain-a1-logo.png",
+    "originalBytes": 53115,
+    "variants": [
+      {
+        "file": "/images/responsive/logo-448.bd169c2727cc.webp",
+        "width": 448,
+        "height": 124,
+        "bytes": 8736
+      }
+    ]
+  },
+  "client-sarodha": {
+    "source": "images/clients/sarodha.png",
+    "originalBytes": 34930,
+    "variants": [
+      {
+        "file": "/images/responsive/client-sarodha-240.d3f5f32eb222.webp",
+        "width": 240,
+        "height": 81,
+        "bytes": 9436
+      }
+    ]
+  },
+  "client-lpm": {
+    "source": "images/clients/lpm-engineering.jpg",
+    "originalBytes": 82765,
+    "variants": [
+      {
+        "file": "/images/responsive/client-lpm-240.656992ba8b91.webp",
+        "width": 240,
+        "height": 114,
+        "bytes": 3642
+      }
+    ]
+  },
+  "client-keshav": {
+    "source": "images/clients/keshav-kripa.png",
+    "originalBytes": 138922,
+    "variants": [
+      {
+        "file": "/images/responsive/client-keshav-240.7ebef8b3acc4.webp",
+        "width": 240,
+        "height": 205,
+        "bytes": 10208
+      }
+    ]
+  },
+  "client-surge": {
+    "source": "images/clients/surge-alloys.png",
+    "originalBytes": 41316,
+    "variants": [
+      {
+        "file": "/images/responsive/client-surge-240.825aa5c959e8.webp",
+        "width": 240,
+        "height": 164,
+        "bytes": 10486
+      }
+    ]
+  },
+  "home-hero": {
+    "source": "images/FieldWork/samriddhi-dynasty-guards.webp",
+    "originalBytes": 415178,
+    "variants": [
+      {
+        "file": "/images/responsive/home-hero-360.fba550692006.webp",
+        "width": 360,
+        "height": 203,
+        "bytes": 13764
+      },
+      {
+        "file": "/images/responsive/home-hero-540.2d366dba9109.webp",
+        "width": 540,
+        "height": 304,
+        "bytes": 31948
+      },
+      {
+        "file": "/images/responsive/home-hero-768.8a90c543383a.webp",
+        "width": 768,
+        "height": 432,
+        "bytes": 66230
+      },
+      {
+        "file": "/images/responsive/home-hero-960.c42c1dc77a59.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 102186
+      },
+      {
+        "file": "/images/responsive/home-hero-1280.3c4e7e71b926.webp",
+        "width": 1280,
+        "height": 721,
+        "bytes": 168326
+      }
+    ]
+  },
+  "home-hero-mobile": {
+    "source": "images/FieldWork/samriddhi-dynasty-guards.webp",
+    "originalBytes": 415178,
+    "variants": [
+      {
+        "file": "/images/responsive/home-hero-mobile-360.f4f15e95a841.webp",
+        "width": 360,
+        "height": 240,
+        "bytes": 16474
+      },
+      {
+        "file": "/images/responsive/home-hero-mobile-540.fbf37a3eaf0b.webp",
+        "width": 540,
+        "height": 360,
+        "bytes": 39156
+      },
+      {
+        "file": "/images/responsive/home-hero-mobile-768.6db9f06e39f0.webp",
+        "width": 768,
+        "height": 512,
+        "bytes": 81608
+      },
+      {
+        "file": "/images/responsive/home-hero-mobile-960.7c5fd37e549e.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 124384
+      },
+      {
+        "file": "/images/responsive/home-hero-mobile-1280.99e03a17c50f.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 207478
+      }
+    ]
+  }
+}

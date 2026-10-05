@@ -6,8 +6,10 @@ Static website for Captain A1 Security Services, a private security and facility
 
 - `index.html` - homepage, service overview, certifications, testimonials, and consultation call to action
 - `about.html` - company story, operating principles, detailed services, and client/location highlights
-- `contact.html` - full contact form, contact details, and embedded map
+- `contact.html` - contact form, office details and maps loaded after a click
 - `guard-hiring-ajmer.html` - Hindi-first Google Ads landing page for urgent security guard hiring in Ajmer
+- `services/` - service directory and individual service guides
+- `privacy-policy/` - public privacy policy
 
 ## Run Locally
 
@@ -22,7 +24,11 @@ The site is also static, so it can be hosted by GitHub Pages or any static hosti
 
 ## Publishing
 
-The repository is `CaptA1SecurityServices/Capt-A1-Security-Services`. GitHub Pages publishes the root of branch `new` to https://captaina1.com. No build step is required.
+The repository is `CaptA1SecurityServices/Capt-A1-Security-Services`. GitHub Pages publishes the root of branch `new` to https://captaina1.com. The generated static assets are checked into Git; Pages does not run npm.
+
+After changing HTML, CSS or JavaScript, run `npm run build` to generate page-specific stylesheets and fingerprinted scripts. Keep editing the source stylesheets and scripts, not files in `static/`. `npm run check` verifies that the generated files and page references are current. Run `npm run test:site` and `npm run test:interview` for site integrity and the existing interview flow.
+
+`npm run build:images` generates compressed responsive WebP derivatives without changing original photos. When replacing a source image, update its HTML `src`, `srcset` and dimensions to match `images/responsive/manifest.json`, then rebuild. Previously published fingerprinted assets must remain available for cached pages. Local cache headers in `serve.json` do not configure GitHub Pages or Cloudflare.
 
 Before editing, read `WEBSITE_HANDOFF.md`, check Git status, and fetch the latest remote state. Preview changes on desktop and mobile, run `npm run check` and `git diff --check`, then review the diff. When publication is requested, commit the intended files and push `new`. Check the Pages deployment and the live website afterward. A push to `new` is a live deployment.
 
