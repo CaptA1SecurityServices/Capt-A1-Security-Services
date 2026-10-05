@@ -1,6 +1,6 @@
 # Website improvements — 5 October 2026
 
-Prepared from the user-provided 2 October SEO/performance report. **Local implementation; publication and production validation are pending.**
+Prepared from the user-provided 2 October SEO/performance report. **Published on 5 October with explicit user authorization.** The live rerun and comparison are saved locally at `outputs/SEO_RERUN_REPORT_2026-10-05.md`.
 
 ## Implemented
 
@@ -10,7 +10,7 @@ Prepared from the user-provided 2 October SEO/performance report. **Local implem
 | Images | Responsive compressed WebP assets, explicit dimensions and appropriate sizes. The first hero remains eager/high priority; inactive slides remain deferred. Home has a dedicated mobile crop. Original gallery photos are preserved. |
 | CSS and rendering | Page-specific purged/minified CSS; content fingerprints for CSS/JS. Removed the redundant large background behind home/about carousels, shortened the transition and stopped autoplay outside the viewport. |
 | Tracking security | Exact hash permission for the currently published Meta inline script; explicit Cloudflare beacon and Meta resource permissions. No unsafe-inline or unsafe-eval exemption. Removed the duplicate direct Google Ads loader; GTM remains the configuration owner. |
-| Caching | Fingerprinted asset paths and local immutable cache headers. A disabled Cloudflare browser-cache rule is prepared; it excludes HTML and manifests. |
+| Caching | Fingerprinted asset paths and an active Cloudflare browser-cache rule. Live sample assets return max-age=31536000 and HIT; HTML remains max-age=600 outside the rule. |
 | Review presentation | Removed the unverified overall 4.2 rating. Individual excerpts are labelled as selected reviews, with links to original listings. |
 | Service content | Added `/services/security-services-jaipur/` and `/services/commercial-housekeeping/`, with duties, planning, quotation details, FAQs, related links and enquiry routes. No invented Jaipur deployments, fixed prices or availability promises. |
 | Contrast | Darker delivery, subtitle and badge text on the service templates. |
@@ -50,15 +50,17 @@ The verified property is `https://captaina1.com/`. The 28-day report covers 5 Se
 
 The sitemap report itself showed **Success**, last read 3 October, 8 discovered URLs. These newer URL inspections are more relevant than the page-indexing chart last updated 21 September. The seven old exclusions are `/index.html` and six contact-page service parameters with proper canonicals; they are expected aliases, not seven broken pages.
 
-After publication, resubmit the updated sitemap, inspect the active service URLs and request indexing as appropriate. Google decides whether and when to index them. Save the new baseline and compare non-brand queries and qualified enquiries over subsequent weeks.
+The updated sitemap was resubmitted and Google read it on 5 October: Success, 11 discovered URLs. Indexing requests were accepted for Services, Security Services, Facility & Manpower, Jaipur Security, Commercial Housekeeping and Interview Scheduling. Google decides whether and when to index them. Compare non-brand queries and qualified enquiries over subsequent weeks; request acceptance does not prove indexing.
 
-## Still pending
+## Production verification and remaining work
 
-1. **Publication:** push the reviewed update to `new`, verify the GitHub Pages deployment and public URLs.
-2. **HTTPS/cache activation:** enable Cloudflare Always Use HTTPS and the prepared asset-cache rule. Verify permanent redirects preserve paths/queries, HTTPS www still reaches apex, and asset cache headers reflect the intended TTL without caching HTML for a year.
-3. **Tracking validation:** GTM diagnostics show “Tag stopped sending data” and a separate recommendation for a second administrator. The published container has an Ads configuration and Meta PageView, but no enquiry/call/WhatsApp conversion tags. Existing dataLayer intent signals alone are insufficient. Verify CSP execution after publication and configure destination conversion events using actual account IDs/labels; do not invent labels or count a click as a completed conversation. A genuine form-delivery test needs the user to expect test emails.
+1. **Publication verified:** approved source updates `3f863ea`, `4c5bffa`, `c312d56` and `e33231d` have successful Pages deployments. All 14 audited HTML routes return 200, including three deliberately noindex routes. No failed site-owned asset/internal-link destinations in the live crawl.
+2. **HTTPS/cache verified:** Always Use HTTPS and the asset rule are active. Permanent redirects preserve paths/queries; HTTPS www reaches apex; sampled fingerprints cache for a year while HTML does not.
+3. **Tracking validation:** initial GTM diagnostics showed “Tag stopped sending data” and a separate recommendation for a second administrator. The deployed site now loads GTM, Ads, Meta and Cloudflare scripts without captured console errors. Destination receipt and diagnosis resolution remain unverified. The published container has no enquiry/call/WhatsApp conversion tags; existing dataLayer intent signals alone are insufficient. Configure events using actual account IDs/labels, without counting a click as a completed conversation. A genuine form-delivery test needs the user to expect test emails.
 4. **Business profiles/directories:** confirm legitimate branch profiles, public opening hours and directory address/postcode discrepancies before changing them. No profile details or review scores were fabricated or edited.
-5. **Performance comparison:** repeat the original mobile/desktop page tests on the live update. No new live score or real-user Core Web Vitals result is claimed yet.
+5. **Performance comparison completed:** final Google mobile/desktop tests cover all 11 active URLs. Basic SEO, accessibility and Best Practices all score 100 on both device reports. The first runs exposed additional rendering competition and contrast issues; those were corrected and rerun. GTM now starts after page load/rendering/idle, preserving queued intents; very short visits may not reach initialization. Contact/Services preload existing fonts to address movement. See the report for exact scores and remaining performance findings. No real-user Core Web Vitals pass is claimed.
+
+For the same eight baseline pages, average mobile performance increased from 71.5 to 83.1; average desktop performance fell from 93.9 to 88.1 in these lab snapshots. Homepage mobile is 98 (LCP 1.81 s), Security 89, Facility 85 and Interview 98. Services mobile remains 62 and Privacy 67; investigate remaining render delay and third-party work. Contact and Services measured CLS is now 0 after font preloading. Passing SEO basics does not demonstrate improved Google ranking.
 
 ## Technical references
 

@@ -524,16 +524,21 @@ When working on design:
 - Prioritize call, WhatsApp, and enquiry workflows.
 - Make mobile the first-class experience because much of the traffic comes from ads and local search.
 
-## 20. SEO and performance work prepared on 5 October 2026
+## 20. SEO and performance work published on 5 October 2026
 
-Status: implemented and previewed locally; **not published**. The user requested improvements from `C:\Users\PC\Downloads\REPORT.md`. A push to `new`, enabling Always Use HTTPS or activating the Cloudflare cache rule still requires a request to make these changes live. See `SEO_IMPROVEMENTS.md` for implementation, verification and remaining work.
+Status: **published with explicit user authorization** ("Do the changes, and give me a re run report of seo."). Source releases `3f863ea`, `4c5bffa`, `c312d56` and `e33231d` passed GitHub Pages deployment verification. HTTPS and asset caching are active. See `SEO_IMPROVEMENTS.md` and the local `outputs/SEO_RERUN_REPORT_2026-10-05.md` for results and remaining work. Future publication still requires a user request.
 
 - Run `npm run build` after source HTML/CSS/JS edits. Commit the generated `static/` files and updated HTML references. `npm run check` now detects a stale build.
 - Source CSS remains in `styles.css`, `services/services.css`, `services/editorial.css` and `privacy-policy/privacy.css`; do not hand-edit bundled CSS.
 - Responsive image derivatives and fingerprints are recorded in `images/responsive/manifest.json`. Original photos remain for gallery viewing. Do not remove previously published fingerprinted assets while cached HTML might still reference them.
 - Contact maps are deliberately absent until a View map button is selected. No enquiry forms were submitted during this work.
-- The Cloudflare account owning the zone was identified by the user in chat. Always Use HTTPS was **off** when inspected; Automatic HTTPS Rewrites and Universal SSL were active.
-- A **disabled** cache-rule draft named `Fingerprint assets - long browser cache` exists for `/static/css/*.css`, `/static/js/*.js` and `/images/responsive/*.webp`, restricted to the apex and www hosts. Browser TTL is 1 year, edge TTL respects the origin, HTML is outside the rule. Enable only when publication is requested.
+- Cloudflare Always Use HTTPS is **on**. Permanent redirects preserve paths and queries, and www redirects to the apex. Automatic HTTPS Rewrites and Universal SSL remain active.
+- The **active** cache rule `Fingerprint assets - long browser cache` covers `/static/css/*.css`, `/static/js/*.js` and `/images/responsive/*.webp`, restricted to apex and www. Browser TTL is 1 year; edge TTL respects the origin; HTML is outside the rule. Live sample assets returned max-age=31536000 and HIT; HTML remained max-age=600.
+- The GTM bootstrap now waits for page load, a rendering frame and an idle opportunity (1.5-second timeout). It preserves early dataLayer events and guards against duplicate initialization; tests cover scheduling, queues and fallback behavior. Very short visits may leave before Google/Meta initialize. Do not introduce a long arbitrary tracking delay to inflate performance scores.
+- Google/Meta/Cloudflare script loading was verified in the live DOM without captured console errors. Destination conversion receipt is still unverified.
+- Search Console read the updated sitemap on 5 October: Success, 11 discovered pages. Indexing requests were accepted for six service/interview URLs; they are crawl requests, not proof of indexing. Homepage live Rich Results Test found two valid items with optional warnings; no priceRange was invented.
+- Final Google PageSpeed snapshots for all 11 active pages and the comparison report are saved locally under ignored outputs/. Font preloads on Contact and Services address movement revealed by the rerun; check the report for measured outcomes instead of assuming a Core Web Vitals pass.
+- The comparable eight-page mobile mean improved 71.5 to 83.1; desktop mean fell 93.9 to 88.1. Home mobile is 98, Security 89, Facility 85 and Interview 98. Services 62 and Privacy 67 still need performance work. All 11 active pages score 100 for basic SEO, accessibility and Best Practices on both devices. No immediate ranking or real-user Core Web Vitals improvement is claimed.
 - Published GTM container version 3 contains the Google Ads configuration for `AW-18297382444` and Meta Pixel PageView for `1404004975151192`. It has **no conversion-event tags**. Website intent events are not proof of destination conversions. Preserve that distinction until live Tag Assistant and destination-account checks succeed.
 - Search Console access worked with the verified owner account. The 28-day baseline, URL inspections and responsive QA are saved under ignored `outputs/`. They are evidence, not public website assets.
 - Unrelated changes to `GUARD_RECRUITMENT_META_CAMPAIGN.md`, `assets/` and `tmp/` predated this work and were preserved.
