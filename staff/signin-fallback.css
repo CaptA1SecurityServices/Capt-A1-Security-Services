@@ -1,0 +1,6 @@
+/* Keep the official Google-rendered button usable when its stylesheet cannot load. */
+#login [role="button"]{display:inline-flex;align-items:center;justify-content:center;width:250px;max-width:100%;min-height:44px;padding:10px 12px;border:1px solid #dadce0;border-radius:4px;background:#fff;color:#3c4043;font:500 14px Arial,sans-serif;cursor:pointer;position:relative}
+#login [role="button"]>div:last-of-type{display:flex;align-items:center;justify-content:center;gap:12px}
+#login svg{display:block;width:18px;height:18px;flex:none}
+#login .L6cTce{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+#login iframe{border:0;max-width:100%}
