@@ -1,67 +1,67 @@
 {
   "styles": {
     "index.html": {
-      "sourceBytes": 101878,
+      "sourceBytes": 102371,
       "cssBytes": 51943,
       "stylesheet": "/static/css/home.0ff59e10034f.css"
     },
     "about.html": {
-      "sourceBytes": 94013,
+      "sourceBytes": 94401,
       "cssBytes": 33915,
       "stylesheet": "/static/css/about.a412a9a581e7.css"
     },
     "contact.html": {
-      "sourceBytes": 94013,
+      "sourceBytes": 94401,
       "cssBytes": 32923,
       "stylesheet": "/static/css/contact.3192de25918a.css"
     },
     "guard-hiring-ajmer.html": {
-      "sourceBytes": 94134,
+      "sourceBytes": 94522,
       "cssBytes": 28214,
       "stylesheet": "/static/css/guard-hiring-ajmer.e92cf1288a74.css"
     },
     "schedule-interview.html": {
-      "sourceBytes": 94013,
+      "sourceBytes": 94401,
       "cssBytes": 26273,
       "stylesheet": "/static/css/schedule-interview.383ff19b50a2.css"
     },
     "privacy-policy/index.html": {
-      "sourceBytes": 95834,
+      "sourceBytes": 96247,
       "cssBytes": 24055,
       "stylesheet": "/static/css/privacy-policy.7e914ecc395c.css"
     },
     "services/index.html": {
-      "sourceBytes": 123779,
+      "sourceBytes": 124441,
       "cssBytes": 37448,
       "stylesheet": "/static/css/services.67bd42a7a72e.css"
     },
     "services/security-services/index.html": {
-      "sourceBytes": 111501,
+      "sourceBytes": 112062,
       "cssBytes": 28919,
       "stylesheet": "/static/css/services-security-services.644eb3de1fe4.css"
     },
     "services/security-services-jaipur/index.html": {
-      "sourceBytes": 111501,
+      "sourceBytes": 112062,
       "cssBytes": 28770,
       "stylesheet": "/static/css/services-security-services-jaipur.61102529b584.css"
     },
     "services/commercial-housekeeping/index.html": {
-      "sourceBytes": 111501,
+      "sourceBytes": 112062,
       "cssBytes": 28894,
       "stylesheet": "/static/css/services-commercial-housekeeping.8b8335708e41.css"
     },
     "services/facility-manpower-services/index.html": {
-      "sourceBytes": 123779,
+      "sourceBytes": 124441,
       "cssBytes": 32781,
       "stylesheet": "/static/css/services-facility-manpower-services.3aeb30aa61f4.css"
     },
     "services/workforce-management/index.html": {
-      "sourceBytes": 111501,
+      "sourceBytes": 112062,
       "cssBytes": 24492,
       "stylesheet": "/static/css/services-workforce-management.182538215d44.css"
     },
     "services/security-equipment-site-readiness/index.html": {
-      "sourceBytes": 111501,
+      "sourceBytes": 112062,
       "cssBytes": 24492,
       "stylesheet": "/static/css/services-security-equipment-site-readiness.182538215d44.css"
     }
