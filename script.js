@@ -250,7 +250,7 @@
       mobileStickyTitles.push({
         marker,
         owner: title.closest("article") || section,
-        sourceHeight: 0,
+        sourceHeight: title.getBoundingClientRect().height,
         title
       });
     });
@@ -391,32 +391,23 @@
     const group = carousel.querySelector("[data-review-group]");
     const previous = carousel.querySelector("[data-review-prev]");
     const next = carousel.querySelector("[data-review-next]");
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (!viewport || !track || !group) {
       return;
     }
 
-    let clone;
-    const ensureClone = () => {
-      if (clone) return;
-      clone = group.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      clone.removeAttribute("data-review-group");
-      track.appendChild(clone);
-    };
+    const clone = group.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    clone.removeAttribute("data-review-group");
+    track.appendChild(clone);
 
     let animationFrame = 0;
     let resumeTimer = 0;
     let previousTimestamp = 0;
-    let paused = true;
-    let inView = false;
-    let cachedCycleWidth = 0;
+    let paused = reduceMotion;
 
-    const cycleWidth = () => {
-      ensureClone();
-      return cachedCycleWidth || (cachedCycleWidth = clone.offsetLeft - group.offsetLeft);
-    };
+    const cycleWidth = () => clone.offsetLeft - group.offsetLeft;
     const cardStep = () => {
       const card = group.querySelector(".google-review-card");
       const gap = Number.parseFloat(window.getComputedStyle(group).columnGap) || 14;
@@ -424,7 +415,7 @@
     };
 
     const animate = (timestamp) => {
-      if (paused || document.hidden || !inView || motionPreference.matches) {
+      if (paused || document.hidden) {
         animationFrame = 0;
         previousTimestamp = 0;
         return;
@@ -442,10 +433,9 @@
 
     const start = () => {
       window.clearTimeout(resumeTimer);
-      if (motionPreference.matches || document.hidden || !inView) {
+      if (reduceMotion || document.hidden) {
         return;
       }
-      ensureClone();
       paused = false;
       if (!animationFrame) {
         animationFrame = window.requestAnimationFrame(animate);
@@ -460,7 +450,7 @@
         animationFrame = 0;
       }
       window.clearTimeout(resumeTimer);
-      if (!motionPreference.matches) {
+      if (!reduceMotion) {
         resumeTimer = window.setTimeout(start, 10000);
       }
     };
@@ -470,7 +460,7 @@
       if (direction < 0 && viewport.scrollLeft < cardStep() * 0.5) {
         viewport.scrollLeft += cycleWidth();
       }
-      viewport.scrollBy({ left: cardStep() * direction, behavior: motionPreference.matches ? "auto" : "smooth" });
+      viewport.scrollBy({ left: cardStep() * direction, behavior: "smooth" });
     };
 
     previous?.addEventListener("click", () => moveByCard(-1));
@@ -492,22 +482,7 @@
       }
     });
 
-    new IntersectionObserver(([entry]) => {
-      inView = entry.isIntersecting;
-      if (inView) start();
-      else {
-        paused = true;
-        previousTimestamp = 0;
-        window.cancelAnimationFrame(animationFrame);
-        animationFrame = 0;
-        window.clearTimeout(resumeTimer);
-      }
-    }).observe(carousel);
-    window.addEventListener("resize", () => { cachedCycleWidth = 0; });
-    motionPreference.addEventListener("change", () => {
-      if (motionPreference.matches) pauseForInteraction();
-      else start();
-    });
+    start();
   });
 
   document.querySelectorAll("[data-carousel]").forEach((carousel) => {

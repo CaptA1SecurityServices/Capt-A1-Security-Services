@@ -2,17 +2,7 @@
 
 This document is the continuity file for Captain A1 Security Services. Give this to any future developer or agentic AI before it changes the website. It explains the business intent, current site structure, design rules, tracking setup, security decisions, past changes, and the way we work.
 
-Last updated: 2026-10-06
-
-## Homepage services motion — 6 October 2026
-
-- Prepared locally; this homepage update has not been published. Do not push `new` without the user's live-publication request.
-- Homepage `#services` now uses four service-area tiles matching the Services hub. Security and Facility & Manpower are active; Workforce Management and Equipment & Site Readiness remain coming soon.
-- `home-services.css` is bundled only into the homepage. `home-services.js` is fingerprinted by the existing build and loaded only by the homepage. Native CSS view timelines drive photo depth and staggered cards; a small visibility-gated fallback handles browsers without view timelines. Reduced motion removes the service animation.
-- The new scene uses existing responsive photos, lazy loading, reserved dimensions and off-screen content visibility. No animation library or CDN dependency was added. Desktop has two columns; narrow phones have one column. Verified widths: 320, 375, 600, 768, 1024, 1366 and 1920px.
-- Reviews now defer their duplicate content until visible, stop off-screen and cache their scroll-cycle width. Homepage button-shadow pulses and mobile title color/shadow transitions were removed. Shared script fingerprints consequently update across pages; their content and CSS are unchanged.
-- Run `npm run build`, `npm run check`, `npm run test:site`, `npm run test:home-motion`, `npm run test:interview`, `node tests/gtm-bootstrap.test.cjs` and `git diff --check` before an approved publication.
-- Local Lighthouse 13.5.0: desktop performance 99 to 100; the second unchanged mobile baseline and final tracking-enabled run both scored 81. An additional earlier baseline scored 89, so the tracking-enabled mobile results vary. With GTM blocked solely for a controlled website comparison, mobile performance rose from 94 to 97. This test setting is not a production change. Accessibility and SEO were 100. These local scores do not establish preservation of the earlier Google-hosted mobile 98 or a new live-site score; verify PageSpeed after approved publication.
+Last updated: 2026-09-25
 
 ## SEO and performance update — 25 September 2026
 
