@@ -1,9 +1,9 @@
 {
   "styles": {
     "index.html": {
-      "sourceBytes": 94013,
-      "cssBytes": 45216,
-      "stylesheet": "/static/css/home.2cf3cc444ea2.css"
+      "sourceBytes": 104216,
+      "cssBytes": 50845,
+      "stylesheet": "/static/css/home.ee51b999a656.css"
     },
     "about.html": {
       "sourceBytes": 94013,
@@ -67,7 +67,8 @@
     }
   },
   "scripts": {
-    "script.js": "/static/js/script.4dbf0249c296.js",
+    "script.js": "/static/js/script.06eff333216c.js",
+    "home-services.js": "/static/js/home-services.b6fc15fae5c2.js",
     "gtm-bootstrap.js": "/static/js/gtm-bootstrap.9147eee265a2.js",
     "google-ads-tag.js": "/static/js/google-ads-tag.5f5d1bd3c9df.js",
     "interview-request.js": "/static/js/interview-request.e74a2bfc52a3.js",
