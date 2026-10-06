@@ -1,0 +1,45 @@
+{
+  "cards": [
+    {
+      "heading": "Security guards and lady guards",
+      "body": "Uniformed personnel for gates, offices, hotels, schools, hospitals, showrooms, factories, warehouses, and construction sites.",
+      "link": [
+        "/services/security-services/",
+        "Enquire about guards"
+      ],
+      "image": "/images/responsive/security-briefing-1280.613a3968e628.webp",
+      "alt": "Captain A1 guards receiving an on-site briefing"
+    },
+    {
+      "heading": "Event security and bouncers",
+      "body": "Planned coverage for weddings, exhibitions, shows, corporate programmes, religious gatherings, and high-footfall venues.",
+      "link": [
+        "/services/security-services/",
+        "Plan event security"
+      ],
+      "image": "/images/responsive/event-security-team-1280.182f9f9ac9c7.webp",
+      "alt": "Uniformed guards prepared for an event deployment"
+    },
+    {
+      "heading": "PSOs, bodyguards, and gunmen",
+      "body": "Alert, restrained personnel for VIP visits, executive movement, sensitive meetings, cash-sensitive locations, and stronger deterrence.",
+      "link": [
+        "/services/security-services/",
+        "Discuss protection cover"
+      ],
+      "image": "/images/responsive/security-leadership-1086.817f9916e4ea.webp",
+      "alt": "Veteran security leadership during an official assignment"
+    },
+    {
+      "heading": "Patrolling, supervision, and facility staff",
+      "body": "Night checks, surprise rounds, shift monitoring, housekeeping, office support, and facility staff for dependable daily coverage.",
+      "link": [
+        "/services/facility-manpower-services/",
+        "Request managed support"
+      ],
+      "image": "/images/responsive/housekeeping-wide-1280.558b32190f63.webp",
+      "alt": "Captain A1 housekeeping team in coordinated blue uniforms"
+    }
+  ],
+  "directory": "<a href=\"/services/security-services/\"><span>Residential and housing security</span><b aria-hidden=\"true\">&#8594;</b></a>\r\n            <a href=\"/services/security-services/\"><span>Industrial and warehouse security</span><b aria-hidden=\"true\">&#8594;</b></a>\r\n            <a href=\"/services/security-services/\"><span>Commercial and office security</span><b aria-hidden=\"true\">&#8594;</b></a>\r\n            <a href=\"/services/security-services/\"><span>School, hospital, and institution security</span><b aria-hidden=\"true\">&#8594;</b></a>\r\n            <a href=\"/services/security-services/\"><span>Night patrolling and surprise checks</span><b aria-hidden=\"true\">&#8594;</b></a>\r\n            <a href=\"/services/facility-manpower-services/\"><span>Housekeeping and contract manpower</span><b aria-hidden=\"true\">&#8594;</b></a>"
+}

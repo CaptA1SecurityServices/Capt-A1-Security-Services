@@ -6,7 +6,7 @@ const postcss = require('postcss');
 const cssnano = require('cssnano');
 
 const pageStyles = {
-  'index.html': [],
+  'index.html': ['home-core.css'],
   'about.html': [],
   'contact.html': [],
   'guard-hiring-ajmer.html': [],
@@ -20,7 +20,7 @@ const pageStyles = {
   'services/workforce-management/index.html': ['services/services.css'],
   'services/security-equipment-site-readiness/index.html': ['services/services.css']
 };
-const scripts = ['script.js','gtm-bootstrap.js','google-ads-tag.js','interview-request.js','services/services.js'];
+const scripts = ['home-core.js','script.js','gtm-bootstrap.js','google-ads-tag.js','interview-request.js','services/services.js'];
 const hash = text => crypto.createHash('sha256').update(text).digest('hex').slice(0,12);
 const check = process.argv.includes('--check');
 const normalizeLines = text => text.replace(/\r\n?/g,'\n');
@@ -63,7 +63,7 @@ function cssSource(file) {
       source += `\n@media(max-width:640px){.hiring-hero{background-image:url("${mobile.file}")}}`;
     }
     const purged = await new PurgeCSS().purge({
-      content: [{raw:html,extension:'html'},...scripts],
+      content: [{raw:html,extension:'html'},...scripts.filter(file => page === 'index.html' || file !== 'home-core.js')],
       css:[{raw:source}],
       safelist: {standard: [/^is-/,/^mobile-sticky-/,/^photo-dialog/,/^form-status/,/^form-error/,/^has-/]},
       keyframes:false,

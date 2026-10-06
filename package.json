@@ -11,7 +11,8 @@
     "build:images": "node scripts/optimize-images.cjs",
     "test:interview": "node tests/interview-request.test.cjs",
     "test:site": "node tests/site-integrity.test.cjs",
-    "check": "node --check script.js && node --check interview-request.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js && node scripts/build-static.cjs --check"
+    "check": "node --check home-core.js && node --check script.js && node --check interview-request.js && node --check gtm-bootstrap.js && node --check google-ads-tag.js && node --check services/services.js && node scripts/build-static.cjs --check",
+    "test:core": "node tests/home-core.test.cjs"
   },
   "keywords": [
     "security-services",

@@ -4,6 +4,16 @@ This document is the continuity file for Captain A1 Security Services. Give this
 
 Last updated: 2026-09-25
 
+## Local homepage motion revision — 6 October 2026 (not published)
+
+- Preserve the original homepage Core Services headings, descriptions, photographs and enquiry links. The Services hub supplies tile styling only. `npm run test:core` checks the original content against a fixture.
+- Homepage-only `home-core.css` and `home-core.js` provide a sticky, scroll-driven card track, crossfading photographic backgrounds, a rotating SVG graphic and numbered navigation. The build fingerprints these assets; other page styles are unchanged.
+- Motion follows ordinary document scrolling. Reduced-motion preferences, short viewports and layouts where text does not fit retain a readable static layout. No animation library or new photograph downloads were added. Existing photo variants are reused.
+- Shared review animation now pauses offscreen and caches its measured width. Mobile sticky labels yield to the Core Services stage; the fixed contact bar has reserved space.
+- Desktop and phone previews checked, including 320/375/768 widths, a 600px-high fallback, keyboard-accessible service controls, all four cards and the More Services directory. Reduced-motion and no-JavaScript variants were also checked locally.
+- Local Lighthouse: desktop 100 before/after. Normal tracking-enabled mobile: baseline 81; initial revision 76; final revision 78. Final LCP improved from 2.9s to 1.7s, but TBT increased from 530ms to 1010ms. Controlled mobile with GTM blocked only in the audit: 90 before, 91 after. These are local lab runs, not live PageSpeed or field results; the mobile no-regression target remains unproven. Production tracking was not disabled or changed.
+- Preview/report artifacts are ignored under `outputs/core-*`. No push or publication is authorized for this revision.
+
 ## SEO and performance update — 25 September 2026
 
 - Shared Inter and Cormorant Garamond fonts are served locally from `fonts/`, with their open font licences. All nine pages use the same font stylesheet.
