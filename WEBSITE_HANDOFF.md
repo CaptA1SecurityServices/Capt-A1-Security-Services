@@ -4,7 +4,7 @@ This document is the continuity file for Captain A1 Security Services. Give this
 
 Last updated: 2026-09-25
 
-## Local homepage motion revision — 6 October 2026 (not published)
+## Homepage motion and Zepto release — 6 October 2026
 
 - Preserve the original homepage Core Services headings, descriptions, photographs and enquiry links. The Services hub supplies tile styling only. `npm run test:core` checks the original content against a fixture.
 - Homepage-only `home-core.css` and `home-core.js` provide a sticky, scroll-driven card track, crossfading photographic backgrounds, a rotating SVG graphic and numbered navigation. The build fingerprints these assets; other page styles are unchanged.
@@ -12,7 +12,7 @@ Last updated: 2026-09-25
 - Shared review animation now pauses offscreen and caches its measured width. Mobile sticky labels yield to the Core Services stage; the fixed contact bar has reserved space.
 - Desktop and phone previews checked, including 320/375/768 widths, a 600px-high fallback, keyboard-accessible service controls, all four cards and the More Services directory. Reduced-motion and no-JavaScript variants were also checked locally.
 - Local Lighthouse: desktop 100 before/after. Normal tracking-enabled mobile: baseline 81; initial revision 76; final revision 78. Final LCP improved from 2.9s to 1.7s, but TBT increased from 530ms to 1010ms. Controlled mobile with GTM blocked only in the audit: 90 before, 91 after. These are local lab runs, not live PageSpeed or field results; the mobile no-regression target remains unproven. Production tracking was not disabled or changed.
-- Preview/report artifacts are ignored under `outputs/core-*`. No push or publication is authorized for this revision.
+- Preview/report artifacts are ignored under `outputs/core-*`. The user explicitly authorized publication with "PUBLISH IT" on 6 October. Release scope is the saved homepage motion changes and the Zepto logo in the existing Home/About client rows. The already-published staff portal commit is preserved. Verify GitHub Pages and live asset hashes after the release push.
 - Desktop follow-up: removed the blanket 660px minimum height and fixed desktop resize events being ignored when height changes by less than 100px. Actual wheel-driven card movement verified at 1366×580, 1024×500 and 1920×900; mobile pinned movement and short-panel in-flow movement also verified. `test:core` now protects short-desktop scroll activation, small resize handling and reduced-motion behavior. The lab scores above precede this follow-up; no new score is claimed.
 
 ## SEO and performance update — 25 September 2026
