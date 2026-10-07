@@ -6,7 +6,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
   const ROLES = ['SUPERVISOR', 'MANAGER', 'HR', 'SUPER_ADMIN'];
-  const PREFIXES = { AJMER: 'RJAJSG', JAIPUR: 'RJJPSG' };
+  const CITY_PREFIXES = { AJMER: 'RJAJ', JAIPUR: 'RJJP' };
+  const EMPLOYEE_TYPES = { SECURITY_GUARD: 'SG', HOUSEKEEPER: 'HK', BOUNCER: 'BN', GUNMAN: 'GU', HR: 'HR', MANAGER: 'MG', SUPERVISOR: 'SP', OPERATIONS_LEAD: 'OL', MARKETING_MANAGER: 'MM' };
+  const PREFIXES = { AJMER: 'RJAJSG', JAIPUR: 'RJJPSG' }; // Existing SG IDs remain unchanged.
+  const QUALIFICATIONS = ['No schooling', 'Below 10th Pass', '10th pass', '12th pass', 'Bachelors', 'Masters'];
+  const UNIFORM_ITEMS = ['idCardBand', 'completeUniform', 'cottonShirt', 'trouserPant', 'leatherShoes', 'cap', 'belt', 'lanyard', 'whistle', 'winterJersey', 'socks', 'safetyJacket'];
   const TYPES = ['aadhaar', 'pan', 'passbook', 'selfie', 'police', 'pf', 'esi', 'uan', 'agreement', 'feeReceipt', 'exitLetter', 'settlementStatement', 'settlementReceipt'];
   const REQUIRED_DOCS = ['aadhaar', 'pan', 'passbook', 'selfie'];
   const PERSONAL = ['name', 'fatherName', 'dob', 'mobile', 'emergencyMobile', 'education', 'experience', 'address'];
@@ -40,7 +44,12 @@
   function personal(value) {
     only(value, PERSONAL);
     const out = {};
-    PERSONAL.forEach(k => out[k] = text(value[k] || '', k === 'address' ? 700 : 160, false));
+    PERSONAL.forEach(k => out[k] = k === 'experience' ? value[k] : text(value[k] || '', k === 'address' ? 700 : 160, false));
+    if (out.education === 'No formal schooling') out.education = QUALIFICATIONS[0]; // Legacy draft.
+    requireThat(!out.education || QUALIFICATIONS.includes(out.education), 'Choose a listed qualification.');
+    if (out.experience === 'Fresher') out.experience = 0; // Legacy draft.
+    if (out.experience === '' || out.experience === null || out.experience === undefined) out.experience = '';
+    else { const years = Number(out.experience); requireThat(Number.isInteger(years) && years >= 0 && years <= 60, 'Enter experience as whole years from 0 to 60.'); out.experience = years; }
     out.dob = date(out.dob, false);
     requireThat(!out.dob || out.dob <= todayIndia(), 'Date of birth cannot be in the future.');
     ['mobile', 'emergencyMobile'].forEach(k => { out[k] = out[k].replace(/[\s()-]/g, '').replace(/^\+91/, ''); requireThat(!out[k] || /^[6-9]\d{9}$/.test(out[k]), 'Enter a 10 digit Indian mobile number.'); });
@@ -50,11 +59,20 @@
   function verified(g, type) { const d = currentDoc(g, type); return !!(d && d.review === 'VERIFIED'); }
   function inventoryComplete(g) {
     const i = g.uniform || {};
-    return i.taken === 'NO' || (i.taken === 'YES' && i.item && i.date && i.quantity > 0 && Number.isSafeInteger(i.amount) && Number.isSafeInteger(i.collected) && i.chargeType);
+    return i.taken === 'NO' || (i.taken === 'YES' && (Array.isArray(i.items)
+      ? i.items.length > 0 && i.items.every(v => UNIFORM_ITEMS.includes(v.code) && Number.isInteger(v.quantity) && v.quantity > 0 && Number.isSafeInteger(v.unitAmount)) && i.date && ['UPFRONT', 'EMI', 'GRANT'].includes(i.paymentMode)
+      : i.item && i.date && i.quantity > 0 && Number.isSafeInteger(i.amount) && Number.isSafeInteger(i.collected) && i.chargeType));
+  }
+  function uniformAnniversary(issuedOn) {
+    const d = new Date(issuedOn + 'T00:00:00Z'); d.setUTCFullYear(d.getUTCFullYear() + 1); return d.toISOString().slice(0, 10);
+  }
+  function uniformRefundDue(g, returnedOn, paid) {
+    const u = g.uniform || {};
+    return u.taken === 'YES' && Array.isArray(u.items) && u.date && u.paymentMode !== 'GRANT' && !(u.replacements || []).length && returnedOn && returnedOn >= uniformAnniversary(u.date) && paid === u.total ? u.total : 0;
   }
   function score(g) {
     let total = 0; const sections = { details: 0, documents: 0, uniform: 0, agreement: 0, final: 0 };
-    PERSONAL.forEach(k => { if (g.personal[k]) sections.details += WEIGHTS[k]; });
+    PERSONAL.forEach(k => { if (g.personal[k] !== '' && g.personal[k] !== null && g.personal[k] !== undefined) sections.details += WEIGHTS[k]; });
     [['aadhaar', 10], ['pan', 8], ['passbook', 12], ['selfie', 5]].forEach(([t, w]) => { const d = currentDoc(g, t); if (d && d.review !== 'REJECTED') sections.documents += w; });
     if (['YES', 'NO'].includes(g.uniform.taken)) sections.uniform += 4;
     if (inventoryComplete(g)) sections.uniform += 6;
@@ -69,7 +87,7 @@
     return { total, sections, meaning: 'Completeness only; approvals and document verification are separate.' };
   }
   function missing(g, stage) {
-    const list = PERSONAL.filter(k => !g.personal[k]);
+    const list = PERSONAL.filter(k => g.personal[k] === '' || g.personal[k] === null || g.personal[k] === undefined);
     REQUIRED_DOCS.forEach(t => { const d = currentDoc(g, t); if (!d || d.review === 'REJECTED') list.push(t); });
     if (!inventoryComplete(g)) list.push('uniform');
     const agreementDoc = currentDoc(g, 'agreement');
@@ -87,9 +105,9 @@
     }
     return [...new Set(list)];
   }
-  function fresh(id, city, number, actor, now) {
-    requireThat(PREFIXES[city] && Number.isInteger(number) && number > 0 && number < 10000, 'Invalid guard number.');
-    return { id, guardId: PREFIXES[city] + String(number).padStart(4, '0'), city, owner: actor.sub, status: 'DRAFT', version: 1, createdAt: now, updatedAt: now,
+  function fresh(id, city, number, actor, now, employeeType = 'SECURITY_GUARD') {
+    requireThat(CITY_PREFIXES[city] && EMPLOYEE_TYPES[employeeType] && Number.isInteger(number) && number > 0 && number < 10000, 'Invalid employee number.');
+    return { id, guardId: CITY_PREFIXES[city] + EMPLOYEE_TYPES[employeeType] + String(number).padStart(4, '0'), employeeType, city, owner: actor.sub, status: 'DRAFT', version: 1, createdAt: now, updatedAt: now,
       personal: Object.fromEntries(PERSONAL.map(k => [k, ''])), compliance: { pf: '', esi: '', uan: '' }, uniform: { taken: 'UNKNOWN' }, agreement: {}, checklist: {}, fee: {},
       integrations: { razorpay: {}, ubi: {} }, joinedOn: '', documents: [], exit: {}, settlement: {}, history: [], episode: 1 };
   }
@@ -101,6 +119,7 @@
     if (g.status === 'CLOSED') requireThat(action === 'rehire', 'Closed employment records cannot be edited.');
     if (g.status === 'FNF_PENDING') requireThat(['reviewDocument', 'saveSettlement', 'close'].includes(action), 'Only settlement changes are allowed after last duty.');
     if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) && ['saveDetails', 'saveUniform', 'saveAgreement', 'saveCompliance'].includes(action)) role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
+    if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) && action === 'saveUniform') hr(user);
     if (action === 'saveDetails') {
       editable(g); only(data, ['personal', 'joinedOn']);
       const p = personal(data.personal); g.personal = p; g.joinedOn = date(data.joinedOn || '', false); invalidate(g);
@@ -108,11 +127,40 @@
       editable(g); only(data, ['pf', 'esi', 'uan']); g.compliance = {};
       ['pf', 'esi', 'uan'].forEach(k => { const v = text(data[k] || '', 40, false); requireThat(!v || /^[A-Za-z0-9/ -]+$/.test(v), 'Enter a valid ' + k.toUpperCase() + ' number.'); if (k === 'uan') requireThat(!v || /^\d{12}$/.test(v), 'UAN must be 12 digits.'); g.compliance[k] = v; });
     } else if (action === 'saveUniform') {
-      editable(g); only(data, ['taken', 'item', 'quantity', 'date', 'chargeType', 'amount', 'collected']);
+      editable(g); only(data, ['taken', 'items', 'date', 'paymentMode', 'installments']);
       requireThat(['YES', 'NO'].includes(data.taken), 'Choose whether a uniform was provided.');
-      g.uniform = data.taken === 'NO' ? { taken: 'NO' } : { taken: 'YES', item: text(data.item, 120, true), quantity: data.quantity, date: date(data.date, true), chargeType: data.chargeType, amount: money(data.amount), collected: money(data.collected) };
-      if (data.taken === 'YES') { requireThat(Number.isInteger(data.quantity) && data.quantity > 0 && data.quantity <= 100, 'Enter a valid quantity.'); requireThat(['FREE', 'CHARGE', 'DEPOSIT'].includes(data.chargeType), 'Choose charge or deposit.'); requireThat(data.chargeType !== 'FREE' || (data.amount === 0 && data.collected === 0), 'A free uniform must have zero amount.'); requireThat(data.collected <= data.amount, 'Collection cannot exceed the stated amount.'); }
+      requireThat(!(g.uniform.replacements || []).length, 'Ask HR to review an issued replacement before changing the original uniform record.');
+      if (data.taken === 'NO') g.uniform = { taken: 'NO' };
+      else {
+        requireThat(Array.isArray(data.items) && data.items.length > 0 && data.items.length <= UNIFORM_ITEMS.length, 'Select at least one uniform item.');
+        const seen = new Set(); let total = 0;
+        const items = data.items.map(v => {
+          only(v, ['code', 'quantity', 'unitAmount']);
+          requireThat(UNIFORM_ITEMS.includes(v.code) && !seen.has(v.code), 'Choose each uniform item once.'); seen.add(v.code);
+          requireThat(Number.isInteger(v.quantity) && v.quantity > 0 && v.quantity <= 100, 'Enter a valid quantity.');
+          const unitAmount = money(v.unitAmount); total += v.quantity * unitAmount;
+          requireThat(Number.isSafeInteger(total) && total <= 100000000, 'Enter a valid amount in paise.');
+          return { code: v.code, quantity: v.quantity, unitAmount };
+        });
+        requireThat(['UPFRONT', 'EMI', 'GRANT'].includes(data.paymentMode), 'Choose a uniform payment method.');
+        requireThat(data.paymentMode === 'GRANT' || total > 0, 'Enter an amount for employee-paid items.');
+        const installments = data.paymentMode === 'EMI' ? Number(data.installments) : 0;
+        requireThat(data.paymentMode !== 'EMI' || (Number.isInteger(installments) && installments >= 1 && installments <= 24), 'Enter 1 to 24 monthly instalments.');
+        const issuedOn = date(data.date, true);
+        requireThat(issuedOn <= todayIndia(now), 'Uniform issue date cannot be in the future.');
+        g.uniform = { taken: 'YES', date: issuedOn, items, total, paymentMode: data.paymentMode, installments, replacements: [] };
+      }
       invalidate(g);
+    } else if (action === 'recordUniformReplacement') {
+      hr(user); requireThat(['ACTIVE', 'EXIT_REQUESTED'].includes(g.status), 'Only working employees can receive a replacement.');
+      only(data, ['date', 'items', 'paymentReference']);
+      const u = g.uniform || {}, issuedOn = date(data.date, true);
+      requireThat(u.taken === 'YES' && Array.isArray(u.items) && u.date && u.paymentMode !== 'GRANT' && issuedOn >= uniformAnniversary(u.date) && issuedOn <= todayIndia(now), 'Free replacement requires one year since issue.');
+      requireThat(Array.isArray(data.items) && data.items.length > 0 && data.items.length <= UNIFORM_ITEMS.length, 'Select replacement items.');
+      const seen = new Set(), items = data.items.map(v => { only(v, ['code', 'quantity']); const original = u.items.find(item => item.code === v.code); requireThat(original && !seen.has(v.code) && Number.isInteger(v.quantity) && v.quantity > 0 && v.quantity <= original.quantity, 'Replacement cannot exceed the original issued items.'); seen.add(v.code); return { code: v.code, quantity: v.quantity }; });
+      const paymentReference = text(data.paymentReference, 120, true);
+      u.replacements = u.replacements || []; requireThat(u.replacements.length === 0, 'A free replacement has already been issued for this paid uniform.');
+      u.replacements.push({ date: issuedOn, items, paymentReference, by: user.sub, at: now, free: true });
     } else if (action === 'saveAgreement') {
       editable(g); only(data, ['signedOn', 'version', 'allPages']);
       g.agreement = { signedOn: date(data.signedOn, true), version: text(data.version, 80, true), allPages: data.allPages === true, approved: false }; invalidate(g);
@@ -160,15 +208,20 @@
       requireThat(data.attendanceClosed === true, 'Confirm future attendance assignments have been stopped in UBI.'); g.exit.lastDay = lastDay; g.exit.attendanceClosed = true; g.status = 'FNF_PENDING';
     } else if (action === 'saveSettlement') {
       hr(user); requireThat(g.status === 'FNF_PENDING', 'Last duty must be confirmed first.');
-      only(data, ['due', 'paid', 'reference', 'paidOn', 'inventoryCleared', 'inventoryNote', 'refund', 'refundPaid', 'disputed']);
+      only(data, ['due', 'paid', 'reference', 'paidOn', 'inventoryCleared', 'inventoryNote', 'refund', 'refundPaid', 'disputed', 'uniformPaid', 'uniformReturnedOn', 'uniformRefundPaid', 'uniformRefundConfirmed']);
       requireThat(data.inventoryCleared === true && text(data.inventoryNote, 500, true), 'Confirm inventory return or an agreed adjustment.');
-      const due = money(data.due), paid = money(data.paid), refund = money(data.refund), refundPaid = money(data.refundPaid);
-      requireThat(paid <= due && refundPaid <= refund, 'Payments cannot exceed the stated amount.');
-      g.settlement = { due, paid, refund, refundPaid, reference: text(data.reference || '', 120, paid + refundPaid > 0), paidOn: date(data.paidOn || '', paid + refundPaid > 0), inventoryCleared: true, inventoryNote: data.inventoryNote.trim(), disputed: data.disputed === true, by: user.sub, at: now };
+      const due = money(data.due), paid = money(data.paid), refund = money(data.refund), refundPaid = money(data.refundPaid), uniformPaid = money(data.uniformPaid || 0), uniformRefundPaid = money(data.uniformRefundPaid || 0);
+      const u = g.uniform || {}, uniformReturnedOn = date(data.uniformReturnedOn || '', false);
+      requireThat(!uniformReturnedOn || uniformReturnedOn <= todayIndia(now), 'Uniform return date cannot be in the future.');
+      if (Array.isArray(u.items)) requireThat(uniformPaid <= u.total && (u.paymentMode !== 'GRANT' || uniformPaid === 0), 'Uniform paid amount exceeds the employee charge.');
+      const uniformDue = uniformRefundDue(g, uniformReturnedOn, uniformPaid);
+      requireThat(paid <= due && refundPaid <= refund && uniformRefundPaid <= uniformDue, 'Payments cannot exceed the stated amount.');
+      requireThat(data.uniformRefundConfirmed !== true || (uniformDue > 0 && uniformRefundPaid === uniformDue), 'Confirm the full uniform refund only after payment.');
+      g.settlement = { due, paid, refund, refundPaid, uniformPaid, uniformReturnedOn, uniformRefundDue: uniformDue, uniformRefundPaid, uniformRefundConfirmed: data.uniformRefundConfirmed === true, reference: text(data.reference || '', 120, paid + refundPaid + uniformRefundPaid > 0), paidOn: date(data.paidOn || '', paid + refundPaid + uniformRefundPaid > 0), inventoryCleared: true, inventoryNote: data.inventoryNote.trim(), disputed: data.disputed === true, by: user.sub, at: now };
     } else if (action === 'close') {
       hr(user); const s = g.settlement;
-      requireThat(g.status === 'FNF_PENDING' && s.inventoryCleared && !s.disputed && Number.isSafeInteger(s.due) && s.paid === s.due && s.refundPaid === s.refund, 'Settlement or refund is pending or disputed.');
-      requireThat(verified(g, 'settlementStatement') && (s.due + s.refund === 0 || verified(g, 'settlementReceipt')), 'Verify the final statement and actual payment evidence first.');
+      requireThat(g.status === 'FNF_PENDING' && s.inventoryCleared && !s.disputed && Number.isSafeInteger(s.due) && s.paid === s.due && s.refundPaid === s.refund && (s.uniformRefundPaid || 0) === (s.uniformRefundDue || 0) && (!(s.uniformRefundDue > 0) || s.uniformRefundConfirmed), 'Settlement or refund is pending or disputed.');
+      requireThat(verified(g, 'settlementStatement') && (s.due + s.refund + (s.uniformRefundDue || 0) === 0 || verified(g, 'settlementReceipt')), 'Verify the final statement and actual payment evidence first.');
       g.status = 'CLOSED'; g.settlement.closedAt = now; g.settlement.closedBy = user.sub;
     } else if (action === 'rehire') {
       hr(user); requireThat(g.status === 'CLOSED', 'Complete the previous settlement first.');
@@ -180,5 +233,5 @@
     return { guard: g, event: { id: eventId, at: now, actor: user.sub, guardId: g.guardId, episode: g.episode, action, from: old.status, to: g.status, version: g.version } };
   }
   function summary(g) { return { id: g.id, guardId: g.guardId, city: g.city, owner: g.owner, name: g.personal.name, status: g.status, score: score(g).total, version: g.version, updatedAt: g.updatedAt, working: ['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) }; }
-  return { ROLES, PREFIXES, TYPES, REQUIRED_DOCS, PERSONAL, STATES, role, scope, text, date, money, only, fail, requireThat, clone, normalize, personal, currentDoc, verified, inventoryComplete, score, missing, fresh, mutate, summary, invalidate };
+  return { ROLES, PREFIXES, CITY_PREFIXES, EMPLOYEE_TYPES, QUALIFICATIONS, UNIFORM_ITEMS, TYPES, REQUIRED_DOCS, PERSONAL, STATES, role, scope, text, date, money, only, fail, requireThat, clone, normalize, personal, currentDoc, verified, inventoryComplete, uniformAnniversary, uniformRefundDue, score, missing, fresh, mutate, summary, invalidate };
 });

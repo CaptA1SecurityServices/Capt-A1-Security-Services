@@ -2,10 +2,10 @@
 window.A1StaffPreview = function () {
   const C = window.A1StaffCore, records = new Map(), receipts = new Map(), files = new Map(), events = [];
   const users = C.ROLES.map(role => ({ sub: 'preview-' + role, email: role.toLowerCase() + '@example.invalid', role, cities: ['AJMER', 'JAIPUR'], enabled: true }));
-  let user = users[0], counters = { AJMER: 8000, JAIPUR: 8000 };
+  let user = users[0]; const counters = new Map();
   const now = () => new Date().toISOString();
   const fixture = C.fresh('preview-guard-0001', 'AJMER', 8000, user, now());
-  fixture.personal = { name: 'Demo Guard · काल्पनिक', fatherName: 'Demo Father', dob: '1990-01-01', mobile: '9000000000', emergencyMobile: '9000000001', education: 'Class 10', experience: 'Fresher', address: 'Synthetic preview address' };
+  fixture.personal = { name: 'Demo Guard · काल्पनिक', fatherName: 'Demo Father', dob: '1990-01-01', mobile: '9000000000', emergencyMobile: '9000000001', education: '10th pass', experience: 0, address: 'Synthetic preview address' };
   records.set(fixture.id, fixture);
   function response(g) { return { guard: C.clone(g), score: C.score(g), missing: C.missing(g, 'SUBMIT') }; }
   return {
@@ -15,7 +15,7 @@ window.A1StaffPreview = function () {
       let out;
       if (action === 'bootstrap') return { user: C.clone(user), cities: C.PREFIXES };
       if (action === 'search') { const query = C.normalize(data.query); const all = [...records.values()].filter(g => { try { C.scope(user, g); return (!data.status || g.status === data.status) && (!query || C.normalize(g.personal.name).includes(query) || g.guardId.toLowerCase().startsWith(query) || g.personal.mobile.startsWith(query)); } catch { return false; } }); const offset = data.offset || 0; return { total: all.length, rows: all.slice(offset, offset + 30).map(C.summary), nextOffset: offset + 30 < all.length ? offset + 30 : null }; }
-      if (action === 'create') { const g = C.fresh(crypto.randomUUID(), data.city, ++counters[data.city], user, now()); records.set(g.id, g); out = response(g); }
+      if (action === 'create') { const key = data.city + ':' + (data.employeeType || 'SECURITY_GUARD'), number = (counters.get(key) || 8000) + 1; counters.set(key, number); const g = C.fresh(crypto.randomUUID(), data.city, number, user, now(), data.employeeType); records.set(g.id, g); out = response(g); }
       else if (action === 'listUsers') { C.role(user, ['SUPER_ADMIN']); return { users }; }
       else if (action === 'saveUser') { C.role(user, ['SUPER_ADMIN']); out = { user: data }; }
       else { const g = records.get(id); C.requireThat(g, 'Guard not found.'); C.scope(user, g);
