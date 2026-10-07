@@ -116,11 +116,22 @@
   function editable(g) { requireThat(!['FNF_PENDING', 'CLOSED'].includes(g.status), 'This employment episode is closed for onboarding changes.'); }
   function mutate(old, action, data, user, now, eventId) {
     scope(user, old); const g = clone(old); data = data || {};
-    if (g.status === 'CLOSED') requireThat(action === 'rehire', 'Closed employment records cannot be edited.');
-    if (g.status === 'FNF_PENDING') requireThat(['reviewDocument', 'saveSettlement', 'close'].includes(action), 'Only settlement changes are allowed after last duty.');
+    if (g.status === 'CLOSED') requireThat(['rehire', 'correctIdNumber'].includes(action), 'Closed employment records cannot be edited.');
+    if (g.status === 'FNF_PENDING') requireThat(['reviewDocument', 'saveSettlement', 'close', 'correctIdNumber'].includes(action), 'Only settlement changes are allowed after last duty.');
     if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) && ['saveDetails', 'saveUniform', 'saveAgreement', 'saveCompliance'].includes(action)) role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
     if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) && action === 'saveUniform') hr(user);
-    if (action === 'saveDetails') {
+    if (action === 'correctIdNumber') {
+      role(user, ['SUPER_ADMIN']); only(data, ['number', 'reason', 'acknowledgeExternal']);
+      requireThat(Number.isInteger(data.number) && data.number > 0 && data.number < 10000, 'Enter an ID number from 1 to 9999.');
+      requireThat(data.acknowledgeExternal === true, 'Confirm that external records will be checked.');
+      const reason = text(data.reason, 200, true), previous = g.guardId;
+      const prefix = CITY_PREFIXES[g.city] + EMPLOYEE_TYPES[g.employeeType || 'SECURITY_GUARD'];
+      g.guardId = prefix + String(data.number).padStart(4, '0');
+      requireThat(g.guardId !== previous, 'Choose a different ID number.');
+      g.idCorrections = g.idCorrections || [];
+      g.idCorrections.push({ previous, current: g.guardId, reason, by: user.sub, at: now });
+      if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) g.reviewRequired = true;
+    } else if (action === 'saveDetails') {
       editable(g); only(data, ['personal', 'joinedOn']);
       const p = personal(data.personal); g.personal = p; g.joinedOn = date(data.joinedOn || '', false); invalidate(g);
     } else if (action === 'saveCompliance') {

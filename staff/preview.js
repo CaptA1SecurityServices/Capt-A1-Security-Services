@@ -15,14 +15,15 @@ window.A1StaffPreview = function () {
       let out;
       if (action === 'bootstrap') return { user: C.clone(user), cities: C.PREFIXES };
       if (action === 'search') { const query = C.normalize(data.query); const all = [...records.values()].filter(g => { try { C.scope(user, g); return (!data.status || g.status === data.status) && (!query || C.normalize(g.personal.name).includes(query) || g.guardId.toLowerCase().startsWith(query) || g.personal.mobile.startsWith(query)); } catch { return false; } }); const offset = data.offset || 0; return { total: all.length, rows: all.slice(offset, offset + 30).map(C.summary), nextOffset: offset + 30 < all.length ? offset + 30 : null }; }
-      if (action === 'create') { const key = data.city + ':' + (data.employeeType || 'SECURITY_GUARD'), number = (counters.get(key) || 8000) + 1; counters.set(key, number); const g = C.fresh(crypto.randomUUID(), data.city, number, user, now(), data.employeeType); records.set(g.id, g); out = response(g); }
+      if (action === 'create') { const key = data.city + ':' + (data.employeeType || 'SECURITY_GUARD'), number = data.number ?? (counters.get(key) || 8000) + 1; const g = C.fresh(crypto.randomUUID(), data.city, number, user, now(), data.employeeType); C.requireThat(![...records.values()].some(v => v.guardId === g.guardId || (v.idCorrections || []).some(h => h.previous === g.guardId)), 'Employee ID already exists or was previously issued. Choose another number.'); counters.set(key, Math.max(counters.get(key) || 8000, number)); records.set(g.id, g); out = response(g); }
       else if (action === 'listUsers') { C.role(user, ['SUPER_ADMIN']); return { users }; }
       else if (action === 'saveUser') { C.role(user, ['SUPER_ADMIN']); out = { user: data }; }
       else { const g = records.get(id); C.requireThat(g, 'Guard not found.'); C.scope(user, g);
+        if (action === 'correctIdNumber') { const nextId = C.CITY_PREFIXES[g.city] + C.EMPLOYEE_TYPES[g.employeeType || 'SECURITY_GUARD'] + String(data.number).padStart(4, '0'); C.requireThat(![...records.values()].some(v => v.id !== g.id && (v.guardId === nextId || (v.idCorrections || []).some(h => h.previous === nextId))), 'Employee ID already exists or was previously issued. Choose another number.'); }
         if (action === 'get') return response(g);
-        if (action === 'history') return { events: events.filter(e => e.guardId === g.guardId).slice(-40).reverse(), episodes: [], currentDocuments: ['HR','SUPER_ADMIN'].includes(user.role) ? g.documents.filter(d => ['UPLOADED','SUPERSEDED'].includes(d.state)) : [] };
+        if (action === 'history') { const ids = [g.guardId, ...(g.idCorrections || []).map(v => v.previous)]; return { events: events.filter(e => ids.includes(e.guardId)).slice(-40).reverse(), episodes: [], idCorrections: g.idCorrections || [], currentDocuments: ['HR','SUPER_ADMIN'].includes(user.role) ? g.documents.filter(d => ['UPLOADED','SUPERSEDED'].includes(d.state)) : [] }; }
         C.requireThat(version === g.version, 'Record changed. Reload it.', 'CONFLICT');
-        const changed = C.mutate(g, action, data, user, now(), requestId); events.push(changed.event); records.set(id, changed.guard); out = response(changed.guard);
+        const changed = C.mutate(g, action, data, user, now(), requestId); events.push(changed.event); records.set(id, changed.guard); if (action === 'correctIdNumber') { const key = g.city + ':' + (g.employeeType || 'SECURITY_GUARD'); counters.set(key, Math.max(counters.get(key) || 8000, data.number)); } out = response(changed.guard);
       }
       receipts.set(requestId, C.clone(out)); return out;
     },

@@ -53,7 +53,8 @@
     account.replaceChildren(node('span', { text: roleLabel(user.role) }), button(ui('साइन आउट'), signout));
     const city = node('select', { 'aria-label': ui('Issuing city'), id: 'city' }, Object.keys(C.PREFIXES).filter(c => user.role === 'SUPER_ADMIN' || user.cities.includes(c)).map(c => node('option', { value: c, text: c === 'AJMER' ? ui('Ajmer · अजमेर') : ui('Jaipur · जयपुर') })));
     const employeeType = node('select', { 'aria-label': ui('Employee role') }, Object.keys(C.EMPLOYEE_TYPES).map(type => node('option', { value: type, text: ui('type_' + type) })));
-    const actions = [city, employeeType, button(ui('+ नया कर्मचारी'), () => task(async () => { const payload = JSON.stringify(['create', city.value, employeeType.value]); if (!pendingRequest || pendingRequest.payload !== payload) pendingRequest = { payload, id: crypto.randomUUID() }; const r = await call('create', { city: city.value, employeeType: employeeType.value }, '', 0, pendingRequest.id); pendingRequest = null; guard = r.guard; activeTab = 'details'; renderRecord(); refreshRoster().catch(e => notify(e.message, true)); }), 'primary')];
+    const manualNumber = node('input', { class: 'id-number-input', type: 'number', min: '1', max: '9999', step: '1', inputmode: 'numeric', 'aria-label': ui('Manual ID number'), placeholder: ui('Auto') });
+    const actions = [city, employeeType, node('label', { class: 'id-number-control' }, [ui('ID number'), manualNumber]), button(ui('+ नया कर्मचारी'), () => task(async () => { const raw = manualNumber.value.trim(); C.requireThat(!raw || (/^\d{1,4}$/.test(raw) && Number(raw) > 0), ui('Enter an ID number from 1 to 9999.')); const data = { city: city.value, employeeType: employeeType.value, ...(raw ? { number: Number(raw) } : {}) }; const payload = JSON.stringify(['create', data]); if (!pendingRequest || pendingRequest.payload !== payload) pendingRequest = { payload, id: crypto.randomUUID() }; const r = await call('create', data, '', 0, pendingRequest.id); pendingRequest = null; manualNumber.value = ''; guard = r.guard; activeTab = 'details'; renderRecord(); refreshRoster().catch(e => notify(e.message, true)); }), 'primary')];
     if (user.role === 'SUPER_ADMIN') actions.push(button(ui('Staff access'), () => task(manageUsers)));
     const search = node('input', { type: 'search', placeholder: ui('नाम, गार्ड ID या मोबाइल खोजें'), 'aria-label': ui('Search guards'), value: query, oninput: e => { query = e.target.value; offset = 0; clearTimeout(queryTimer); queryTimer = setTimeout(() => refreshRoster().catch(e => notify(e.message, true)), 350); } });
     const statuses = node('select', { 'aria-label': ui('Filter by status'), onchange: e => { filter = e.target.value; offset = 0; refreshRoster().catch(e => notify(e.message, true)); } }, [node('option', { value: '', text: ui('सभी गार्ड · All guards') }), ...C.STATES.map(s => node('option', { value: s, text: statusLabels[s] }))]); statuses.value = filter;
@@ -81,9 +82,21 @@
     const panel = document.getElementById('record'); if (!guard || !panel) return;
     const score = C.score(guard); const tabs = [['details',ui('1. जानकारी')],['documents',ui('2. दस्तावेज')],['uniform',ui('3. वर्दी')],['agreement',ui('4. समझौता')],['hr',ui('5. HR जाँच')],['exit',ui('6. अंतिम हिसाब')],['history',ui('इतिहास')]];
     panel.replaceChildren(node('div', { class: 'recordhead' }, [node('div', {}, [node('h2', { text: guard.personal.name || ui('नया गार्ड') }), node('p', { class: 'muted', text: join(guard.guardId, ' · ', ui('type_' + (guard.employeeType || 'SECURITY_GUARD')), ' · ', ui('Episode'), ' ', guard.episode) }), node('span', { class: 'pill', text: statusLabels[guard.status] })]), node('div', { class: 'scorebox' }, [node('strong', { text: score.total + '%' }), node('small', { text: ui('जानकारी की पूर्णता') }), node('progress', { value: score.total, max: '100', 'aria-label': ui('Completeness score') }), node('small', { text: ui('गार्ड की गुणवत्ता का स्कोर नहीं') })])]), node('nav', { class: 'tabs', 'aria-label': ui('Guard record sections') }, tabs.map(([id,label]) => button(label, () => { activeTab = id; renderRecord(); }, activeTab === id ? 'active' : ''))), node('div', { id: 'tabBody' }));
+    if (user.role === 'SUPER_ADMIN') panel.querySelector('.recordhead > div').append(button(ui('Correct employee ID'), correctIdDialog));
     const body = document.getElementById('tabBody'); ({ details: detailsView, documents: documentsView, uniform: uniformView, agreement: agreementView, hr: hrView, exit: exitView, history: historyView })[activeTab](body);
     if (['FNF_PENDING','CLOSED'].includes(guard.status)) body.prepend(node('div', { class: 'banner', text: ui('काम नहीं कर रहे हैं। रिकॉर्ड सुरक्षित रहेगा; अंतिम हिसाब पूरा होने से पहले हटाया नहीं जाएगा।') }));
     if (guard.reviewRequired && ['ACTIVE','EXIT_REQUESTED'].includes(guard.status)) body.prepend(node('div', { class: 'banner', text: ui('इस काम कर रहे गार्ड की जानकारी बदली है। HR दोबारा जाँच करें और जरूरत हो तो Razorpay / UBI रिकॉर्ड सुधारें।') }));
+  }
+  function correctIdDialog() {
+    const d = node('dialog', {}, [node('h2', { text: ui('Correct employee ID') }), node('p', { class: 'muted', text: join(ui('Current ID'), ': ', guard.guardId) })]);
+    const numberField = field(ui('ID number'), 'number', Number(guard.guardId.slice(-4)), 'number');
+    const numberInput = numberField.querySelector('input'); numberInput.min = '1'; numberInput.max = '9999'; numberInput.step = '1';
+    const externalCheck = field(join(ui('I will check Razorpay and UBI records that use this ID.'), ' *'), 'acknowledgeExternal', false, 'checkbox');
+    externalCheck.querySelector('input').required = true;
+    d.append(form([numberField, field(ui('Reason for correction'), 'reason'), externalCheck], ui('Save corrected ID'), async v => {
+      await change('correctIdNumber', { number: Number(v.number), reason: v.reason, acknowledgeExternal: v.acknowledgeExternal }); d.close(); d.remove();
+    }), button(ui('रद्द करें'), () => { d.close(); d.remove(); }));
+    showDialog(d);
   }
   function detailsView(body) {
     body.append(node('h3', { text: ui('गार्ड की जानकारी') }), node('p', { class: 'muted', text: ui('थोड़ी जानकारी भरकर भी सुरक्षित कर सकते हैं। HR को भेजने से पहले सभी जानकारी पूरी करें।') }));
@@ -209,6 +222,7 @@
     call('history', {}, guard.id).then(r => {
       if (!body.isConnected) return;
       body.append(...r.events.map(e => node('p', { class: 'subtle', text: join(() => new Date(e.at).toLocaleString(I.locale, { timeZone: 'Asia/Kolkata' }), ' · ', e.action, ' · ', e.actorEmail || e.actorRole || e.actor, ' · ', ui('Episode'), ' ', e.episode, ' · ', ui('Revision'), ' ', e.version) })));
+      if (r.idCorrections?.length) body.append(section(ui('Previous employee IDs'), r.idCorrections.map(e => node('p', { class: 'subtle', text: join(e.previous, ' → ', e.current, ' · ', e.reason) }))));
       if (r.currentDocuments?.length) body.append(section(ui('इस नियुक्ति के दस्तावेज / पुराने संस्करण'), r.currentDocuments.map(d => button(join(labels[d.type] || d.type, d.state === 'SUPERSEDED' ? ui(' · पुराना') : ''), () => task(() => download(d))))));
       r.episodes.forEach(e => body.append(section(join(ui('Episode'), ' ', e.episode, ' ', ui('documents')), e.documents.map(d => button(join(labels[d.type] || d.type, d.state === 'SUPERSEDED' ? ui(' · पुराना') : ''), () => task(() => download(d, e.episode)))))));
       if (!r.events.length) body.append(node('p', { class: 'muted', text: ui('इस रिकॉर्ड का कोई पिछला कार्य उपलब्ध नहीं।') }));

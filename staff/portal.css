@@ -5,3 +5,4 @@
 /* Compact item ledger stays usable on narrow phones. */
 .uniform-items{grid-column:1/-1;min-width:0}.uniform-items h4{margin:6px 0 12px}.uniform-item{display:grid;grid-template-columns:minmax(150px,2fr) minmax(80px,1fr) minmax(110px,1fr);gap:10px;align-items:end;padding:10px 0;border-bottom:1px solid var(--border)}.uniform-item label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600}.uniform-item label:first-child{flex-direction:row;align-items:center}.uniform-item input[type=number]{width:100%;min-width:0}.uniform-total{display:block;text-align:right;margin-top:14px}
 @media(max-width:560px){.uniform-item{grid-template-columns:1fr 1fr}.uniform-item label:first-child{grid-column:1/-1}}
+.id-number-control{display:flex;flex-direction:column;gap:2px;font-size:11px;font-weight:600;color:var(--muted)}.actions .id-number-input{width:100px;min-height:45px;border:1px solid #c5cfd9;border-radius:8px;padding:10px 11px;color:#18324a;background:#fff}
