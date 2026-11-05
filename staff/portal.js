@@ -80,10 +80,10 @@
   }
   function renderRecord() {
     const panel = document.getElementById('record'); if (!guard || !panel) return;
-    const score = C.score(guard); const tabs = [['details',ui('1. जानकारी')],['documents',ui('2. दस्तावेज')],['uniform',ui('3. वर्दी')],['agreement',ui('4. समझौता')],['hr',ui('5. HR जाँच')],['exit',ui('6. अंतिम हिसाब')],['history',ui('इतिहास')]];
+    const score = C.score(guard); const tabs = [['details',ui('1. जानकारी')],['documents',ui('2. दस्तावेज')],['uniform',ui('3. वर्दी')],['agreement',ui('4. समझौता')],['deployment',ui('Deployment')],['hr',ui('5. HR जाँच')],['exit',ui('6. अंतिम हिसाब')],['history',ui('इतिहास')]];
     panel.replaceChildren(node('div', { class: 'recordhead' }, [node('div', {}, [node('h2', { text: guard.personal.name || ui('नया गार्ड') }), node('p', { class: 'muted', text: join(guard.guardId, ' · ', ui('type_' + (guard.employeeType || 'SECURITY_GUARD')), ' · ', ui('Episode'), ' ', guard.episode) }), node('span', { class: 'pill', text: statusLabels[guard.status] })]), node('div', { class: 'scorebox' }, [node('strong', { text: score.total + '%' }), node('small', { text: ui('जानकारी की पूर्णता') }), node('progress', { value: score.total, max: '100', 'aria-label': ui('Completeness score') }), node('small', { text: ui('गार्ड की गुणवत्ता का स्कोर नहीं') })])]), node('nav', { class: 'tabs', 'aria-label': ui('Guard record sections') }, tabs.map(([id,label]) => button(label, () => { activeTab = id; renderRecord(); }, activeTab === id ? 'active' : ''))), node('div', { id: 'tabBody' }));
     if (user.role === 'SUPER_ADMIN') panel.querySelector('.recordhead > div').append(button(ui('Correct employee ID'), correctIdDialog));
-    const body = document.getElementById('tabBody'); ({ details: detailsView, documents: documentsView, uniform: uniformView, agreement: agreementView, hr: hrView, exit: exitView, history: historyView })[activeTab](body);
+    const body = document.getElementById('tabBody'); ({ details: detailsView, deployment: deploymentView, documents: documentsView, uniform: uniformView, agreement: agreementView, hr: hrView, exit: exitView, history: historyView })[activeTab](body);
     if (['FNF_PENDING','CLOSED'].includes(guard.status)) body.prepend(node('div', { class: 'banner', text: ui('काम नहीं कर रहे हैं। रिकॉर्ड सुरक्षित रहेगा; अंतिम हिसाब पूरा होने से पहले हटाया नहीं जाएगा।') }));
     if (guard.reviewRequired && ['ACTIVE','EXIT_REQUESTED'].includes(guard.status)) body.prepend(node('div', { class: 'banner', text: ui('इस काम कर रहे गार्ड की जानकारी बदली है। HR दोबारा जाँच करें और जरूरत हो तो Razorpay / UBI रिकॉर्ड सुधारें।') }));
   }
@@ -106,6 +106,17 @@
       : field(labels[k], k, k === 'experience' && guard.personal[k] === 'Fresher' ? 0 : guard.personal[k], k === 'dob' ? 'date' : k === 'experience' ? 'number' : k.includes('Mobile') || k === 'mobile' ? 'tel' : k === 'address' ? 'textarea' : 'text', '', false, true));
     details.push(field(ui('जुड़ने की तारीख · Joining date'), 'joinedOn', guard.joinedOn, 'date', '', false, true));
     body.append(form(details, ui('जानकारी सुरक्षित करें'), values => { const personal = {}; C.PERSONAL.forEach(k => personal[k] = k === 'experience' && values[k] !== '' ? Number(values[k]) : values[k]); return change('saveDetails', { personal, joinedOn: values.joinedOn }); }));
+  }
+  function deploymentView(body) {
+    const d = guard.deployment || {};
+    body.append(node('h3', { text: ui('Deployment and salary') }), node('p', { class: 'muted', text: ui('Monthly amounts in rupees; bonus is yearly. Blank means not recorded. Update payroll and attendance separately.') }));
+    const entries = [['site','Site name','text'],['shift','Shift name / timing','text'],['hours','Shift hours','number'],['effectiveFrom','Effective from','date'],['baseSalary','Monthly base salary ₹','number'],['employeePf','Employee PF / month ₹','number'],['employerPf','Employer PF / month ₹','number'],['employeeEsi','Employee ESI / month ₹','number'],['employerEsi','Employer ESI / month ₹','number'],['yearlyBonus','Yearly bonus ₹','number']];
+    const moneyKeys = entries.slice(4).map(e => e[0]);
+    if (['FNF_PENDING','CLOSED'].includes(guard.status) || (['ACTIVE','EXIT_REQUESTED'].includes(guard.status) && !canManager())) {
+      entries.forEach(([key,label]) => body.append(node('p', { text: join(ui(label), ': ', d[key] == null ? '—' : moneyKeys.includes(key) ? d[key]/100 : d[key]) }))); return;
+    }
+    const fields = entries.map(([key,label,type], index) => { const f = field(ui(label), key, d[key] == null ? '' : moneyKeys.includes(key) ? d[key]/100 : d[key], type, '', index < 5); const input = f.querySelector('input'); if(type === 'number') { input.min = key === 'hours' ? '0.01' : '0'; input.step = '0.01'; if(key === 'hours') input.max = '24'; } return f; });
+    body.append(form(fields, ui('Save deployment'), v => { const data = { site: v.site, shift: v.shift, hours: Number(v.hours), effectiveFrom: v.effectiveFrom }; moneyKeys.forEach(k => data[k] = v[k] === '' ? null : amount(v[k])); return change('saveDeployment', data); }));
   }
   async function upload(type, file) {
     C.requireThat(file && file.size > 0 && file.size <= 3145728 && ['image/jpeg','image/png','application/pdf'].includes(file.type), ui('JPG, PNG या PDF चुनें, अधिकतम 3 MB।'));

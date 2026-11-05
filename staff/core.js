@@ -134,6 +134,16 @@
     } else if (action === 'saveDetails') {
       editable(g); only(data, ['personal', 'joinedOn']);
       const p = personal(data.personal); g.personal = p; g.joinedOn = date(data.joinedOn || '', false); invalidate(g);
+    } else if (action === 'saveDeployment') {
+      editable(g); if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
+      only(data, ['site', 'shift', 'hours', 'effectiveFrom', 'baseSalary', 'employeePf', 'employerPf', 'employeeEsi', 'employerEsi', 'yearlyBonus']);
+      const d = { site: text(data.site, 160, true), shift: text(data.shift, 100, true), effectiveFrom: date(data.effectiveFrom, true), hours: data.hours };
+      requireThat(Number.isFinite(d.hours) && d.hours > 0 && d.hours <= 24, 'Enter shift hours between 0 and 24.');
+      requireThat(d.effectiveFrom <= todayIndia(now) && (!g.deployment || d.effectiveFrom >= g.deployment.effectiveFrom), 'Effective date cannot be future or earlier than the current deployment.');
+      ['baseSalary', 'employeePf', 'employerPf', 'employeeEsi', 'employerEsi', 'yearlyBonus'].forEach(k => { d[k] = data[k] === null || data[k] === undefined ? null : money(data[k]); });
+      requireThat(d.baseSalary !== null, 'Enter monthly base salary.');
+      d.updatedAt = now; d.updatedBy = user.sub; g.deployment = d;
+      if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) g.reviewRequired = true;
     } else if (action === 'saveCompliance') {
       editable(g); only(data, ['pf', 'esi', 'uan']); g.compliance = {};
       ['pf', 'esi', 'uan'].forEach(k => { const v = text(data[k] || '', 40, false); requireThat(!v || /^[A-Za-z0-9/ -]+$/.test(v), 'Enter a valid ' + k.toUpperCase() + ' number.'); if (k === 'uan') requireThat(!v || /^\d{12}$/.test(v), 'UAN must be 12 digits.'); g.compliance[k] = v; });
@@ -238,7 +248,7 @@
       hr(user); requireThat(g.status === 'CLOSED', 'Complete the previous settlement first.');
       g.history.push({ episode: g.episode, joinedOn: g.joinedOn, exit: g.exit, settlement: g.settlement, uniform: g.uniform, fee: g.fee, agreement: g.agreement, integrations: g.integrations, documentIds: g.documents.map(d => d.id) });
       requireThat(g.history.length <= 20, 'Archive review required before adding another employment episode.');
-      g.episode += 1; g.status = 'DRAFT'; g.joinedOn = ''; g.uniform = { taken: 'UNKNOWN' }; g.agreement = {}; g.checklist = {}; g.fee = {}; g.integrations = { razorpay: {}, ubi: {} }; g.documents = []; g.exit = {}; g.settlement = {};
+      g.deployment = null; g.episode += 1; g.status = 'DRAFT'; g.joinedOn = ''; g.uniform = { taken: 'UNKNOWN' }; g.agreement = {}; g.checklist = {}; g.fee = {}; g.integrations = { razorpay: {}, ubi: {} }; g.documents = []; g.exit = {}; g.settlement = {};
     } else fail('Unknown action.');
     g.version += 1; g.updatedAt = now;
     return { guard: g, event: { id: eventId, at: now, actor: user.sub, guardId: g.guardId, episode: g.episode, action, from: old.status, to: g.status, version: g.version } };
