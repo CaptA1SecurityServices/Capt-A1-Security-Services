@@ -4,6 +4,15 @@ This document is the continuity file for Captain A1 Security Services. Give this
 
 Last updated: 2026-09-25
 
+## Recruitment form update — approved release, 12 November 2026
+
+- Owner explicitly authorized publication with "PUBLISH KRE" after local review. The old `guard-hiring-ajmer.html` now redirects directly to `schedule-interview.html`, with a no-JavaScript meta refresh and manual fallback. JavaScript preserves the query string for campaign attribution. The destination retains its existing tracking setup. Verify GitHub Pages and live files after the release push.
+- Both recruitment pages have no company phone numbers, telephone links or WhatsApp links. The application form appears first, with name, mobile, permanent address, current address, willingness to relocate (Yes/No), and the seven requested roles: Supervisor, Security Guard, Housekeeping, Office Boy, Bouncer, PSO and HR. Hindi and English remain available. Preferred duty area is removed; existing interview date/time choices and consent are retained.
+- Existing Zoho native POST action and field mapping are preserved. Name/mobile/current address use SingleLine/SingleLine1/SingleLine2; the existing MultiLine notes field also includes permanent/current address, relocation choice and role. No new Zoho schema or CRM mapping was created. Actual remote acceptance/delivery has not been tested in this update.
+- `interview.css` scopes layout to the application page. Its sections do not use the shared pinned mobile title, avoiding overlap with the language controls. `hiring-redirect.js` is fingerprinted by the static build. Keep old fingerprinted files for cached HTML.
+- Build/check, five interview tests, three site-integrity tests and whitespace checks passed. Isolated Chrome checked 1366x900 and 390x844, both languages, seven roles, required relocation, query-preserving and no-JavaScript redirects, and the native form payload. Submission was intercepted locally; no application/email was sent. Harness/screenshots: ignored `outputs/recruitment-form-ui.cjs` and `outputs/recruitment-*.png`. Local preview: port 8790.
+- Existing changes to recruitment campaign notes, serve.json, manifest metadata and untracked staff/assets/tmp work predated this task. Preserve them; publish only the reviewed recruitment files and required generated assets when authorized.
+
 ## Homepage motion and Zepto release — 6 October 2026
 
 - Preserve the original homepage Core Services headings, descriptions, photographs and enquiry links. The Services hub supplies tile styling only. `npm run test:core` checks the original content against a fixture.

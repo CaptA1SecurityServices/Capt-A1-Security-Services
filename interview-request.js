@@ -37,7 +37,7 @@
       phone.setCustomValidity(match ? "" : (isHindi
         ? "कृपया 10 अंकों का भारतीय मोबाइल नंबर भरें."
         : "Enter a 10-digit Indian mobile number, optionally with +91."));
-      for (const name of ["SingleLine", "SingleLine2"]) {
+      for (const name of ["SingleLine", "SingleLine2", "permanent_address"]) {
         form.elements.namedItem(name).value = form.elements.namedItem(name).value.trim();
       }
       if (!form.reportValidity()) {
@@ -50,7 +50,9 @@
         "Entry point: Website interview page (Meta application not required)",
         "Status: Interview requested - awaiting recruiter confirmation",
         `Role: ${data.get("role")}`,
-        `Preferred duty area: ${data.get("duty_area")}`,
+        `Permanent address: ${data.get("permanent_address")}`,
+        `Current address: ${data.get("SingleLine2")}`,
+        `Willing to relocate: ${data.get("willing_to_relocate")}`,
         `Preferred date: ${data.get("preferred_date")}`,
         `Preferred time (India): ${data.get("preferred_time")}`,
         `Form language: ${isHindi ? "Hindi" : "English"}`,

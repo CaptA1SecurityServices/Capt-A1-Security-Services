@@ -1,67 +1,67 @@
 {
   "styles": {
     "index.html": {
-      "sourceBytes": 102371,
+      "sourceBytes": 101878,
       "cssBytes": 51943,
       "stylesheet": "/static/css/home.0ff59e10034f.css"
     },
     "about.html": {
-      "sourceBytes": 94401,
+      "sourceBytes": 94013,
       "cssBytes": 33915,
       "stylesheet": "/static/css/about.a412a9a581e7.css"
     },
     "contact.html": {
-      "sourceBytes": 94401,
+      "sourceBytes": 94013,
       "cssBytes": 32923,
       "stylesheet": "/static/css/contact.3192de25918a.css"
     },
     "guard-hiring-ajmer.html": {
-      "sourceBytes": 94522,
-      "cssBytes": 28214,
-      "stylesheet": "/static/css/guard-hiring-ajmer.e92cf1288a74.css"
+      "sourceBytes": 94134,
+      "cssBytes": 18446,
+      "stylesheet": "/static/css/guard-hiring-ajmer.8afadd5f2cba.css"
     },
     "schedule-interview.html": {
-      "sourceBytes": 94401,
-      "cssBytes": 26273,
-      "stylesheet": "/static/css/schedule-interview.383ff19b50a2.css"
+      "sourceBytes": 94803,
+      "cssBytes": 24649,
+      "stylesheet": "/static/css/schedule-interview.ff1699d3c816.css"
     },
     "privacy-policy/index.html": {
-      "sourceBytes": 96247,
+      "sourceBytes": 95834,
       "cssBytes": 24055,
       "stylesheet": "/static/css/privacy-policy.7e914ecc395c.css"
     },
     "services/index.html": {
-      "sourceBytes": 124441,
+      "sourceBytes": 123779,
       "cssBytes": 37448,
       "stylesheet": "/static/css/services.67bd42a7a72e.css"
     },
     "services/security-services/index.html": {
-      "sourceBytes": 112062,
+      "sourceBytes": 111501,
       "cssBytes": 28919,
       "stylesheet": "/static/css/services-security-services.644eb3de1fe4.css"
     },
     "services/security-services-jaipur/index.html": {
-      "sourceBytes": 112062,
+      "sourceBytes": 111501,
       "cssBytes": 28770,
       "stylesheet": "/static/css/services-security-services-jaipur.61102529b584.css"
     },
     "services/commercial-housekeeping/index.html": {
-      "sourceBytes": 112062,
+      "sourceBytes": 111501,
       "cssBytes": 28894,
       "stylesheet": "/static/css/services-commercial-housekeeping.8b8335708e41.css"
     },
     "services/facility-manpower-services/index.html": {
-      "sourceBytes": 124441,
+      "sourceBytes": 123779,
       "cssBytes": 32781,
       "stylesheet": "/static/css/services-facility-manpower-services.3aeb30aa61f4.css"
     },
     "services/workforce-management/index.html": {
-      "sourceBytes": 112062,
+      "sourceBytes": 111501,
       "cssBytes": 24492,
       "stylesheet": "/static/css/services-workforce-management.182538215d44.css"
     },
     "services/security-equipment-site-readiness/index.html": {
-      "sourceBytes": 112062,
+      "sourceBytes": 111501,
       "cssBytes": 24492,
       "stylesheet": "/static/css/services-security-equipment-site-readiness.182538215d44.css"
     }
@@ -71,7 +71,8 @@
     "script.js": "/static/js/script.2e4df81590dd.js",
     "gtm-bootstrap.js": "/static/js/gtm-bootstrap.9147eee265a2.js",
     "google-ads-tag.js": "/static/js/google-ads-tag.5f5d1bd3c9df.js",
-    "interview-request.js": "/static/js/interview-request.e74a2bfc52a3.js",
+    "interview-request.js": "/static/js/interview-request.d870d20f1aeb.js",
+    "hiring-redirect.js": "/static/js/hiring-redirect.3bb6334402c4.js",
     "services/services.js": "/static/js/services.6f61911d5a34.js"
   }
 }

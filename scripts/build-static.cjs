@@ -10,7 +10,7 @@ const pageStyles = {
   'about.html': [],
   'contact.html': [],
   'guard-hiring-ajmer.html': [],
-  'schedule-interview.html': [],
+  'schedule-interview.html': ['interview.css'],
   'privacy-policy/index.html': ['privacy-policy/privacy.css'],
   'services/index.html': ['services/services.css','services/editorial.css'],
   'services/security-services/index.html': ['services/services.css'],
@@ -20,7 +20,7 @@ const pageStyles = {
   'services/workforce-management/index.html': ['services/services.css'],
   'services/security-equipment-site-readiness/index.html': ['services/services.css']
 };
-const scripts = ['home-core.js','script.js','gtm-bootstrap.js','google-ads-tag.js','interview-request.js','services/services.js'];
+const scripts = ['home-core.js','script.js','gtm-bootstrap.js','google-ads-tag.js','interview-request.js','hiring-redirect.js','services/services.js'];
 const hash = text => crypto.createHash('sha256').update(text).digest('hex').slice(0,12);
 const check = process.argv.includes('--check');
 const normalizeLines = text => text.replace(/\r\n?/g,'\n');
