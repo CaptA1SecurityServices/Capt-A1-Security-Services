@@ -7,7 +7,7 @@ const source = fs.readFileSync(require('node:path').join(__dirname, '..', 'inter
 function fixture(phoneValue, valid = true, language = 'en') {
   const fields = Object.fromEntries(Object.entries({
     SingleLine: ' Test Candidate ', SingleLine1: phoneValue, SingleLine2: ' Ajmer ',
-    MultiLine: '', preferred_date: '2026-10-01', preferred_time: '2:00 PM - 4:00 PM',
+    request_id: '', form_language: language, preferred_date: '2026-10-01', preferred_time: '2:00 PM - 4:00 PM',
     role: 'Security Guard', permanent_address: ' Permanent address, Rajasthan ',
     willing_to_relocate: 'Yes', consent: 'on'
   }).map(([key, value]) => [key, {value, error: '', addEventListener() {}, setCustomValidity(message) {this.error = message;}}]));
@@ -24,7 +24,10 @@ function fixture(phoneValue, valid = true, language = 'en') {
   vm.runInNewContext(source, {
     document: {querySelectorAll: () => [form]},
     window: {addEventListener() {}, setTimeout() {}}, Date, Intl,
-    FormData: class {get(name) {return fields[name]?.value;}}
+    crypto: require('node:crypto').webcrypto, URLSearchParams,
+    FormData: class {
+      *[Symbol.iterator]() {for (const [name, field] of Object.entries(fields)) yield [name, field.value];}
+    }
   });
   return {fields, button, status, submit() {
     const event = {prevented: false, preventDefault() {this.prevented = true;}};
@@ -41,17 +44,12 @@ test('common phone formats normalize to one matching value', () => {
     assert.equal(f.fields.SingleLine.value, 'Test Candidate');
     assert.equal(f.fields.SingleLine2.value, 'Ajmer');
     assert.equal(f.fields.permanent_address.value, 'Permanent address, Rajasthan');
-    assert.match(f.fields.MultiLine.value, /Permanent address: Permanent address, Rajasthan/);
-    assert.match(f.fields.MultiLine.value, /Current address: Ajmer/);
-    assert.match(f.fields.MultiLine.value, /Willing to relocate: Yes/);
-    assert.doesNotMatch(f.fields.MultiLine.value, /Preferred duty area|undefined|null/);
-    assert.match(f.fields.MultiLine.value, /Preferred date: 2026-10-01/);
-    assert.match(f.fields.MultiLine.value, /awaiting recruiter confirmation/);
+    assert.match(f.fields.request_id.value, /^[a-f0-9-]{36}$/);
     assert.equal(f.button.disabled, true);
     assert.equal(f.submit().prevented, true, 'prevent repeat submission while navigating');
   }
 });
-test('all requested roles and relocation choices reach the existing Zoho notes field', () => {
+test('both forms submit the requested roles and relocation as separate fields', () => {
   for (const role of ['Supervisor', 'Security Guard', 'Housekeeping', 'Office Boy', 'Bouncer', 'PSO', 'HR']) {
     for (const relocate of ['Yes', 'No']) {
       const f = fixture('0000092701');
@@ -60,11 +58,13 @@ test('all requested roles and relocation choices reach the existing Zoho notes f
       f.fields.permanent_address.value = 'P'.repeat(200);
       f.fields.SingleLine2.value = 'C'.repeat(200);
       assert.equal(f.submit().prevented, false);
-      assert.ok(f.fields.MultiLine.value.includes(`Role: ${role}\n`));
-      assert.ok(f.fields.MultiLine.value.includes(`Willing to relocate: ${relocate}\n`));
-      assert.ok(f.fields.MultiLine.value.length <= 2000, 'Fit the existing Zoho notes field');
+      assert.equal(f.fields.role.value, role);
+      assert.equal(f.fields.willing_to_relocate.value, relocate);
     }
   }
+  const forms = fs.readFileSync('schedule-interview.html', 'utf8');
+  assert.equal((forms.match(/action="https:\/\/script\.google\.com\/macros\/s\/[^"]+\/exec"/g) || []).length, 2);
+  assert.doesNotMatch(forms, /forms\.zohopublic\.in|multipart\/form-data|name="MultiLine"/);
 });
 test('old hiring links redirect directly and retain campaign parameters', () => {
   let target;
@@ -83,15 +83,14 @@ test('bad phone values and invalid native fields cannot submit', () => {
   for (const input of ['123', 'abcdefghij', '+1 2345678901', '0000092701123']) {
     const f = fixture(input);
     assert.equal(f.submit().prevented, true);
-    assert.equal(f.fields.MultiLine.value, '');
+    assert.equal(f.fields.request_id.value, '');
   }
   assert.equal(fixture('0000092701', false).submit().prevented, true);
 });
 test('Hindi payload and empty trimmed name validation', () => {
   const f = fixture('0000092701', true, 'hi');
   f.submit();
-  assert.match(f.fields.MultiLine.value, /Form language: Hindi/);
-  assert.ok(f.fields.MultiLine.value.length <= 2000);
+  assert.equal(f.fields.form_language.value, 'hi');
   const blank = fixture('0000092701');
   blank.fields.SingleLine.value = '   ';
   assert.equal(blank.submit().prevented, true);

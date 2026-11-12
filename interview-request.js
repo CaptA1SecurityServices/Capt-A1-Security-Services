@@ -1,15 +1,16 @@
 (function () {
   "use strict";
 
-  // A native POST sends answers to Zoho, without API credentials or personal data in URLs.
+  // Keep application details in the POST body and reuse the ID on an unchanged retry.
   document.querySelectorAll("[data-interview-request]").forEach((form) => {
     const phone = form.elements.namedItem("SingleLine1");
-    const details = form.elements.namedItem("MultiLine");
+    const requestId = form.elements.namedItem("request_id");
     const date = form.elements.namedItem("preferred_date");
     const button = form.querySelector('button[type="submit"]');
     const status = form.querySelector("[data-interview-status]");
     const isHindi = form.dataset.formLanguage === "hi";
     let submitting = false;
+    let lastPayload;
 
     const refreshDate = () => {
       date.min = new Intl.DateTimeFormat("en-CA", {
@@ -45,28 +46,26 @@
         return;
       }
       phone.value = `+91${match[1]}`;
-      const data = new FormData(form);
-      details.value = [
-        "Entry point: Website interview page (Meta application not required)",
-        "Status: Interview requested - awaiting recruiter confirmation",
-        `Role: ${data.get("role")}`,
-        `Permanent address: ${data.get("permanent_address")}`,
-        `Current address: ${data.get("SingleLine2")}`,
-        `Willing to relocate: ${data.get("willing_to_relocate")}`,
-        `Preferred date: ${data.get("preferred_date")}`,
-        `Preferred time (India): ${data.get("preferred_time")}`,
-        `Form language: ${isHindi ? "Hindi" : "English"}`,
-        "Consent: Candidate agreed to recruitment-related calls/WhatsApp.",
-        "Consent version: interview-2026-09-27",
-        `Submitted at (browser clock): ${new Date().toISOString()}`,
-        "This is a request, not a confirmed appointment."
-      ].join("\n");
+      const data = new URLSearchParams(new FormData(form));
+      data.delete("request_id");
+      const payload = data.toString();
+      if (!requestId.value || payload !== lastPayload) {
+        if (!crypto.randomUUID) {
+          event.preventDefault();
+          status.textContent = isHindi
+            ? "कृपया फॉर्म को सुरक्षित वेबसाइट पर किसी नए ब्राउज़र में खोलें."
+            : "Please open the form on the secure website in an up-to-date browser.";
+          return;
+        }
+        requestId.value = crypto.randomUUID();
+        lastPayload = payload;
+      }
       submitting = true;
       button.disabled = true;
       status.textContent = isHindi
         ? "अनुरोध भेजा जा रहा है. अगले पेज पर पुष्टि का इंतजार करें."
         : "Submitting your request. Wait for confirmation on the next page.";
-      // Do not report success locally: Zoho displays the actual accepted/error response.
+      // The receiver confirms success only after saving the row.
       // Re-enable after a blocked navigation so the candidate can try again.
       window.setTimeout(() => { submitting = false; button.disabled = false; }, 15000);
     });
