@@ -83,16 +83,17 @@
             <label>किस काम के लिए आवेदन करना चाहते हैं?
               <select name="role" required><option value="">काम चुनें</option><option value="Supervisor">सुपरवाइज़र</option><option value="Security Guard">सिक्योरिटी गार्ड</option><option value="Housekeeping">हाउसकीपिंग</option><option value="Office Boy">ऑफिस बॉय</option><option value="Bouncer">बाउंसर</option><option value="PSO">पीएसओ (PSO)</option><option value="HR">एचआर (HR)</option></select>
             </label>
+            <h2>आप इंटरव्यू के लिए कब आ सकते हैं?</h2>
+            <p class="form-note">जिस तारीख और समय पर आप इंटरव्यू के लिए आ सकते हैं, उसे चुनें. भर्ती टीम तारीख, समय और जगह की पुष्टि करेगी.</p>
             <div class="form-grid">
-              <label>पसंदीदा तारीख<input type="date" name="preferred_date" required data-interview-date /></label>
-              <label>पसंदीदा समय
+              <label>इंटरव्यू के लिए उपलब्ध तारीख<input type="date" name="preferred_date" required data-interview-date /></label>
+              <label>इंटरव्यू के लिए उपलब्ध समय
                 <select name="preferred_time" required>
                   <option value="">समय चुनें</option><option value="10:00 AM - 12:00 PM">सुबह 10 से दोपहर 12 बजे</option><option value="12:00 PM - 2:00 PM">दोपहर 12 से 2 बजे</option><option value="2:00 PM - 4:00 PM">दोपहर 2 से 4 बजे</option><option value="4:00 PM - 6:00 PM">शाम 4 से 6 बजे</option>
                 </select>
               </label>
             </div>
             <label class="interview-consent"><input type="checkbox" name="consent" required /><span>मैं सहमत हूँ कि Captain A1 Security Services इस इंटरव्यू और नौकरी के आवेदन के संबंध में मुझे फोन या WhatsApp पर संपर्क कर सकती है.</span></label>
-            <p class="form-note">यह अनुरोध अपने आप इंटरव्यू की पुष्टि नहीं करता. भर्ती टीम तारीख, समय और स्थान की पुष्टि करेगी.</p>
             <p class="form-status" data-interview-status aria-live="polite"></p>
             <p class="form-note">भर्ती की जानकारी कंपनी के निजी Google Sheet में दर्ज होगी. <a href="/privacy-policy/">गोपनीयता नीति</a></p>
             <button class="button button--primary" type="submit" disabled>आवेदन भेजें</button>
@@ -121,9 +122,13 @@
             <label>Current address<textarea name="SingleLine2" autocomplete="section-current street-address" rows="2" minlength="2" maxlength="200" required></textarea></label>
             <label>Willing to relocate?<select name="willing_to_relocate" required><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select></label>
             <label>Role you want to apply for<select name="role" required><option value="">Select role</option><option value="Supervisor">Supervisor</option><option value="Security Guard">Security Guard</option><option value="Housekeeping">Housekeeping</option><option value="Office Boy">Office Boy</option><option value="Bouncer">Bouncer</option><option value="PSO">PSO</option><option value="HR">HR</option></select></label>
-            <div class="form-grid"><label>Preferred date<input type="date" name="preferred_date" required data-interview-date /></label><label>Preferred time<select name="preferred_time" required><option value="">Select time</option><option>10:00 AM - 12:00 PM</option><option>12:00 PM - 2:00 PM</option><option>2:00 PM - 4:00 PM</option><option>4:00 PM - 6:00 PM</option></select></label></div>
+            <h2>When can you attend an interview?</h2>
+            <p class="form-note">Choose a date and time when you’re available to come in for an interview. Our recruitment team will confirm the date, time and location.</p>
+            <div class="form-grid">
+              <label>Date you can attend<input type="date" name="preferred_date" required data-interview-date /></label>
+              <label>Time you can attend<select name="preferred_time" required><option value="">Select time</option><option>10:00 AM - 12:00 PM</option><option>12:00 PM - 2:00 PM</option><option>2:00 PM - 4:00 PM</option><option>4:00 PM - 6:00 PM</option></select></label>
+            </div>
             <label class="interview-consent"><input type="checkbox" name="consent" required /><span>I agree that Captain A1 Security Services may call or WhatsApp me regarding this interview and job application.</span></label>
-            <p class="form-note">This request does not automatically confirm an interview. Recruitment will confirm the date, time and location.</p>
             <p class="form-status" data-interview-status aria-live="polite"></p>
             <p class="form-note">Application details are saved in the company’s private Google Sheet. <a href="/privacy-policy/">Privacy Policy</a></p>
             <button class="button button--primary" type="submit" disabled>Send application</button>
