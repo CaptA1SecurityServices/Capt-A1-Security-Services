@@ -77,32 +77,18 @@
     if (['YES', 'NO'].includes(g.uniform.taken)) sections.uniform += 4;
     if (inventoryComplete(g)) sections.uniform += 6;
     const agreementDoc = currentDoc(g, 'agreement');
-    if (agreementDoc && agreementDoc.review !== 'REJECTED' && g.agreement.signedOn && g.agreement.version && g.agreement.allPages) sections.agreement += 10;
-    if (g.agreement.approved) sections.agreement += 5;
-    if (g.checklist.confirmed) sections.final += 3;
-    if (g.fee.verified && g.fee.amount === 20000 && verified(g, 'feeReceipt')) sections.final += 6;
-    if (g.integrations.razorpay.confirmed) sections.final += 4;
-    if (g.integrations.ubi.confirmed) sections.final += 2;
+    if (agreementDoc && agreementDoc.review !== 'REJECTED' && g.agreement.signedOn && g.agreement.allPages) sections.agreement += 15;
+    if (g.joinedOn) sections.final += 15;
     Object.values(sections).forEach(v => total += v);
-    return { total, sections, meaning: 'Completeness only; approvals and document verification are separate.' };
+    return { total, sections, meaning: 'Record completeness based on details, uploads, uniform, signed agreement and joining date.' };
   }
   function missing(g, stage) {
     const list = PERSONAL.filter(k => g.personal[k] === '' || g.personal[k] === null || g.personal[k] === undefined);
     REQUIRED_DOCS.forEach(t => { const d = currentDoc(g, t); if (!d || d.review === 'REJECTED') list.push(t); });
     if (!inventoryComplete(g)) list.push('uniform');
     const agreementDoc = currentDoc(g, 'agreement');
-    if (!agreementDoc || agreementDoc.review === 'REJECTED' || !g.agreement.signedOn || !g.agreement.version || !g.agreement.allPages) list.push('signed agreement');
-    if (stage === 'APPROVE' || stage === 'ACTIVATE') {
-      REQUIRED_DOCS.concat('agreement').forEach(t => { if (!verified(g, t)) list.push(t + ' verification'); });
-      if (!g.agreement.approved) list.push('HR agreement approval');
-      if (!g.checklist.confirmed) list.push('final checklist');
-      if (!(g.fee.verified && g.fee.amount === 20000 && verified(g, 'feeReceipt'))) list.push('₹200 registration receipt');
-    }
-    if (stage === 'ACTIVATE') {
-      if (!g.integrations.razorpay.confirmed) list.push('Razorpay confirmation');
-      if (!g.integrations.ubi.confirmed) list.push('UBI import confirmation');
-      if (!g.joinedOn) list.push('joining date');
-    }
+    if (!agreementDoc || agreementDoc.review === 'REJECTED' || !g.agreement.signedOn || !g.agreement.allPages) list.push('signed agreement');
+    if (stage === 'ACTIVATE' && !g.joinedOn) list.push('joining date');
     return [...new Set(list)];
   }
   function fresh(id, city, number, actor, now, employeeType = 'SECURITY_GUARD') {
@@ -132,16 +118,16 @@
       g.idCorrections.push({ previous, current: g.guardId, reason, by: user.sub, at: now });
       if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) g.reviewRequired = true;
     } else if (action === 'saveDetails') {
-      editable(g); only(data, ['personal', 'joinedOn']);
+      editable(g); if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
+      only(data, ['personal', 'joinedOn']);
       const p = personal(data.personal); g.personal = p; g.joinedOn = date(data.joinedOn || '', false); invalidate(g);
     } else if (action === 'saveDeployment') {
       editable(g); if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
       only(data, ['site', 'shift', 'hours', 'effectiveFrom', 'baseSalary', 'employeePf', 'employerPf', 'employeeEsi', 'employerEsi', 'yearlyBonus']);
-      const d = { site: text(data.site, 160, true), shift: text(data.shift, 100, true), effectiveFrom: date(data.effectiveFrom, true), hours: data.hours };
-      requireThat(Number.isFinite(d.hours) && d.hours > 0 && d.hours <= 24, 'Enter shift hours between 0 and 24.');
-      requireThat(d.effectiveFrom <= todayIndia(now) && (!g.deployment || d.effectiveFrom >= g.deployment.effectiveFrom), 'Effective date cannot be future or earlier than the current deployment.');
+      const d = { site: text(data.site || '', 160, false), shift: text(data.shift || '', 100, false), effectiveFrom: date(data.effectiveFrom, false), hours: data.hours == null || data.hours === '' ? null : data.hours };
+      requireThat(d.hours === null || (Number.isFinite(d.hours) && d.hours > 0 && d.hours <= 24), 'Enter shift hours between 0 and 24.');
+      requireThat(!d.effectiveFrom || (d.effectiveFrom <= todayIndia(now) && (!g.deployment?.effectiveFrom || d.effectiveFrom >= g.deployment.effectiveFrom)), 'Effective date cannot be future or earlier than the current deployment.');
       ['baseSalary', 'employeePf', 'employerPf', 'employeeEsi', 'employerEsi', 'yearlyBonus'].forEach(k => { d[k] = data[k] === null || data[k] === undefined ? null : money(data[k]); });
-      requireThat(d.baseSalary !== null, 'Enter monthly base salary.');
       d.updatedAt = now; d.updatedBy = user.sub; g.deployment = d;
       if (['ACTIVE', 'EXIT_REQUESTED'].includes(g.status)) g.reviewRequired = true;
     } else if (action === 'saveCompliance') {
@@ -149,26 +135,29 @@
       ['pf', 'esi', 'uan'].forEach(k => { const v = text(data[k] || '', 40, false); requireThat(!v || /^[A-Za-z0-9/ -]+$/.test(v), 'Enter a valid ' + k.toUpperCase() + ' number.'); if (k === 'uan') requireThat(!v || /^\d{12}$/.test(v), 'UAN must be 12 digits.'); g.compliance[k] = v; });
     } else if (action === 'saveUniform') {
       editable(g); only(data, ['taken', 'items', 'date', 'paymentMode', 'installments']);
-      requireThat(['YES', 'NO'].includes(data.taken), 'Choose whether a uniform was provided.');
+      requireThat(['YES', 'NO', 'UNKNOWN', '', undefined].includes(data.taken), 'Choose whether a uniform was provided.');
       requireThat(!(g.uniform.replacements || []).length, 'Ask HR to review an issued replacement before changing the original uniform record.');
-      if (data.taken === 'NO') g.uniform = { taken: 'NO' };
+      if (!data.taken || data.taken === 'UNKNOWN') g.uniform = { taken: 'UNKNOWN' };
+      else if (data.taken === 'NO') g.uniform = { taken: 'NO' };
       else {
-        requireThat(Array.isArray(data.items) && data.items.length > 0 && data.items.length <= UNIFORM_ITEMS.length, 'Select at least one uniform item.');
+        requireThat(Array.isArray(data.items) && data.items.length <= UNIFORM_ITEMS.length, 'Choose valid uniform items.');
         const seen = new Set(); let total = 0;
         const items = data.items.map(v => {
           only(v, ['code', 'quantity', 'unitAmount']);
           requireThat(UNIFORM_ITEMS.includes(v.code) && !seen.has(v.code), 'Choose each uniform item once.'); seen.add(v.code);
-          requireThat(Number.isInteger(v.quantity) && v.quantity > 0 && v.quantity <= 100, 'Enter a valid quantity.');
-          const unitAmount = money(v.unitAmount); total += v.quantity * unitAmount;
+          const quantity = v.quantity == null ? null : v.quantity;
+          requireThat(quantity === null || (Number.isInteger(quantity) && quantity > 0 && quantity <= 100), 'Enter a valid quantity.');
+          const unitAmount = v.unitAmount == null ? null : money(v.unitAmount);
+          total += quantity === null || unitAmount === null ? 0 : quantity * unitAmount;
           requireThat(Number.isSafeInteger(total) && total <= 100000000, 'Enter a valid amount in paise.');
-          return { code: v.code, quantity: v.quantity, unitAmount };
+          return { code: v.code, quantity, unitAmount };
         });
-        requireThat(['UPFRONT', 'EMI', 'GRANT'].includes(data.paymentMode), 'Choose a uniform payment method.');
-        requireThat(data.paymentMode === 'GRANT' || total > 0, 'Enter an amount for employee-paid items.');
-        const installments = data.paymentMode === 'EMI' ? Number(data.installments) : 0;
-        requireThat(data.paymentMode !== 'EMI' || (Number.isInteger(installments) && installments >= 1 && installments <= 24), 'Enter 1 to 24 monthly instalments.');
-        const issuedOn = date(data.date, true);
-        requireThat(issuedOn <= todayIndia(now), 'Uniform issue date cannot be in the future.');
+        requireThat(['UPFRONT', 'EMI', 'GRANT', '', undefined].includes(data.paymentMode), 'Choose a uniform payment method.');
+        const installments = data.paymentMode === 'EMI' ? (data.installments == null || data.installments === '' ? null : Number(data.installments)) : 0;
+        requireThat(installments === null || data.paymentMode !== 'EMI' || (Number.isInteger(installments) && installments >= 1 && installments <= 24), 'Enter 1 to 24 monthly instalments.');
+        const issuedOn = date(data.date, false);
+        requireThat(!issuedOn || issuedOn <= todayIndia(now), 'Uniform issue date cannot be in the future.');
+        if (!items.length || items.some(item => item.quantity === null || item.unitAmount === null)) total = null;
         g.uniform = { taken: 'YES', date: issuedOn, items, total, paymentMode: data.paymentMode, installments, replacements: [] };
       }
       invalidate(g);
@@ -176,7 +165,7 @@
       hr(user); requireThat(['ACTIVE', 'EXIT_REQUESTED'].includes(g.status), 'Only working employees can receive a replacement.');
       only(data, ['date', 'items', 'paymentReference']);
       const u = g.uniform || {}, issuedOn = date(data.date, true);
-      requireThat(u.taken === 'YES' && Array.isArray(u.items) && u.date && u.paymentMode !== 'GRANT' && issuedOn >= uniformAnniversary(u.date) && issuedOn <= todayIndia(now), 'Free replacement requires one year since issue.');
+      requireThat(inventoryComplete(g) && u.taken === 'YES' && Array.isArray(u.items) && u.date && u.paymentMode !== 'GRANT' && issuedOn >= uniformAnniversary(u.date) && issuedOn <= todayIndia(now), 'Free replacement requires one year since issue.');
       requireThat(Array.isArray(data.items) && data.items.length > 0 && data.items.length <= UNIFORM_ITEMS.length, 'Select replacement items.');
       const seen = new Set(), items = data.items.map(v => { only(v, ['code', 'quantity']); const original = u.items.find(item => item.code === v.code); requireThat(original && !seen.has(v.code) && Number.isInteger(v.quantity) && v.quantity > 0 && v.quantity <= original.quantity, 'Replacement cannot exceed the original issued items.'); seen.add(v.code); return { code: v.code, quantity: v.quantity }; });
       const paymentReference = text(data.paymentReference, 120, true);
@@ -184,7 +173,7 @@
       u.replacements.push({ date: issuedOn, items, paymentReference, by: user.sub, at: now, free: true });
     } else if (action === 'saveAgreement') {
       editable(g); only(data, ['signedOn', 'version', 'allPages']);
-      g.agreement = { signedOn: date(data.signedOn, true), version: text(data.version, 80, true), allPages: data.allPages === true, approved: false }; invalidate(g);
+      g.agreement = { signedOn: date(data.signedOn, false), version: text(data.version || '', 80, false), allPages: data.allPages === true, approved: false }; invalidate(g);
     } else if (action === 'submit') {
       requireThat(['DRAFT', 'HR_REVIEW'].includes(g.status), 'This record cannot be submitted now.');
       requireThat(missing(g, 'SUBMIT').length === 0, 'Complete: ' + missing(g, 'SUBMIT').join(', ')); g.status = 'HR_REVIEW';
@@ -194,7 +183,7 @@
       requireThat(['VERIFIED', 'REJECTED'].includes(data.review), 'Choose verified or rejected.'); d.review = data.review; d.reviewNote = text(data.note || '', 300, data.review === 'REJECTED'); d.reviewedBy = user.sub; d.reviewedAt = now;
       if (data.review === 'REJECTED') invalidate(g);
     } else if (action === 'approveAgreement') {
-      hr(user); requireThat(verified(g, 'agreement') && g.agreement.allPages && g.agreement.signedOn && g.agreement.version, 'Verify the complete signed agreement first.'); g.agreement.approved = true;
+      hr(user); requireThat(verified(g, 'agreement') && g.agreement.allPages && g.agreement.signedOn, 'Verify the complete signed agreement first.'); g.agreement.approved = true;
     } else if (action === 'confirmChecklist') {
       role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
       requireThat(missing(g, 'SUBMIT').length === 0, 'Complete the information and documents first.');
@@ -209,8 +198,8 @@
       hr(user); requireThat(g.status === 'HR_REVIEW', 'Submit this draft to HR first.');
       requireThat(missing(g, 'APPROVE').length === 0, 'Complete: ' + missing(g, 'APPROVE').join(', ')); g.status = 'APPROVED';
     } else if (action === 'completeRecheck') {
-      hr(user); requireThat(['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) && g.reviewRequired, 'This record does not need an active-record recheck.');
-      requireThat(missing(g, 'ACTIVATE').length === 0, 'Complete: ' + missing(g, 'ACTIVATE').join(', ')); g.reviewRequired = false;
+      role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']); requireThat(['ACTIVE', 'EXIT_REQUESTED'].includes(g.status) && g.reviewRequired, 'This record does not need an active-record recheck.');
+      g.reviewRequired = false;
     } else if (action === 'confirmIntegration') {
       hr(user); only(data, ['system', 'email', 'externalId']); requireThat(['APPROVED', 'ACTIVE', 'EXIT_REQUESTED'].includes(g.status), 'HR approval is required first.');
       requireThat(['razorpay', 'ubi'].includes(data.system), 'Choose Razorpay or UBI.');
@@ -219,7 +208,9 @@
       if (data.system === 'razorpay' && g.integrations.ubi.email && email !== g.integrations.ubi.email) g.integrations.ubi = {};
       g.integrations[data.system] = { confirmed: true, email, externalId: text(data.externalId, 100, true), by: user.sub, at: now };
     } else if (action === 'activate') {
-      hr(user); requireThat(g.status === 'APPROVED', 'HR approval is required.'); requireThat(missing(g, 'ACTIVATE').length === 0, 'Complete: ' + missing(g, 'ACTIVATE').join(', ')); g.status = 'ACTIVE';
+      role(user, ['MANAGER', 'HR', 'SUPER_ADMIN']);
+      requireThat(['DRAFT', 'HR_REVIEW', 'APPROVED'].includes(g.status), 'This employee cannot be activated now.');
+      g.status = 'ACTIVE'; g.reviewRequired = false;
     } else if (action === 'requestExit') {
       requireThat(g.status === 'ACTIVE', 'Only an active guard can have an exit request.'); only(data, ['reason', 'proposedLastDay']);
       g.exit = { reason: text(data.reason, 700, true), proposedLastDay: date(data.proposedLastDay, true), by: user.sub, at: now }; g.status = 'EXIT_REQUESTED';

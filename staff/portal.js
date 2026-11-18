@@ -33,7 +33,7 @@
   }
   const canHR = () => ['HR', 'SUPER_ADMIN'].includes(user?.role);
   const canManager = () => ['MANAGER', 'HR', 'SUPER_ADMIN'].includes(user?.role);
-  function field(label, key, value = '', type = 'text', hint = '', required = true, markRequired = required) {
+  function field(label, key, value = '', type = 'text', hint = '', required = false, markRequired = required) {
     const input = type === 'textarea' ? node('textarea', { name: key, maxlength: '700', rows: '3' }) : type === 'checkbox' ? node('input', { name: key, type, checked: value }) : node('input', { name: key, type, value: String(value ?? ''), maxlength: type === 'email' ? '254' : '160' });
     if (required && type !== 'checkbox') input.required = true;
     if (type === 'tel') { input.inputMode = 'tel'; input.pattern = '(\\+91)?[6-9][0-9]{9}'; }
@@ -80,12 +80,12 @@
   }
   function renderRecord() {
     const panel = document.getElementById('record'); if (!guard || !panel) return;
-    const score = C.score(guard); const tabs = [['details',ui('1. जानकारी')],['documents',ui('2. दस्तावेज')],['uniform',ui('3. वर्दी')],['agreement',ui('4. समझौता')],['deployment',ui('Deployment')],['hr',ui('5. HR जाँच')],['exit',ui('6. अंतिम हिसाब')],['history',ui('इतिहास')]];
+    const score = C.score(guard); const tabs = [['details',ui('1. जानकारी')],['documents',ui('2. दस्तावेज')],['uniform',ui('3. वर्दी')],['agreement',ui('4. समझौता')],['deployment',ui('Deployment')],['exit',ui('6. अंतिम हिसाब')],['history',ui('इतिहास')]];
     panel.replaceChildren(node('div', { class: 'recordhead' }, [node('div', {}, [node('h2', { text: guard.personal.name || ui('नया गार्ड') }), node('p', { class: 'muted', text: join(guard.guardId, ' · ', ui('type_' + (guard.employeeType || 'SECURITY_GUARD')), ' · ', ui('Episode'), ' ', guard.episode) }), node('span', { class: 'pill', text: statusLabels[guard.status] })]), node('div', { class: 'scorebox' }, [node('strong', { text: score.total + '%' }), node('small', { text: ui('जानकारी की पूर्णता') }), node('progress', { value: score.total, max: '100', 'aria-label': ui('Completeness score') }), node('small', { text: ui('गार्ड की गुणवत्ता का स्कोर नहीं') })])]), node('nav', { class: 'tabs', 'aria-label': ui('Guard record sections') }, tabs.map(([id,label]) => button(label, () => { activeTab = id; renderRecord(); }, activeTab === id ? 'active' : ''))), node('div', { id: 'tabBody' }));
     if (user.role === 'SUPER_ADMIN') panel.querySelector('.recordhead > div').append(button(ui('Correct employee ID'), correctIdDialog));
-    const body = document.getElementById('tabBody'); ({ details: detailsView, deployment: deploymentView, documents: documentsView, uniform: uniformView, agreement: agreementView, hr: hrView, exit: exitView, history: historyView })[activeTab](body);
+    const body = document.getElementById('tabBody'); ({ details: detailsView, deployment: deploymentView, documents: documentsView, uniform: uniformView, agreement: agreementView, exit: exitView, history: historyView })[activeTab](body);
     if (['FNF_PENDING','CLOSED'].includes(guard.status)) body.prepend(node('div', { class: 'banner', text: ui('काम नहीं कर रहे हैं। रिकॉर्ड सुरक्षित रहेगा; अंतिम हिसाब पूरा होने से पहले हटाया नहीं जाएगा।') }));
-    if (guard.reviewRequired && ['ACTIVE','EXIT_REQUESTED'].includes(guard.status)) body.prepend(node('div', { class: 'banner', text: ui('इस काम कर रहे गार्ड की जानकारी बदली है। HR दोबारा जाँच करें और जरूरत हो तो Razorpay / UBI रिकॉर्ड सुधारें।') }));
+    if (guard.reviewRequired && ['ACTIVE','EXIT_REQUESTED'].includes(guard.status) && canManager()) body.prepend(button(ui('Confirm updated record'), () => task(() => change('completeRecheck'))));
   }
   function correctIdDialog() {
     const d = node('dialog', {}, [node('h2', { text: ui('Correct employee ID') }), node('p', { class: 'muted', text: join(ui('Current ID'), ': ', guard.guardId) })]);
@@ -99,12 +99,12 @@
     showDialog(d);
   }
   function detailsView(body) {
-    body.append(node('h3', { text: ui('गार्ड की जानकारी') }), node('p', { class: 'muted', text: ui('थोड़ी जानकारी भरकर भी सुरक्षित कर सकते हैं। HR को भेजने से पहले सभी जानकारी पूरी करें।') }));
+    body.append(node('h3', { text: ui('गार्ड की जानकारी') }), node('p', { class: 'muted', text: ui('All fields are optional. Add available details and save.') }));
     if (['FNF_PENDING','CLOSED'].includes(guard.status) || (['ACTIVE','EXIT_REQUESTED'].includes(guard.status) && !canManager())) { C.PERSONAL.forEach(k => body.append(node('p', { text: labels[k] + ': ' + guard.personal[k] }))); return; }
     const details = C.PERSONAL.map(k => k === 'education'
-      ? select(ui('Qualification'), k, [['',ui('Select qualification')], ...C.QUALIFICATIONS.map(v => [v,ui(v)])], guard.personal.education === 'No formal schooling' ? C.QUALIFICATIONS[0] : guard.personal.education, true)
-      : field(labels[k], k, k === 'experience' && guard.personal[k] === 'Fresher' ? 0 : guard.personal[k], k === 'dob' ? 'date' : k === 'experience' ? 'number' : k.includes('Mobile') || k === 'mobile' ? 'tel' : k === 'address' ? 'textarea' : 'text', '', false, true));
-    details.push(field(ui('जुड़ने की तारीख · Joining date'), 'joinedOn', guard.joinedOn, 'date', '', false, true));
+      ? select(ui('Qualification'), k, [['',ui('Select qualification')], ...C.QUALIFICATIONS.map(v => [v,ui(v)])], guard.personal.education === 'No formal schooling' ? C.QUALIFICATIONS[0] : guard.personal.education, false)
+      : field(labels[k], k, k === 'experience' && guard.personal[k] === 'Fresher' ? 0 : guard.personal[k], k === 'dob' ? 'date' : k === 'experience' ? 'number' : k.includes('Mobile') || k === 'mobile' ? 'tel' : k === 'address' ? 'textarea' : 'text', '', false, false));
+    details.push(field(ui('जुड़ने की तारीख · Joining date'), 'joinedOn', guard.joinedOn, 'date', '', false, false));
     body.append(form(details, ui('जानकारी सुरक्षित करें'), values => { const personal = {}; C.PERSONAL.forEach(k => personal[k] = k === 'experience' && values[k] !== '' ? Number(values[k]) : values[k]); return change('saveDetails', { personal, joinedOn: values.joinedOn }); }));
   }
   function deploymentView(body) {
@@ -115,8 +115,8 @@
     if (['FNF_PENDING','CLOSED'].includes(guard.status) || (['ACTIVE','EXIT_REQUESTED'].includes(guard.status) && !canManager())) {
       entries.forEach(([key,label]) => body.append(node('p', { text: join(ui(label), ': ', d[key] == null ? '—' : moneyKeys.includes(key) ? d[key]/100 : d[key]) }))); return;
     }
-    const fields = entries.map(([key,label,type], index) => { const f = field(ui(label), key, d[key] == null ? '' : moneyKeys.includes(key) ? d[key]/100 : d[key], type, '', index < 5); const input = f.querySelector('input'); if(type === 'number') { input.min = key === 'hours' ? '0.01' : '0'; input.step = '0.01'; if(key === 'hours') input.max = '24'; } return f; });
-    body.append(form(fields, ui('Save deployment'), v => { const data = { site: v.site, shift: v.shift, hours: Number(v.hours), effectiveFrom: v.effectiveFrom }; moneyKeys.forEach(k => data[k] = v[k] === '' ? null : amount(v[k])); return change('saveDeployment', data); }));
+    const fields = entries.map(([key,label,type], index) => { const f = field(ui(label), key, d[key] == null ? '' : moneyKeys.includes(key) ? d[key]/100 : d[key], type, '', false); const input = f.querySelector('input'); if(type === 'number') { input.min = key === 'hours' ? '0.01' : '0'; input.step = '0.01'; if(key === 'hours') input.max = '24'; } return f; });
+    body.append(form(fields, ui('Save deployment'), v => { const data = { site: v.site, shift: v.shift, hours: v.hours === '' ? null : Number(v.hours), effectiveFrom: v.effectiveFrom }; moneyKeys.forEach(k => data[k] = v[k] === '' ? null : amount(v[k])); return change('saveDeployment', data); }));
   }
   async function upload(type, file) {
     C.requireThat(file && file.size > 0 && file.size <= 3145728 && ['image/jpeg','image/png','application/pdf'].includes(file.type), ui('JPG, PNG या PDF चुनें, अधिकतम 3 MB।'));
@@ -129,25 +129,40 @@
       if (!uploadRetry.documentId) { const reserve = await api('/v1/uploads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type, mime: file.type, size: file.size, guardId: guard.id, version: guard.version, requestId: uploadRetry.requestId }) }); const prepared = (await reserve.json()).data; guard = prepared.guard; uploadRetry.documentId = prepared.upload.id; }
       const uploaded = await api(`/v1/uploads/${uploadRetry.documentId}?guard=${encodeURIComponent(guard.id)}`, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file }); r = (await uploaded.json()).data; uploadRetry = null;
     }
-    guard = r.guard; renderRecord(); await refreshRoster(); notify(ui('दस्तावेज सुरक्षित हो गया। HR की जाँच बाकी है।'));
+    guard = r.guard; renderRecord(); await refreshRoster(); notify(ui('Document uploaded ✓'));
   }
   async function download(doc, episode) {
     let blob = preview ? await preview.download(doc.id) : await (await api(`/v1/documents/${doc.id}?guard=${encodeURIComponent(guard.id)}${episode ? '&episode=' + episode : ''}`, { method: 'GET' })).blob(); if (!blob) return notify(ui('यह preview दस्तावेज उपलब्ध नहीं है।'), true);
     const url = URL.createObjectURL(blob), a = node('a', { href: url, download: doc.type + (doc.mime === 'application/pdf' ? '.pdf' : doc.mime === 'image/png' ? '.png' : '.jpg') }); a.click(); setTimeout(() => URL.revokeObjectURL(url), 2000);
   }
   function docControl(type, required) {
-    const d = C.currentDoc(guard, type), input = node('input', { type: 'file', accept: type === 'selfie' ? 'image/jpeg,image/png' : 'image/jpeg,image/png,application/pdf', 'aria-label': labels[type], onchange: e => { const f = e.target.files[0]; if (f) task(() => upload(type, f)); } });
+    const d = C.currentDoc(guard, type), input = node('input', { type: 'file', accept: type === 'selfie' ? 'image/jpeg,image/png' : 'image/jpeg,image/png,application/pdf', 'aria-label': labels[type], ...(type === 'selfie' ? {} : { multiple: '' }), onchange: e => { const files = Array.from(e.target.files); if (files.length) task(async () => upload(type, await window.A1DocumentImages(files))); } });
     // Separate camera input keeps both gallery and camera available on phones.
     const cam = node('input', { type: 'file', accept: 'image/jpeg,image/png', capture: 'user', 'aria-label': ui('Camera selfie'), onchange: e => { const f = e.target.files[0]; if (f) task(() => upload(type, f)); } });
     const writable = guard.status !== 'CLOSED' && (guard.status !== 'FNF_PENDING' || ['exitLetter','settlementStatement','settlementReceipt'].includes(type));
     const actions = []; if (writable) actions.push(input); if (type === 'selfie' && writable) actions.push(node('label', { class: 'field' }, [ui('कैमरा से फोटो'), cam]));
     if (d && (canHR() || (d.uploader === user.sub && d.review !== 'VERIFIED'))) actions.push(button(ui('दस्तावेज खोलें'), () => task(() => download(d))));
-    if (d && canHR() && guard.status !== 'CLOSED') actions.push(button(ui('सही है ✓'), () => task(() => change('reviewDocument', { documentId: d.id, review: 'VERIFIED', note: '' }))), button(ui('सुधार चाहिए'), () => rejectDocument(d)));
-    return node('div', { class: 'docrow' }, [node('strong', { text: join(labels[type], required ? ' *' : '') }), node('span', { class: 'muted', text: !d ? ui('अपलोड बाकी') : d.review === 'VERIFIED' ? ui('HR ने सत्यापित किया ✓') : d.review === 'REJECTED' ? join(ui('सुधार: '), d.reviewNote) : ui('अपलोड हुआ · HR की जाँच बाकी') }), node('div', { class: 'actions' }, actions)]);
+    if (d && writable && (!['ACTIVE','EXIT_REQUESTED'].includes(guard.status) || canManager()) && ['aadhaar','pan','passbook'].includes(type) && (canHR() || (d.uploader === user.sub && d.review !== 'VERIFIED'))) actions.push(button(ui('Read details from document'), () => task(() => documentAutofill(d))));
+    if (d && canHR() && ['exitLetter','settlementStatement','settlementReceipt'].includes(type) && guard.status !== 'CLOSED') actions.push(button(ui('सही है ✓'), () => task(() => change('reviewDocument', { documentId: d.id, review: 'VERIFIED', note: '' }))), button(ui('सुधार चाहिए'), () => rejectDocument(d)));
+    return node('div', { class: 'docrow' }, [node('strong', { text: join(labels[type], '') }), node('span', { class: d ? 'document-uploaded' : 'muted', text: !d ? ui('अपलोड बाकी') : d.review === 'VERIFIED' ? ui('HR ने सत्यापित किया ✓') : d.review === 'REJECTED' ? join(ui('सुधार: '), d.reviewNote) : ui('Uploaded ✓') }), node('div', { class: 'actions' }, actions)]);
+  }
+  async function documentAutofill(doc) {
+    if (preview) { notify(ui('Document text recognition needs the connected private service.')); return; }
+    const result = await call('extractDocumentDetails', { documentId: doc.id }, guard.id, guard.version);
+    const suggestions = result.suggestions;
+    if (!Object.keys(suggestions).length) { notify(ui('No clear details were found. Enter the details manually.')); return; }
+    const dialog = node('dialog', {}, [node('h3', { text: ui('Check document details') }), node('p', { text: ui('Check each suggestion against the document before saving. Existing fields change only when you select them below.') })]);
+    const fields = Object.keys(suggestions).flatMap(key => [field(labels[key], key, suggestions[key], key === 'dob' ? 'date' : 'text', '', false), field(join(ui('Use this value'), ' · ', labels[key]), 'use_' + key, false, 'checkbox')]);
+    dialog.append(form(fields, ui('Save selected details'), async values => {
+      const personal = { ...guard.personal };
+      Object.keys(suggestions).forEach(key => { if (values['use_' + key]) personal[key] = values[key]; });
+      await change('saveDetails', { personal, joinedOn: guard.joinedOn }); dialog.close(); dialog.remove();
+    }), button(ui('रद्द करें'), () => { dialog.close(); dialog.remove(); }));
+    showDialog(dialog);
   }
   function rejectDocument(d) { const dialog = node('dialog', {}, [node('h3', { text: ui('दस्तावेज में क्या सुधार चाहिए?') })]); dialog.append(form([field(ui('कारण'), 'note', '', 'textarea')], ui('सुधार के लिए वापस करें'), async v => { await change('reviewDocument', { documentId: d.id, review: 'REJECTED', note: v.note }); dialog.close(); dialog.remove(); }), button(ui('रद्द करें'), () => { dialog.close(); dialog.remove(); })); showDialog(dialog); }
   function documentsView(body) {
-    body.append(node('h3', { text: ui('दस्तावेज अपलोड करें') }), node('p', { class: 'muted', text: ui('JPG, PNG या PDF · अधिकतम 3 MB। आधार की masked copy इस्तेमाल करें। फोटो साफ हो और पूरा पेज दिखे। दस्तावेज Drive में private रहेंगे।') }), ...C.REQUIRED_DOCS.map(t => docControl(t, true)), ...['police','pf','esi','uan'].map(t => docControl(t, false)));
+    body.append(node('h3', { text: ui('दस्तावेज अपलोड करें') }), node('p', { class: 'muted', text: ui('Select multiple photos in page order or one PDF. Combined upload up to 3 MB. Use a masked Aadhaar copy.') }), ...C.REQUIRED_DOCS.map(t => docControl(t, true)), ...['police','pf','esi','uan'].map(t => docControl(t, false)));
     if (!['FNF_PENDING','CLOSED'].includes(guard.status) && (!['ACTIVE','EXIT_REQUESTED'].includes(guard.status) || canManager())) body.append(section(ui('PF / ESI / UAN numbers'), [form(['pf','esi','uan'].map(k => field(join(k.toUpperCase(), ui(' नंबर')), k, guard.compliance?.[k] || '', 'text', '', false)), ui('नंबर सुरक्षित करें'), v => change('saveCompliance', v))]));
   }
   function uniformView(body) {
@@ -162,27 +177,27 @@
     if (u.taken === 'YES' && !Array.isArray(u.items)) body.append(node('p', { class: 'banner', text: ui('Legacy uniform record: review the item list before saving changes.') }));
     const rows = C.UNIFORM_ITEMS.map(code => {
       const saved = u.items?.find(v => v.code === code), check = node('input', { type: 'checkbox', name: 'checked_' + code, checked: !!saved, 'aria-label': ui('uniform_' + code) });
-      const quantity = node('input', { type: 'number', name: 'quantity_' + code, value: String(saved?.quantity || 1), min: '1', max: '100', step: '1', 'aria-label': join(ui('uniform_' + code), ' · ', ui('कितने?')) });
-      const unitAmount = node('input', { type: 'number', name: 'amount_' + code, value: String((saved?.unitAmount || 0)/100), min: '0', max: '1000000', step: '0.01', 'aria-label': join(ui('uniform_' + code), ' · ', ui('Unit amount ₹')) });
+      const quantity = node('input', { type: 'number', name: 'quantity_' + code, value: String(saved ? saved.quantity ?? '' : 1), min: '1', max: '100', step: '1', 'aria-label': join(ui('uniform_' + code), ' · ', ui('कितने?')) });
+      const unitAmount = node('input', { type: 'number', name: 'amount_' + code, value: saved?.unitAmount == null ? '' : String(saved.unitAmount/100), min: '0', max: '1000000', step: '0.01', 'aria-label': join(ui('uniform_' + code), ' · ', ui('Unit amount ₹')) });
       return node('div', { class: 'uniform-item' }, [node('label', {}, [check, ui('uniform_' + code)]), node('label', {}, [ui('कितने?'), quantity]), node('label', {}, [ui('Unit amount ₹'), unitAmount])]);
     });
     const total = node('strong', { class: 'uniform-total', text: '' });
-    const f = form([select(ui('वर्दी दी?'), 'taken', [['NO',ui('नहीं')],['YES',ui('हाँ')]], u.taken === 'YES' ? 'YES' : 'NO'), field(ui('देने की तारीख'), 'date', u.date || '', 'date', '', false, true), node('div', { class: 'uniform-items' }, [node('h4', { text: ui('Uniform items') }), ...rows, total]), select(ui('Payment arrangement'), 'paymentMode', [['UPFRONT',ui('One-time payment')],['EMI',ui('Monthly salary instalments')],['GRANT',ui('Company grant')]], u.paymentMode || 'UPFRONT'), field(ui('Number of monthly instalments'), 'installments', u.installments || 1, 'number', '', false)], ui('वर्दी का रिकॉर्ड सुरक्षित करें'), v => {
-      if (v.taken === 'NO') return change('saveUniform', { taken: 'NO' });
-      const items = C.UNIFORM_ITEMS.filter(code => v['checked_' + code]).map(code => ({ code, quantity: Number(v['quantity_' + code]), unitAmount: amount(v['amount_' + code]) }));
-      return change('saveUniform', { taken: 'YES', date: v.date, items, paymentMode: v.paymentMode, installments: v.paymentMode === 'EMI' ? Number(v.installments) : 0 });
+    const f = form([select(ui('वर्दी दी?'), 'taken', [['UNKNOWN',ui('Not recorded')],['NO',ui('नहीं')],['YES',ui('हाँ')]], u.taken || 'UNKNOWN'), field(ui('देने की तारीख'), 'date', u.date || '', 'date', '', false, false), node('div', { class: 'uniform-items' }, [node('h4', { text: ui('Uniform items') }), ...rows, total]), select(ui('Payment arrangement'), 'paymentMode', [['',ui('Not recorded')],['UPFRONT',ui('One-time payment')],['EMI',ui('Monthly salary instalments')],['GRANT',ui('Company grant')]], u.paymentMode || ''), field(ui('Number of monthly instalments'), 'installments', u.installments ?? '', 'number', '', false)], ui('वर्दी का रिकॉर्ड सुरक्षित करें'), v => {
+      if (v.taken !== 'YES') return change('saveUniform', { taken: v.taken });
+      const items = C.UNIFORM_ITEMS.filter(code => v['checked_' + code]).map(code => ({ code, quantity: v['quantity_' + code] === '' ? null : Number(v['quantity_' + code]), unitAmount: v['amount_' + code] === '' ? null : amount(v['amount_' + code]) }));
+      return change('saveUniform', { taken: 'YES', date: v.date, items, paymentMode: v.paymentMode, installments: v.paymentMode === 'EMI' && v.installments !== '' ? Number(v.installments) : null });
     });
     const update = () => {
       const given = f.elements.taken.value === 'YES';
       f.querySelectorAll('[name]:not([name=taken])').forEach(i => { i.disabled = !given; });
-      rows.forEach((row, index) => { const code = C.UNIFORM_ITEMS[index], chosen = given && f.elements['checked_' + code].checked; for (const input of row.querySelectorAll('input[type=number]')) { input.disabled = !chosen; input.required = chosen; } });
-      f.elements.installments.disabled = !given || f.elements.paymentMode.value !== 'EMI'; f.elements.installments.required = given && f.elements.paymentMode.value === 'EMI';
+      rows.forEach((row, index) => { const code = C.UNIFORM_ITEMS[index], chosen = given && f.elements['checked_' + code].checked; for (const input of row.querySelectorAll('input[type=number]')) { input.disabled = !chosen; input.required = false; } });
+      f.elements.installments.disabled = !given || f.elements.paymentMode.value !== 'EMI'; f.elements.installments.required = false;
       const value = C.UNIFORM_ITEMS.reduce((sum,code) => sum + (f.elements['checked_' + code].checked ? Number(f.elements['quantity_' + code].value || 0) * Number(f.elements['amount_' + code].value || 0) : 0), 0);
       I.bind(total, 'textContent', join(ui('Total value ₹'), ': ', value.toFixed(2)));
     };
     f.addEventListener('input', update); f.addEventListener('change', update); update(); body.append(f);
     (u.replacements || []).forEach(r => body.append(node('p', { text: join(ui('Free replacement issued'), ' · ', r.date, ' · ', r.items.map(v => `${I.render(ui('uniform_' + v.code))} × ${v.quantity}`).join(', ')) })));
-    if (canHR() && ['ACTIVE','EXIT_REQUESTED'].includes(guard.status) && Array.isArray(u.items) && u.paymentMode !== 'GRANT' && !(u.replacements || []).length) {
+    if (canHR() && ['ACTIVE','EXIT_REQUESTED'].includes(guard.status) && Array.isArray(u.items) && u.date && C.inventoryComplete(guard) && u.paymentMode !== 'GRANT' && !(u.replacements || []).length) {
       const anniversary = C.uniformAnniversary(u.date);
       if (anniversary > new Date(Date.now() + 19800000).toISOString().slice(0, 10)) { body.append(node('p', { class: 'muted', text: join(ui('Free replacement after one year'), ' · ', ui('Eligible from'), ' ', anniversary) })); return; }
       const replacementFields = [node('p', { class: 'muted', text: join(ui('Eligible from'), ' ', anniversary, '. ', ui('HR must verify full original payment before issue.')) }), field(ui('Replacement issue date'), 'date', '', 'date'), field(ui('Full payment evidence reference'), 'paymentReference')];
@@ -191,23 +206,10 @@
     }
   }
   function agreementView(body) {
-    body.append(node('h3', { text: ui('गार्ड के हस्ताक्षर किया हुआ समझौता') }), node('p', { class: 'muted', text: ui('कागज पर गार्ड के हस्ताक्षर लें। सभी पेज एक PDF में डालें। Supervisor या HR अपलोड कर सकते हैं; HR मंजूरी देगा।') }), docControl('agreement', true));
-    if (!['FNF_PENDING','CLOSED'].includes(guard.status)) body.append(form([field(ui('हस्ताक्षर की तारीख'), 'signedOn', guard.agreement.signedOn || '', 'date'), field(ui('समझौते का संस्करण / नाम'), 'version', guard.agreement.version || ''), field(ui('सभी पेज और हस्ताक्षर मौजूद हैं'), 'allPages', guard.agreement.allPages, 'checkbox')], ui('समझौते की जानकारी सुरक्षित करें'), v => change('saveAgreement', v)));
-    if (canHR() && !['FNF_PENDING','CLOSED'].includes(guard.status)) body.append(node('div', { class: 'formfoot' }, [button(guard.agreement.approved ? ui('HR मंजूरी मिली ✓') : ui('HR: समझौता मंजूर करें'), () => task(() => change('approveAgreement')), 'primary')]));
-  }
-  function hrView(body) {
-    const missing = C.missing(guard, 'SUBMIT'); body.append(node('h3', { text: ui('HR की अंतिम जाँच') }), node('p', { class: 'muted', text: ui('स्कोर: जानकारी 25 · दस्तावेज 35 · वर्दी 10 · समझौता 15 · अंतिम जाँच 15। स्कोर 100 होने से अपने आप मंजूरी नहीं मिलती।') }), node('div', { class: 'banner', text: missing.length ? join(ui('बाकी: '), ...missing.flatMap((x,i) => [i ? ', ' : '', I.missing(x)])) : ui('जानकारी पूरी है। HR दस्तावेज जाँच सकते हैं।') }));
-    if (['DRAFT','HR_REVIEW'].includes(guard.status)) body.append(button(ui('HR की जाँच के लिए भेजें'), () => task(() => change('submit')), 'primary'));
-    if (canManager() && !['FNF_PENDING','CLOSED'].includes(guard.status)) body.append(section(ui('Manager / HR: Check sheet'), [node('p', { class: 'muted', text: ui('जानकारी, वर्दी, चार जरूरी दस्तावेज और HR द्वारा मंजूर समझौता जाँचें।') }), button(guard.checklist.confirmed ? ui('Checklist confirmed ✓') : ui('चेक शीट पूरी होने की पुष्टि'), () => task(() => change('confirmChecklist')))]));
-    if (!canHR()) { body.append(node('p', { class: 'muted', text: ui('फीस, payroll और अंतिम मंजूरी केवल HR / Super Admin करेंगे।') })); return; }
-    if (['FNF_PENDING','CLOSED'].includes(guard.status)) { body.append(node('p', { text: ui('पुरानी मंजूरी और payroll विवरण मास्टर रिकॉर्ड में सुरक्षित हैं।') })); return; }
-    body.append(section(ui('HR: ₹200 Registration'), [docControl('feeReceipt', true), form([field(ui('प्राप्त होने की तारीख'), 'paidOn', guard.fee.paidOn || '', 'date'), select(ui('भुगतान का तरीका'), 'method', [['CASH',ui('नकद')],['UPI','UPI'],['BANK',ui('बैंक')]], guard.fee.method), field(ui('रसीद / Transaction reference'), 'reference', guard.fee.reference || '')], guard.fee.verified ? ui('₹200 प्राप्ति अपडेट करें') : ui('₹200 प्राप्त होने की पुष्टि करें'), v => change('recordFee', v))]));
-    if (guard.status === 'HR_REVIEW') body.append(node('div', { class: 'formfoot' }, [button(ui('HR: Onboarding मंजूर करें'), () => task(() => change('approve')), 'primary')]));
-    if (['APPROVED','ACTIVE','EXIT_REQUESTED'].includes(guard.status)) {
-      body.append(section('HR: Razorpay → UBI', [node('p', { class: 'muted', text: ui('Razorpay में रिकॉर्ड बनाएँ, फिर UBI के मौजूदा integration से import करें। दोनों में बिल्कुल एक जैसा email रखें। Site और shift UBI में ही संभालें। यह स्क्रीन payroll या attendance में अपने आप बदलाव नहीं करती।') }), ...['razorpay','ubi'].map(system => form([field(system === 'razorpay' ? ui('Razorpay का exact email') : ui('UBI का वही email'), 'email', guard.integrations[system].email || '', 'email'), field(join(system.toUpperCase(), ui(' कर्मचारी ID')), 'externalId', guard.integrations[system].externalId || '')], join(system.toUpperCase(), ui(': रिकॉर्ड / import की पुष्टि')), v => change('confirmIntegration', { ...v, system })))]));
-      if (guard.status === 'APPROVED') body.append(node('div', { class: 'formfoot' }, [button(ui('काम करने वाले गार्ड में जोड़ें'), () => task(() => change('activate')), 'primary')]));
-      if (guard.reviewRequired) body.append(node('div', { class: 'formfoot' }, [button(ui('HR: दोबारा जाँच पूरी'), () => task(() => change('completeRecheck')), 'primary')]));
-    }
+    body.append(node('h3', { text: ui('गार्ड के हस्ताक्षर किया हुआ समझौता') }), node('p', { class: 'muted', text: ui('Upload all signed agreement pages as photos or one PDF.') }), docControl('agreement', true));
+    if (!['FNF_PENDING','CLOSED'].includes(guard.status)) body.append(form([field(ui('हस्ताक्षर की तारीख'), 'signedOn', guard.agreement.signedOn || '', 'date'), field(ui('सभी पेज और हस्ताक्षर मौजूद हैं'), 'allPages', guard.agreement.allPages, 'checkbox')], ui('समझौते की जानकारी सुरक्षित करें'), v => change('saveAgreement', v)));
+    body.append(node('p', { class: 'muted', text: ui('All fields and uploads are optional. You can complete onboarding and add more details later.') }));
+    if (canManager() && ['DRAFT','HR_REVIEW','APPROVED'].includes(guard.status)) body.append(button(ui('Complete onboarding'), () => task(() => change('activate')), 'primary'));
   }
   function exitView(body) {
     body.append(node('h3', { text: ui('Offboarding और अंतिम हिसाब') }), node('p', { class: 'muted', text: ui('अंतिम ड्यूटी की पुष्टि के बाद गार्ड काम करने वालों में नहीं दिखेगा। भुगतान और जमा वापसी पूरी होने तक मास्टर में “भुगतान बाकी” रहेगा। रिकॉर्ड हमेशा सुरक्षित रहेगा।') }));
