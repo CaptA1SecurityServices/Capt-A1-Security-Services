@@ -1,14 +1,14 @@
 {
   "styles": {
     "index.html": {
-      "sourceBytes": 101878,
-      "cssBytes": 51943,
-      "stylesheet": "/static/css/home.0ff59e10034f.css"
+      "sourceBytes": 103400,
+      "cssBytes": 53170,
+      "stylesheet": "/static/css/home.2cc631eeee14.css"
     },
     "about.html": {
-      "sourceBytes": 94013,
-      "cssBytes": 33915,
-      "stylesheet": "/static/css/about.a412a9a581e7.css"
+      "sourceBytes": 95535,
+      "cssBytes": 35094,
+      "stylesheet": "/static/css/about.5452084d58f2.css"
     },
     "contact.html": {
       "sourceBytes": 94013,

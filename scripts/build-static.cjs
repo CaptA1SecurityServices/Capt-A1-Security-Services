@@ -6,8 +6,8 @@ const postcss = require('postcss');
 const cssnano = require('cssnano');
 
 const pageStyles = {
-  'index.html': ['home-core.css'],
-  'about.html': [],
+  'index.html': ['home-core.css','field-photos.css'],
+  'about.html': ['field-photos.css'],
   'contact.html': [],
   'guard-hiring-ajmer.html': [],
   'schedule-interview.html': ['interview.css'],
