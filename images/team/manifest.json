@@ -1,21 +1,21 @@
 {
   "duty-desk": {
-    "full": "/images/team/duty-desk.webp",
+    "full": "/images/team/duty-desk.webp?v=20261120",
     "variants": [
       {
-        "file": "/images/team/responsive/duty-desk-480.552c67029dfa.webp",
+        "file": "/images/team/responsive/duty-desk-480.552c67029dfa.webp?v=20261120",
         "width": 480,
         "height": 640,
         "bytes": 24502
       },
       {
-        "file": "/images/team/responsive/duty-desk-768.1bb4986deac2.webp",
+        "file": "/images/team/responsive/duty-desk-768.1bb4986deac2.webp?v=20261120",
         "width": 768,
         "height": 1024,
         "bytes": 50926
       },
       {
-        "file": "/images/team/responsive/duty-desk-1200.76625fd3bbca.webp",
+        "file": "/images/team/responsive/duty-desk-1200.76625fd3bbca.webp?v=20261120",
         "width": 1200,
         "height": 1600,
         "bytes": 98642
@@ -23,22 +23,22 @@
     ]
   },
   "night-record-review": {
-    "full": "/images/team/night-record-review.webp",
+    "full": "/images/team/night-record-review.webp?v=20261120",
     "variants": [
       {
-        "file": "/images/team/responsive/night-record-review-480.cd69de408289.webp",
+        "file": "/images/team/responsive/night-record-review-480.cd69de408289.webp?v=20261120",
         "width": 480,
         "height": 640,
         "bytes": 43888
       },
       {
-        "file": "/images/team/responsive/night-record-review-768.4454c770cf26.webp",
+        "file": "/images/team/responsive/night-record-review-768.4454c770cf26.webp?v=20261120",
         "width": 768,
         "height": 1024,
         "bytes": 92510
       },
       {
-        "file": "/images/team/responsive/night-record-review-1200.505ac5969d86.webp",
+        "file": "/images/team/responsive/night-record-review-1200.505ac5969d86.webp?v=20261120",
         "width": 1200,
         "height": 1600,
         "bytes": 176322
@@ -46,22 +46,22 @@
     ]
   },
   "team-appreciation-warehouse": {
-    "full": "/images/team/team-appreciation-warehouse.webp",
+    "full": "/images/team/team-appreciation-warehouse.webp?v=20261120",
     "variants": [
       {
-        "file": "/images/team/responsive/team-appreciation-warehouse-480.e57711cf30dc.webp",
+        "file": "/images/team/responsive/team-appreciation-warehouse-480.e57711cf30dc.webp?v=20261120",
         "width": 480,
         "height": 640,
         "bytes": 47234
       },
       {
-        "file": "/images/team/responsive/team-appreciation-warehouse-768.7f3cdd0df2ed.webp",
+        "file": "/images/team/responsive/team-appreciation-warehouse-768.7f3cdd0df2ed.webp?v=20261120",
         "width": 768,
         "height": 1024,
         "bytes": 91714
       },
       {
-        "file": "/images/team/responsive/team-appreciation-warehouse-1200.9e761bd08493.webp",
+        "file": "/images/team/responsive/team-appreciation-warehouse-1200.9e761bd08493.webp?v=20261120",
         "width": 1200,
         "height": 1600,
         "bytes": 166152
@@ -69,22 +69,22 @@
     ]
   },
   "team-appreciation-security-post": {
-    "full": "/images/team/team-appreciation-security-post.webp",
+    "full": "/images/team/team-appreciation-security-post.webp?v=20261120",
     "variants": [
       {
-        "file": "/images/team/responsive/team-appreciation-security-post-480.7474665bf610.webp",
+        "file": "/images/team/responsive/team-appreciation-security-post-480.7474665bf610.webp?v=20261120",
         "width": 480,
         "height": 640,
         "bytes": 46348
       },
       {
-        "file": "/images/team/responsive/team-appreciation-security-post-768.738c9905bd1e.webp",
+        "file": "/images/team/responsive/team-appreciation-security-post-768.738c9905bd1e.webp?v=20261120",
         "width": 768,
         "height": 1024,
         "bytes": 95968
       },
       {
-        "file": "/images/team/responsive/team-appreciation-security-post-1200.d48a753ecb15.webp",
+        "file": "/images/team/responsive/team-appreciation-security-post-1200.d48a753ecb15.webp?v=20261120",
         "width": 1200,
         "height": 1600,
         "bytes": 187616
@@ -92,22 +92,22 @@
     ]
   },
   "team-appreciation-site-entrance": {
-    "full": "/images/team/team-appreciation-site-entrance.webp",
+    "full": "/images/team/team-appreciation-site-entrance.webp?v=20261120",
     "variants": [
       {
-        "file": "/images/team/responsive/team-appreciation-site-entrance-480.d49ea87999db.webp",
+        "file": "/images/team/responsive/team-appreciation-site-entrance-480.d49ea87999db.webp?v=20261120",
         "width": 480,
         "height": 640,
         "bytes": 44918
       },
       {
-        "file": "/images/team/responsive/team-appreciation-site-entrance-768.e97381ec47ef.webp",
+        "file": "/images/team/responsive/team-appreciation-site-entrance-768.e97381ec47ef.webp?v=20261120",
         "width": 768,
         "height": 1024,
         "bytes": 95618
       },
       {
-        "file": "/images/team/responsive/team-appreciation-site-entrance-1200.78af4d2e54dd.webp",
+        "file": "/images/team/responsive/team-appreciation-site-entrance-1200.78af4d2e54dd.webp?v=20261120",
         "width": 1200,
         "height": 1600,
         "bytes": 188882

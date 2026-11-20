@@ -23,9 +23,9 @@ const slugs = [
       const hash = crypto.createHash('sha256').update(bytes).digest('hex').slice(0, 12);
       const file = 'images/team/responsive/' + slug + '-' + width + '.' + hash + '.webp';
       fs.writeFileSync(file, bytes);
-      variants.push({file: '/' + file, width, height: width * 4 / 3, bytes: bytes.length});
+      variants.push({file: '/' + file + '?v=20261120', width, height: width * 4 / 3, bytes: bytes.length});
     }
-    manifest[slug] = {full: '/images/team/' + slug + '.webp', variants};
+    manifest[slug] = {full: '/images/team/' + slug + '.webp?v=20261120', variants};
   }
   fs.writeFileSync('images/team/manifest.json', JSON.stringify(manifest, null, 2) + '\n');
   console.log('Prepared responsive versions of five team photographs.');
