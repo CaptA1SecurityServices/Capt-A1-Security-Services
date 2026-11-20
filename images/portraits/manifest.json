@@ -1,0 +1,23 @@
+{
+  "source": "images/MyIMG/passport-Photo.webp",
+  "variants": [
+    {
+      "file": "/images/portraits/founder-540.e291aed7e145.webp",
+      "width": 540,
+      "height": 643,
+      "bytes": 54756
+    },
+    {
+      "file": "/images/portraits/founder-840.912ad683393b.webp",
+      "width": 840,
+      "height": 1001,
+      "bytes": 132162
+    },
+    {
+      "file": "/images/portraits/founder-1149.fc851e888e07.webp",
+      "width": 1149,
+      "height": 1369,
+      "bytes": 240186
+    }
+  ]
+}

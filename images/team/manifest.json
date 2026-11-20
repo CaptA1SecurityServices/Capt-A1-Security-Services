@@ -1,116 +1,116 @@
 {
   "duty-desk": {
-    "full": "/images/team/duty-desk.webp?v=20261120",
+    "full": "/images/team/duty-desk.webp?v=20261120b",
     "variants": [
       {
-        "file": "/images/team/responsive/duty-desk-480.552c67029dfa.webp?v=20261120",
-        "width": 480,
-        "height": 640,
-        "bytes": 24502
+        "file": "/images/team/responsive/duty-desk-640.689c9be319c1.webp?v=20261120b",
+        "width": 640,
+        "height": 853.3333333333334,
+        "bytes": 81560
       },
       {
-        "file": "/images/team/responsive/duty-desk-768.1bb4986deac2.webp?v=20261120",
-        "width": 768,
-        "height": 1024,
-        "bytes": 50926
+        "file": "/images/team/responsive/duty-desk-960.30e2d8d4f76a.webp?v=20261120b",
+        "width": 960,
+        "height": 1280,
+        "bytes": 178808
       },
       {
-        "file": "/images/team/responsive/duty-desk-1200.76625fd3bbca.webp?v=20261120",
-        "width": 1200,
-        "height": 1600,
-        "bytes": 98642
+        "file": "/images/team/responsive/duty-desk-1440.2d2f07f3beb4.webp?v=20261120b",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 314756
       }
     ]
   },
   "night-record-review": {
-    "full": "/images/team/night-record-review.webp?v=20261120",
+    "full": "/images/team/night-record-review.webp?v=20261120b",
     "variants": [
       {
-        "file": "/images/team/responsive/night-record-review-480.cd69de408289.webp?v=20261120",
-        "width": 480,
-        "height": 640,
-        "bytes": 43888
+        "file": "/images/team/responsive/night-record-review-640.9a1576240a79.webp?v=20261120b",
+        "width": 640,
+        "height": 853.3333333333334,
+        "bytes": 130500
       },
       {
-        "file": "/images/team/responsive/night-record-review-768.4454c770cf26.webp?v=20261120",
-        "width": 768,
-        "height": 1024,
-        "bytes": 92510
+        "file": "/images/team/responsive/night-record-review-960.f5b35adaab93.webp?v=20261120b",
+        "width": 960,
+        "height": 1280,
+        "bytes": 292452
       },
       {
-        "file": "/images/team/responsive/night-record-review-1200.505ac5969d86.webp?v=20261120",
-        "width": 1200,
-        "height": 1600,
-        "bytes": 176322
+        "file": "/images/team/responsive/night-record-review-1440.53caa48b377c.webp?v=20261120b",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 551848
       }
     ]
   },
   "team-appreciation-warehouse": {
-    "full": "/images/team/team-appreciation-warehouse.webp?v=20261120",
+    "full": "/images/team/team-appreciation-warehouse.webp?v=20261120b",
     "variants": [
       {
-        "file": "/images/team/responsive/team-appreciation-warehouse-480.e57711cf30dc.webp?v=20261120",
-        "width": 480,
-        "height": 640,
-        "bytes": 47234
+        "file": "/images/team/responsive/team-appreciation-warehouse-640.0eef3578db3e.webp?v=20261120b",
+        "width": 640,
+        "height": 853.3333333333334,
+        "bytes": 128340
       },
       {
-        "file": "/images/team/responsive/team-appreciation-warehouse-768.7f3cdd0df2ed.webp?v=20261120",
-        "width": 768,
-        "height": 1024,
-        "bytes": 91714
+        "file": "/images/team/responsive/team-appreciation-warehouse-960.b5cf8cb176c4.webp?v=20261120b",
+        "width": 960,
+        "height": 1280,
+        "bytes": 269070
       },
       {
-        "file": "/images/team/responsive/team-appreciation-warehouse-1200.9e761bd08493.webp?v=20261120",
-        "width": 1200,
-        "height": 1600,
-        "bytes": 166152
+        "file": "/images/team/responsive/team-appreciation-warehouse-1440.f27f402907ee.webp?v=20261120b",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 478648
       }
     ]
   },
   "team-appreciation-security-post": {
-    "full": "/images/team/team-appreciation-security-post.webp?v=20261120",
+    "full": "/images/team/team-appreciation-security-post.webp?v=20261120b",
     "variants": [
       {
-        "file": "/images/team/responsive/team-appreciation-security-post-480.7474665bf610.webp?v=20261120",
-        "width": 480,
-        "height": 640,
-        "bytes": 46348
+        "file": "/images/team/responsive/team-appreciation-security-post-640.84970b1244b7.webp?v=20261120b",
+        "width": 640,
+        "height": 853.3333333333334,
+        "bytes": 141246
       },
       {
-        "file": "/images/team/responsive/team-appreciation-security-post-768.738c9905bd1e.webp?v=20261120",
-        "width": 768,
-        "height": 1024,
-        "bytes": 95968
+        "file": "/images/team/responsive/team-appreciation-security-post-960.07498773166f.webp?v=20261120b",
+        "width": 960,
+        "height": 1280,
+        "bytes": 313962
       },
       {
-        "file": "/images/team/responsive/team-appreciation-security-post-1200.d48a753ecb15.webp?v=20261120",
-        "width": 1200,
-        "height": 1600,
-        "bytes": 187616
+        "file": "/images/team/responsive/team-appreciation-security-post-1440.012af1e8b889.webp?v=20261120b",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 589792
       }
     ]
   },
   "team-appreciation-site-entrance": {
-    "full": "/images/team/team-appreciation-site-entrance.webp?v=20261120",
+    "full": "/images/team/team-appreciation-site-entrance.webp?v=20261120b",
     "variants": [
       {
-        "file": "/images/team/responsive/team-appreciation-site-entrance-480.d49ea87999db.webp?v=20261120",
-        "width": 480,
-        "height": 640,
-        "bytes": 44918
+        "file": "/images/team/responsive/team-appreciation-site-entrance-640.1ec2d44159bb.webp?v=20261120b",
+        "width": 640,
+        "height": 853.3333333333334,
+        "bytes": 140070
       },
       {
-        "file": "/images/team/responsive/team-appreciation-site-entrance-768.e97381ec47ef.webp?v=20261120",
-        "width": 768,
-        "height": 1024,
-        "bytes": 95618
+        "file": "/images/team/responsive/team-appreciation-site-entrance-960.66ecc74b8f5d.webp?v=20261120b",
+        "width": 960,
+        "height": 1280,
+        "bytes": 304318
       },
       {
-        "file": "/images/team/responsive/team-appreciation-site-entrance-1200.78af4d2e54dd.webp?v=20261120",
-        "width": 1200,
-        "height": 1600,
-        "bytes": 188882
+        "file": "/images/team/responsive/team-appreciation-site-entrance-1440.e61f86caba61.webp?v=20261120b",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 565452
       }
     ]
   }

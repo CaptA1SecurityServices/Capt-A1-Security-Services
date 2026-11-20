@@ -3,6 +3,34 @@
   scroll-margin-top: 110px;
 }
 
+.about-page .about-founder .split-media {
+  width: min(100%, 420px);
+  justify-self: center;
+  align-self: start;
+  background: var(--navy);
+}
+
+.about-page .about-founder .split-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.about-page .about-founder .image-caption {
+  position: static;
+  width: 100%;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .about-page .about-founder .split-media {
+    width: min(100%, 360px);
+  }
+}
+
 .field-photos__heading {
   display: flex;
   align-items: end;
